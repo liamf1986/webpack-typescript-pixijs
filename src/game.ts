@@ -18,7 +18,7 @@ export class Game {
     }
     
     /**
-     * 
+     * Called once to initialise the game before the Update loop begins
      * @param app The Application instance to be used for this game
      */
     startGame(app: PIXI.Application) : void {
@@ -40,7 +40,6 @@ export class Game {
          * 
          * This can be set to true when you want to display it.
          */
-        
     }
 
     /**
@@ -58,8 +57,7 @@ export class Game {
      * Called once every frame
      * @param delta time between this frame and the last, used to ensure frame-rate independant animations
      */
-    update(delta: number) : void
-    {
+    update(delta: number) : void {
         this.logo.rotation += 0.1 * delta;
     }
 }
