@@ -62,6 +62,7 @@ export class Game {
     /**
      * Called when the window detects a resize
      * @param app The Application instance to be used for this game
+     * IMPORTANT: This is currently never called, see index.ts
      */
     onResize(app: PIXI.Application) : void {
         this.setPositions(app.screen.width, app.screen.height);

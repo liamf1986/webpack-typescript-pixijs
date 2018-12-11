@@ -81,8 +81,17 @@ function calcSize() : void {
     }
 
     // Resize the renderer accordingly
-    //app.renderer.resize(width, height);   // This didn't seem to scale Sprites as the canvas got smaller on Desktop
+    /*
+     * This didn't seem to scale Sprites as the canvas got smaller on Desktop.
+     * Something to go back to another day
+     */
+    //app.renderer.resize(width, height);
+
     // Resizing via style to mantain asset scales
+    /*
+     * This approach maintains the scale of the assets in the game window
+     * but means the canvas must retain the same aspect ratio leaving borders on taller devices.
+     */
     app.renderer.view.style.width = width + 'px';
     app.renderer.view.style.height = height + 'px';
 }
@@ -93,6 +102,11 @@ function calcSize() : void {
 function onResize() : void {
     // Calculate the new size of the canvas
     calcSize();
+
     // Resize the game
+    /*
+     * Currently the game doesn't need to be resized as the render is getting resized via css.
+     * This doesn't affect the scale of the assets as long as the ratio is maintained.
+     */
     //game.onResize(app);
 }
