@@ -1,5 +1,3 @@
-import * as PIXI from "pixi.js";
-
 export class Game {
     // Variable definitions
     private logo: PIXI.Sprite;

@@ -1,4 +1,6 @@
+
 import * as PIXI from 'pixi.js';
+import * as PIXISound from 'pixi-sound';
 import { Game } from './game';
 
 // Create the Application instance
