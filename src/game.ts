@@ -58,4 +58,12 @@ export class Game {
     update(delta: number) : void {
         this.logo.rotation += 0.1 * delta;
     }
+
+    /**
+     * Called when the window detects a resize
+     * @param app The Application instance to be used for this game
+     */
+    onResize(app: PIXI.Application) : void {
+        this.setPositions(app.screen.width, app.screen.height);
+    }
 }

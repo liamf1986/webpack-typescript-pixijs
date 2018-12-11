@@ -3,10 +3,28 @@ import * as PIXI from 'pixi.js';
 import * as PIXISound from 'pixi-sound';
 import { Game } from './game';
 
+// Canvas dimensions
+let MAX_SCREEN_WIDTH = 1280;    // 1280 x 720 = 16:9 ratio
+let MAX_SCREEN_HEIGHT = 720;
+let ratio = MAX_SCREEN_WIDTH / MAX_SCREEN_HEIGHT;
+
 // Create the Application instance
-var app = new PIXI.Application();
+var app = new PIXI.Application(MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT);
+PIXI.settings.RESOLUTION = window.devicePixelRatio;
+calcSize();
 // Add the canvas element to the HTML page
 document.body.appendChild(app.view);
+window.addEventListener("resize", onResize);
+
+// The text to display during loading
+var loadingText = new PIXI.Text('Loading... 0%', {fill:"#ffffff"});
+// Centering that text
+loadingText.x = (app.screen.width * 0.5) - (loadingText.width * 0.5);
+loadingText.y = (app.screen.height * 0.5) - (loadingText.height * 0.5);
+// Add the text to the stage
+app.stage.addChild(loadingText);
+// Call the loadProgressHandler() function on every progress event of the Loader
+app.loader.on("progress", loadProgressHandler);
 
 // The text to display during loading
 var loadingText = new PIXI.Text('Loading... 0%', {fill:"#ffffff"});
@@ -45,4 +63,36 @@ function onAssetsLoaded() : void
     game.startGame(app);
     // Set the game.update function to the app.ticker so it is called every frame
     app.ticker.add((delta) => game.update(delta));
+}
+
+/**
+ * Calculate and set the size of the renderer.view.
+ */
+function calcSize() : void {
+    // Maintain a maximum width as set in globals
+    let width = (window.innerWidth > MAX_SCREEN_WIDTH) ? MAX_SCREEN_WIDTH : window.innerWidth;
+    // Calculate the height based on a 16:9 ratio
+    let height = (width / ratio);
+
+    // If the new Height is greater than the window height recalculate
+    if (height > window.innerHeight) {
+        height = window.innerHeight;
+        width = (height * ratio);
+    }
+
+    // Resize the renderer accordingly
+    //app.renderer.resize(width, height);   // This didn't seem to scale Sprites as the canvas got smaller on Desktop
+    // Resizing via style to mantain asset scales
+    app.renderer.view.style.width = width + 'px';
+    app.renderer.view.style.height = height + 'px';
+}
+
+/**
+ * Called when the window is resized
+ */
+function onResize() : void {
+    // Calculate the new size of the canvas
+    calcSize();
+    // Resize the game
+    //game.onResize(app);
 }
