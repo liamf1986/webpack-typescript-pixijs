@@ -1,5 +1,3 @@
-import * as PIXI from "pixi.js";
-
 export class Game {
     // Variable definitions
     private logo: PIXI.Sprite;
@@ -13,15 +11,15 @@ export class Game {
      * Load function called before startGame to load all required assets
      * @param loader The loader to add these assets too
      */
-    load(loader: PIXI.loaders.Loader) {
+    load(loader: PIXI.loaders.Loader) : void {
         loader.add('logo', 'assets/logo.png');
     }
     
     /**
-     * 
+     * Called once to initialise the game before the Update loop begins
      * @param app The Application instance to be used for this game
      */
-    startGame(app: PIXI.Application) {
+    startGame(app: PIXI.Application) : void {
         // create your assets: Sprites, Sounds, etc...
         this.logo = new PIXI.Sprite(app.loader.resources.logo.texture);
 
@@ -40,7 +38,6 @@ export class Game {
          * 
          * This can be set to true when you want to display it.
          */
-        
     }
 
     /**
@@ -49,7 +46,7 @@ export class Game {
      * @param width The width of the game area in pixels
      * @param height The height of the game area in pixels
      */
-    setPositions(width: number, height: number) {
+    setPositions(width: number, height: number) : void {
         this.logo.x = width / 2;
         this.logo.y = height / 2;
     }
@@ -58,8 +55,7 @@ export class Game {
      * Called once every frame
      * @param delta time between this frame and the last, used to ensure frame-rate independant animations
      */
-    update(delta: number)
-    {
+    update(delta: number) : void {
         this.logo.rotation += 0.1 * delta;
     }
 }
