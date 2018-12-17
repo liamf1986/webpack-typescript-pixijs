@@ -1,5 +1,10 @@
+import { Cabinet } from './components/cabinet';
+import stateMachine from './state-machine/state-machine';
+import { PreGameState } from './state-machine/states/preGameState';
+
 export class Game {
     // Variable definitions
+    private cabinet: Cabinet;
     private logo: PIXI.Sprite;
 
     /**
@@ -12,6 +17,8 @@ export class Game {
      * @param loader The loader to add these assets too
      */
     load(loader: PIXI.loaders.Loader) : void {
+        this.cabinet = new Cabinet();
+        this.cabinet.load(loader);
         loader.add('logo', 'assets/logo.png');
     }
     
@@ -21,6 +28,10 @@ export class Game {
      */
     startGame(app: PIXI.Application) : void {
         // create your assets: Sprites, Sounds, etc...
+        this.cabinet.draw(app);
+        stateMachine.cabinet = this.cabinet;
+        stateMachine.changeToState(new PreGameState());
+
         this.logo = new PIXI.Sprite(app.loader.resources.logo.texture);
 
         // Set any constiant data

@@ -1,6 +1,6 @@
 
-import * as PIXI from 'pixi.js';
-import * as PIXISound from 'pixi-sound';
+import 'pixi.js';
+import 'pixi-sound';
 import { Game } from './game';
 
 // Canvas dimensions
