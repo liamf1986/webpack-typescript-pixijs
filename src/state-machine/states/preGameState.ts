@@ -2,6 +2,9 @@ import { State } from "..";
 import stateMachine from "../state-machine";
 import user from '../../User';
 import { PlayGameState } from "./playGameState";
+import result from "../../result";
+import eventEmitter from "../../event-emitter";
+import events from "../../events";
 
 export class PreGameState extends State {
     constructor() {
@@ -21,7 +24,10 @@ export class PreGameState extends State {
     }
 
     public dispose():void {
-        
+        result.setData({health: 4});
+        result.setData({enemyHealth: 4});
+        eventEmitter.emit(events.GAME.DAMAGE_PLAYER);
+        eventEmitter.emit(events.GAME.DAMAGE_ENEMY);
     }
 
     private onActionClicked() : void {

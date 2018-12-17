@@ -5,6 +5,8 @@ import { WinGameState } from "./winGameState";
 import { LoseGameState } from "./loseGameState";
 import drawBridge from "../../components/draw-bridge";
 import result, { ResultType } from "../../result";
+import eventEmitter from "../../event-emitter";
+import events from "../../events";
 
 function getRandomResult(): ResultType {
     const value: number =  Math.random();
@@ -39,12 +41,20 @@ export class PlayGameState extends State {
         result.setData({enemyResult: getRandomResult()});
 
         if (result.isWin()) { 
-            stateMachine.cabinet.off("actionclicked");
-            stateMachine.changeToState(new WinGameState());
+            result.setData({enemyHealth: result.enemyHealth - 1});
+            if (result.enemyHealth === 0) {
+                stateMachine.cabinet.off("actionclicked");
+                stateMachine.changeToState(new WinGameState());
+            }
+            eventEmitter.emit(events.GAME.DAMAGE_ENEMY);
         } 
         else if (result.isLoss()) { 
-            stateMachine.cabinet.off("actionclicked");
-            stateMachine.changeToState(new LoseGameState());
+            result.setData({health: result.health - 1});
+            if (result.health === 0) {
+                stateMachine.cabinet.off("actionclicked");
+                stateMachine.changeToState(new LoseGameState());
+            }
+            eventEmitter.emit(events.GAME.DAMAGE_PLAYER);
         } else if (result.isDraw()) {
             console.log('DRAW - SPIN AGAIN!');
         }

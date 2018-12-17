@@ -5,6 +5,10 @@ import { PreGameState } from './state-machine/states/preGameState';
 import drawBridge from './components/draw-bridge';
 import Background from './components/background';
 import { add } from 'pixi-sound';
+import { HealthBar } from './components/health-bar';
+import eventEmitter from './event-emitter';
+import events from './events';
+import result from './result';
 
 export class Game {
     // Variable definitions
@@ -31,6 +35,7 @@ export class Game {
         loader.add('logo', 'assets/logo.png');
         loader.add('background', 'assets/background/background.json');
         loader.add('game-background', 'assets/game-background/game-background.png');
+        loader.add('window', 'assets/window.png');
     }
     
     /**
@@ -66,6 +71,17 @@ export class Game {
         this.cabinet.draw(app);
         stateMachine.cabinet = this.cabinet;
         stateMachine.changeToState(new PreGameState());
+
+        const playerHealthBar = new HealthBar(4);
+        playerHealthBar.init(app.loader);
+        app.stage.addChild(playerHealthBar);
+        eventEmitter.on(events.GAME.DAMAGE_PLAYER, () => playerHealthBar.health = result.health);
+
+        const enemyHealthBar = new HealthBar(4);
+        enemyHealthBar.init(app.loader);
+        enemyHealthBar.x = 1275;
+        app.stage.addChild(enemyHealthBar);
+        eventEmitter.on(events.GAME.DAMAGE_ENEMY, () => enemyHealthBar.health = result.enemyHealth);
     }
 
     /**

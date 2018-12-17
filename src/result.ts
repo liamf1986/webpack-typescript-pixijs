@@ -13,17 +13,21 @@ export enum ResultType {
 export interface IResultData {
     playerResult?: ResultType;
     enemyResult?: ResultType;
+    health?: number;
+    enemyHealth?: number;
 };
 
 export class Result implements IResultData {
     public playerResult: ResultType;
     public enemyResult: ResultType;
+    public health: number = 0;
+    public enemyHealth: number = 0;
 
     public setData(data: IResultData): void {
         if (data.playerResult !== undefined) { this.playerResult = data.playerResult; }
         if (data.enemyResult !== undefined) { this.enemyResult = data.enemyResult; }
-
-        console.log(data, this.isWin(), this.isDraw(), this.isLoss());
+        if (data.health !== undefined) { this.health = data.health; }
+        if (data.enemyHealth !== undefined) { this.enemyHealth = data.enemyHealth; }
     }
 
     public isDraw(): boolean { 
