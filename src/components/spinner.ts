@@ -34,7 +34,7 @@ export default class Spinner extends PIXI.Container {
         this._daggerGraphics = new PIXI.Graphics();
         this._daggerGraphics.beginFill(DAGGER_COLOUR);
         this._daggerGraphics.lineStyle(1, DAGGER_COLOUR, 1);
-        this._daggerGraphics.arc(0, 0, this.radius, 0.0 * Math.PI, this._daggerSegment, false);
+        this._daggerGraphics.arc(0, 0, this.radius, 0, this._daggerSegment, false);
         this._daggerGraphics.lineTo(0, 0);
         this.addChild(this._daggerGraphics);
         
