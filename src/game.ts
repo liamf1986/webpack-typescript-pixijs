@@ -1,4 +1,5 @@
 import { Cabinet } from './components/cabinet';
+import Spinner from './components/spinner';
 import stateMachine from './state-machine/state-machine';
 import { PreGameState } from './state-machine/states/preGameState';
 import drawBridge from './components/draw-bridge';
@@ -8,11 +9,15 @@ export class Game {
     // Variable definitions
     private cabinet: Cabinet;
     private logo: PIXI.Sprite;
+    private app: PIXI.Application;
+    private spinner: Spinner;
 
     /**
      * Constructor for the Game Object
      */
-    constructor() {}
+    constructor(app: PIXI.Application) {
+        this.app = app;
+    }
 
     /**
      * Load function called before startGame to load all required assets
@@ -48,6 +53,9 @@ export class Game {
         // Add any objects to the stage so they can be drawn
         app.stage.addChild(this.logo);
         app.stage.addChildAt(drawBridge.animation, 0);
+        // app.stage.addChild(this.logo);
+
+        this.createSpinner();
         /**
          * Anything you don't want to draw yet should still be added
          * but set the visible value to false
@@ -83,5 +91,11 @@ export class Game {
      */
     onResize(app: PIXI.Application) : void {
         this.setPositions(app.screen.width, app.screen.height);        
+    }
+
+    private createSpinner(): void {
+        this.spinner = new Spinner();
+
+        this.app.stage.addChild(this.spinner);
     }
 }

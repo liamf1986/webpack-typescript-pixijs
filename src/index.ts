@@ -40,7 +40,7 @@ app.stage.addChild(loadingText);
 app.loader.on("progress", loadProgressHandler);
 
 // Create the Game instance
-let game = new Game();
+let game = new Game(app);
 
 // Call the Game Loader
 game.load(app.loader);
