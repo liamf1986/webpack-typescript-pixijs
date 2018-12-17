@@ -9,14 +9,19 @@ import { HealthBar } from './components/health-bar';
 import eventEmitter from './event-emitter';
 import events from './events';
 import result from './result';
+import { Party } from './components/party';
+import { EnemyParty } from './components/enemyParty';
 
 export class Game {
     // Variable definitions
     private cabinet: Cabinet;
     private logo: PIXI.Sprite;
     private app: PIXI.Application;
-    private spinner: Spinner;
+    private playerSpinner: Spinner;
+    private enemySpinner: Spinner;
     private background: Background;
+    private party: Party;
+    private enemies: EnemyParty;
 
     /**
      * Constructor for the Game Object
@@ -39,6 +44,12 @@ export class Game {
         loader.add('spinner-dagger', 'assets/spinner/dagger.png');
         loader.add('spinner-shield', 'assets/spinner/shield.png');
         loader.add('spinner-magic', 'assets/spinner/wand.png');
+
+        this.party = new Party();
+        this.party.load(loader);
+
+        this.enemies = new EnemyParty();
+        this.enemies.load(loader);
     }
     
     /**
@@ -47,9 +58,6 @@ export class Game {
      */
     startGame(app: PIXI.Application) : void {
         // create your assets: Sprites, Sounds, etc...
-        
-        
-
         this.logo = new PIXI.Sprite(app.loader.resources.logo.texture);
 
         drawBridge.init(app.loader.resources['background'].spineData);
@@ -62,22 +70,27 @@ export class Game {
 
         this.background = new Background(app.loader.resources['game-background'].texture);
 
-        this.spinner = new Spinner({
+        let spinnerResources = {
             dagger: app.loader.resources['spinner-dagger'].texture,
             magic: app.loader.resources['spinner-magic'].texture,
             shield: app.loader.resources['spinner-shield'].texture
-        });
-        this.spinner.init(100, 100, 60);
+        }
+        this.playerSpinner = new Spinner(spinnerResources);
+        this.playerSpinner.init(300, 150, 100);
+
+        this.enemySpinner = new Spinner(spinnerResources);
+        this.enemySpinner.init(1000, 150, 100);
 
         // Add any objects to the stage so they can be drawn
-        //app.stage.addChild(this.logo);
         app.stage.addChild(this.background);
-        app.stage.addChild(this.spinner);
-        app.stage.addChild(drawBridge.animation);
+        
+        this.party.draw();
+        this.party.position.set(200, 450);
+        app.stage.addChild(this.party);
 
-        this.cabinet.draw(app);
-        stateMachine.cabinet = this.cabinet;
-        stateMachine.changeToState(new PreGameState());
+        this.enemies.draw();
+        this.enemies.position.set(1000, 350);
+        app.stage.addChild(this.enemies);
 
         const playerHealthBar = new HealthBar(4);
         playerHealthBar.init(app.loader);
@@ -89,6 +102,16 @@ export class Game {
         enemyHealthBar.x = 1275;
         app.stage.addChild(enemyHealthBar);
         eventEmitter.on(events.GAME.DAMAGE_ENEMY, () => enemyHealthBar.health = result.enemyHealth);
+
+        app.stage.addChild(this.playerSpinner);
+        app.stage.addChild(this.enemySpinner);
+        app.stage.addChild(drawBridge.animation);
+
+        this.cabinet.draw(app);
+        stateMachine.cabinet = this.cabinet;
+        stateMachine.playerSpinner = this.playerSpinner;
+        stateMachine.enemySpinner = this.enemySpinner;
+        stateMachine.changeToState(new PreGameState());
     }
 
     /**
@@ -107,7 +130,8 @@ export class Game {
      * @param delta time between this frame and the last, used to ensure frame-rate independant animations
      */
     update(delta: number) : void {
-        this.spinner.spin(0.1 * delta);
+        this.playerSpinner.update(delta);
+        this.enemySpinner.update(delta);
     }
 
     /**

@@ -1,10 +1,13 @@
 import { IState } from '.';
 import { Cabinet } from '../components/cabinet';
+import Spinner from '../components/spinner';
 
 class StateMachine {
 
     private _currentState?: IState;
     public cabinet?: Cabinet;
+    public playerSpinner?: Spinner;
+    public enemySpinner?: Spinner;
 
     constructor() {
     }
@@ -24,6 +27,8 @@ class StateMachine {
         }
 
         this.cabinet = undefined;
+        this.playerSpinner = undefined;
+        this.enemySpinner = undefined;
     }
 }
 

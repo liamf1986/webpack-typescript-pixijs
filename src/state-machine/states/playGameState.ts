@@ -7,6 +7,7 @@ import drawBridge from "../../components/draw-bridge";
 import result, { ResultType } from "../../result";
 import eventEmitter from "../../event-emitter";
 import events from "../../events";
+import { TweenMax } from "gsap";
 
 function getRandomResult(): ResultType {
     const value: number =  Math.random();
@@ -37,26 +38,41 @@ export class PlayGameState extends State {
     }
 
     private onActionClicked() : void {
-        result.setData({playerResult: getRandomResult()});
-        result.setData({enemyResult: getRandomResult()});
-
-        if (result.isWin()) { 
-            result.setData({enemyHealth: result.enemyHealth - 1});
-            if (result.enemyHealth === 0) {
-                stateMachine.cabinet.off("actionclicked");
-                stateMachine.changeToState(new WinGameState());
-            }
-            eventEmitter.emit(events.GAME.DAMAGE_ENEMY);
-        } 
-        else if (result.isLoss()) { 
-            result.setData({health: result.health - 1});
-            if (result.health === 0) {
-                stateMachine.cabinet.off("actionclicked");
-                stateMachine.changeToState(new LoseGameState());
-            }
-            eventEmitter.emit(events.GAME.DAMAGE_PLAYER);
-        } else if (result.isDraw()) {
-            console.log('DRAW - SPIN AGAIN!');
+        if (stateMachine.playerSpinner !== undefined) {
+            stateMachine.playerSpinner.spin();
         }
+        if (stateMachine.enemySpinner !== undefined) {
+            stateMachine.enemySpinner.spin();
+        }
+        stateMachine.cabinet.disableActionButton();
+
+        TweenMax.delayedCall(1, () =>{
+            stateMachine.playerSpinner.stopSpinning();
+            stateMachine.enemySpinner.stopSpinning();
+            stateMachine.cabinet.enableActionButton();
+
+            result.setData({playerResult: getRandomResult()});
+            result.setData({enemyResult: getRandomResult()});
+
+            if (result.isWin()) { 
+                result.setData({enemyHealth: result.enemyHealth - 1});
+                if (result.enemyHealth === 0) {
+                    stateMachine.cabinet.off("actionclicked");
+                    stateMachine.changeToState(new WinGameState());
+                }
+                eventEmitter.emit(events.GAME.DAMAGE_ENEMY);
+            } 
+            else if (result.isLoss()) { 
+                result.setData({health: result.health - 1});
+                if (result.health === 0) {
+                    stateMachine.cabinet.off("actionclicked");
+                    stateMachine.changeToState(new LoseGameState());
+                }
+                eventEmitter.emit(events.GAME.DAMAGE_PLAYER);
+            } else if (result.isDraw()) {
+                console.log('DRAW - SPIN AGAIN!');
+            }
+        }, undefined, true);
+        
     }
 }

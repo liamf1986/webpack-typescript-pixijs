@@ -45,6 +45,8 @@ export default class Spinner extends PIXI.Container {
     private _shieldSprite: PIXI.Sprite;
     private _shieldTexture: PIXI.Texture;
 
+    private _pointer: PIXI.Graphics;
+
     private _isRotating: boolean = false;
 
     constructor(resources: ISpinnerResources) {
@@ -84,12 +86,26 @@ export default class Spinner extends PIXI.Container {
         this.addChild(this._shieldGraphics);
 
         this.handleIcons();
+
+        const pointerWidth = 10;
+        const pointerHeight = 30;
+        this._pointer = new PIXI.Graphics() ;
+        this._pointer.beginFill(0x000000);
+        this._pointer.drawRect(-pointerWidth * 0.5, -this.radius, pointerWidth, pointerHeight);
+        this.addChild(this._pointer);
     }
 
-    public spin(speed: number) {
-        // if (this._isRotating) {
+    public update(speed: number) {
+        if (this._isRotating) {
             this.rotation += speed;
-        // }
+        }
+    }
+
+    public spin() {
+        this._isRotating = true;
+    }
+    public stopSpinning() {
+        this._isRotating = false;
     }
 
     private handleIcons() {
