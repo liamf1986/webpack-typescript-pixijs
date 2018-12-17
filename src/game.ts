@@ -93,6 +93,6 @@ export class Game {
      * IMPORTANT: This is currently never called, see index.ts
      */
     onResize(app: PIXI.Application) : void {
-        this.setPositions(app.screen.width, app.screen.height);        
+        this.setPositions(app.screen.width, app.screen.height);
     }
 }
