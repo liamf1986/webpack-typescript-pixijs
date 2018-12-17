@@ -55,7 +55,9 @@ export class Game {
         app.stage.addChildAt(drawBridge.animation, 0);
         // app.stage.addChild(this.logo);
 
-        this.createSpinner();
+        this.spinner = new Spinner();
+        this.spinner.init(100, 100, 60);
+        this.app.stage.addChild(this.spinner);
         /**
          * Anything you don't want to draw yet should still be added
          * but set the visible value to false
@@ -81,7 +83,7 @@ export class Game {
      * @param delta time between this frame and the last, used to ensure frame-rate independant animations
      */
     update(delta: number) : void {
-        this.logo.rotation += 0.1 * delta;
+        this.spinner.spin(0.1 * delta);
     }
 
     /**
@@ -91,11 +93,5 @@ export class Game {
      */
     onResize(app: PIXI.Application) : void {
         this.setPositions(app.screen.width, app.screen.height);        
-    }
-
-    private createSpinner(): void {
-        this.spinner = new Spinner();
-
-        this.app.stage.addChild(this.spinner);
     }
 }
