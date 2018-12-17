@@ -9,19 +9,50 @@ export const DAGGER_COLOUR = 0xFF0000;
 export const MAGIC_COLOUR = 0x0000FF;
 export const SHIELD_COLOUR = 0x00FF00;
 
+export interface ISpinnerResources {
+    dagger: PIXI.Texture
+    magic: PIXI.Texture
+    shield: PIXI.Texture
+}
+
+interface ICirclePoint {
+    endX: number
+    endY: number
+}
+
+function getCirclePoint(x: number, y: number, length: number, radians: number): ICirclePoint {
+    const endX: number = x + length * Math.cos(radians);
+    const endY: number = y - length * Math.sin(radians);
+
+    return {endX, endY};
+}
+
 export default class Spinner extends PIXI.Container {
     private radius: number;
 
-    private _daggerSegment = THIRD * Math.PI;
-    private _magicSegment = (THIRD * 2) * Math.PI;
-    private _shieldSegment = FULL * Math.PI;
+    private _daggerSegment: number = THIRD * Math.PI;
+    private _magicSegment: number = (THIRD * 2) * Math.PI;
+    private _shieldSegment: number = FULL * Math.PI;
 
     private _daggerGraphics: PIXI.Graphics;
     private _magicGraphics: PIXI.Graphics;
     private _shieldGraphics: PIXI.Graphics;
 
-    constructor() {
+    private _daggerTexture: PIXI.Texture;
+    private _daggerSprite: PIXI.Sprite;
+    private _magicSprite: PIXI.Sprite;
+    private _magicTexture: PIXI.Texture;
+    private _shieldSprite: PIXI.Sprite;
+    private _shieldTexture: PIXI.Texture;
+
+    private _isRotating: boolean = false;
+
+    constructor(resources: ISpinnerResources) {
         super();
+
+        this._daggerTexture = resources.dagger;
+        this._magicTexture = resources.magic;
+        this._shieldTexture = resources.shield;
     }
 
     public init(x: number, y:number, r: number) {
@@ -51,9 +82,47 @@ export default class Spinner extends PIXI.Container {
         this._shieldGraphics.arc(0, 0, this.radius, this._magicSegment, this._shieldSegment, false);
         this._shieldGraphics.lineTo(0, 0);
         this.addChild(this._shieldGraphics);
+
+        this.handleIcons();
     }
 
     public spin(speed: number) {
-        this.rotation += speed;
+        // if (this._isRotating) {
+            this.rotation += speed;
+        // }
+    }
+
+    private handleIcons() {
+        const iconScale: number = 50;
+
+        // Create, scale and position dagger icon
+        let daggerPosition = getCirclePoint(0, 0, this.radius * 0.5, -(this._daggerSegment * 0.5));
+
+        this._daggerSprite = new PIXI.Sprite(this._daggerTexture);
+        this._daggerSprite.anchor.set(0.5);
+        this._daggerSprite.position.set(daggerPosition.endX, daggerPosition.endY);
+        this._daggerSprite.width = iconScale;
+        this._daggerSprite.height = iconScale;
+        this.addChild(this._daggerSprite);
+
+        // Create, scale and position magic icon
+        let magicPosition = getCirclePoint(0, 0, this.radius * 0.5, -((this._magicSegment + this._daggerSegment) * 0.5));
+
+        this._magicSprite = new PIXI.Sprite(this._magicTexture);
+        this._magicSprite.anchor.set(0.5);
+        this._magicSprite.position.set(magicPosition.endX, magicPosition.endY);
+        this._magicSprite.width = iconScale;
+        this._magicSprite.height = iconScale;
+        this._magicGraphics.addChild(this._magicSprite);
+
+        // Create, scale and position shield icon
+        let shieldPosition = getCirclePoint(0, 0, this.radius * 0.5, (this._shieldSegment - this._magicSegment + this._daggerSegment) * 0.25);
+
+        this._shieldSprite = new PIXI.Sprite(this._shieldTexture);
+        this._shieldSprite.anchor.set(0.5);
+        this._shieldSprite.position.set(shieldPosition.endX, shieldPosition.endY);
+        this._shieldSprite.width = iconScale;
+        this._shieldSprite.height = iconScale;
+        this._shieldGraphics.addChild(this._shieldSprite);
     }
 }
