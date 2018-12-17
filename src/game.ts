@@ -1,6 +1,8 @@
 import { Cabinet } from './components/cabinet';
 import stateMachine from './state-machine/state-machine';
 import { PreGameState } from './state-machine/states/preGameState';
+import drawBridge from './components/draw-bridge';
+import { add } from 'pixi-sound';
 
 export class Game {
     // Variable definitions
@@ -18,8 +20,9 @@ export class Game {
      */
     load(loader: PIXI.loaders.Loader) : void {
         this.cabinet = new Cabinet();
-        this.cabinet.load(loader);
+        this.cabinet.load(loader)        
         loader.add('logo', 'assets/logo.png');
+        loader.add('background', 'assets/background/background.json');
     }
     
     /**
@@ -34,6 +37,8 @@ export class Game {
 
         this.logo = new PIXI.Sprite(app.loader.resources.logo.texture);
 
+        drawBridge.init(app.loader.resources['background'].spineData);
+
         // Set any constiant data
         this.logo.anchor.set(0.5);
 
@@ -42,6 +47,7 @@ export class Game {
 
         // Add any objects to the stage so they can be drawn
         app.stage.addChild(this.logo);
+        app.stage.addChildAt(drawBridge.animation, 0);
         /**
          * Anything you don't want to draw yet should still be added
          * but set the visible value to false
@@ -76,6 +82,6 @@ export class Game {
      * IMPORTANT: This is currently never called, see index.ts
      */
     onResize(app: PIXI.Application) : void {
-        this.setPositions(app.screen.width, app.screen.height);
+        this.setPositions(app.screen.width, app.screen.height);        
     }
 }

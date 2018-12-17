@@ -3,6 +3,7 @@ import stateMachine from "../state-machine";
 
 import { WinGameState } from "./winGameState";
 import { LoseGameState } from "./loseGameState";
+import drawBridge from "../../components/draw-bridge";
 
 export class PlayGameState extends State {
     constructor() {
@@ -18,10 +19,12 @@ export class PlayGameState extends State {
             stateMachine.cabinet.disableStakeButtons();
             stateMachine.cabinet.on("actionclicked", this.onActionClicked);
         }
+
+        drawBridge.onEnterGame();
     }
 
     public dispose():void {
-        
+        drawBridge.onGameComplete();
     }
 
     private onActionClicked() : void {
