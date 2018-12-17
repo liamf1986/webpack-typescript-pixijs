@@ -66,6 +66,8 @@ function onAssetsLoaded() : void
     game.startGame(app);
     // Set the game.update function to the app.ticker so it is called every frame
     app.ticker.add((delta) => game.update(delta));
+
+    calcSize();
 }
 
 /**
