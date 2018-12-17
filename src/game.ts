@@ -36,9 +36,8 @@ export class Game {
      */
     startGame(app: PIXI.Application) : void {
         // create your assets: Sprites, Sounds, etc...
-        this.cabinet.draw(app);
-        stateMachine.cabinet = this.cabinet;
-        stateMachine.changeToState(new PreGameState());
+        
+        
 
         this.logo = new PIXI.Sprite(app.loader.resources.logo.texture);
 
@@ -50,21 +49,17 @@ export class Game {
         // Position any objects based on screen dimensions
         this.setPositions(app.screen.width, app.screen.height);
 
-        // Add any objects to the stage so they can be drawn
-        app.stage.addChild(this.logo);
-        app.stage.addChildAt(drawBridge.animation, 0);
-        // app.stage.addChild(this.logo);
-
         this.spinner = new Spinner();
         this.spinner.init(100, 100, 60);
-        this.app.stage.addChild(this.spinner);
-        /**
-         * Anything you don't want to draw yet should still be added
-         * but set the visible value to false
-         * eg. this.logo.visible = false;
-         * 
-         * This can be set to true when you want to display it.
-         */
+
+        // Add any objects to the stage so they can be drawn
+        //app.stage.addChild(this.logo);
+        app.stage.addChild(this.spinner);
+        app.stage.addChild(drawBridge.animation);
+
+        this.cabinet.draw(app);
+        stateMachine.cabinet = this.cabinet;
+        stateMachine.changeToState(new PreGameState());
     }
 
     /**
