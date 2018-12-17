@@ -36,6 +36,9 @@ export class Game {
         loader.add('background', 'assets/background/background.json');
         loader.add('game-background', 'assets/game-background/game-background.png');
         loader.add('window', 'assets/window.png');
+        loader.add('spinner-dagger', 'assets/spinner/dagger.png');
+        loader.add('spinner-shield', 'assets/spinner/shield.png');
+        loader.add('spinner-magic', 'assets/spinner/wand.png');
     }
     
     /**
@@ -59,7 +62,11 @@ export class Game {
 
         this.background = new Background(app.loader.resources['game-background'].texture);
 
-        this.spinner = new Spinner();
+        this.spinner = new Spinner({
+            dagger: app.loader.resources['spinner-dagger'].texture,
+            magic: app.loader.resources['spinner-magic'].texture,
+            shield: app.loader.resources['spinner-shield'].texture
+        });
         this.spinner.init(100, 100, 60);
 
         // Add any objects to the stage so they can be drawn
@@ -109,6 +116,6 @@ export class Game {
      * IMPORTANT: This is currently never called, see index.ts
      */
     onResize(app: PIXI.Application) : void {
-        this.setPositions(app.screen.width, app.screen.height);        
+        this.setPositions(app.screen.width, app.screen.height);
     }
 }
