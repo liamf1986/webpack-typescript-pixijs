@@ -33,12 +33,9 @@ export class HealthBar extends Container {
         }
 
         this.scale.set(0.2);
-        this.rotation = Math.PI / 2;
-        this.x = 50;
-        this.y = 10;
-
-        this.interactive = true;
-        this.on('pointertap', () => this.health = this.currentHealth - 1);
+        this.rotation = -Math.PI / 2;
+        this.x = 10;
+        this.y = 680;
     }
 
     public set health(value: number) {

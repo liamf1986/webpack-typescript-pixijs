@@ -99,7 +99,7 @@ export class Game {
 
         const enemyHealthBar = new HealthBar(4);
         enemyHealthBar.init(app.loader);
-        enemyHealthBar.x = 1275;
+        enemyHealthBar.x = 1235;
         app.stage.addChild(enemyHealthBar);
         eventEmitter.on(events.GAME.DAMAGE_ENEMY, () => enemyHealthBar.health = result.enemyHealth);
 
