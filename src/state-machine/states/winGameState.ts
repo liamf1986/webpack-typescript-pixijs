@@ -29,6 +29,7 @@ export class WinGameState extends State {
         // }, undefined, true);
         popup.showVictory();
         popup.once('continueclicked', () => {
+            stateMachine.party.moveParty(window.innerWidth + 400, 0);
             stateMachine.changeToState(new PlayGameState());
             popup.hide();
             
@@ -42,6 +43,7 @@ export class WinGameState extends State {
             });
         });
         popup.once('leaveclicked', () => {
+            stateMachine.party.moveParty(-400, 0);
             stateMachine.changeToState(new PreGameState());
             drawBridge.onGameComplete();
         });

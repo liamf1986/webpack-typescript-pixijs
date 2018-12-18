@@ -12,44 +12,44 @@ export class Party extends PIXI.Container {
         super();
     }
 
-    load(loader: PIXI.loaders.Loader) {
-        this.witch = new Witch(0, 75);
+    public load(loader: PIXI.loaders.Loader) {
+        this.witch = new Witch();
         this.witch.load(loader, "assets/heroes/witch.json");
 
-        this.rogue = new Rogue(100, 50);
+        this.rogue = new Rogue();
         this.rogue.load(loader, "assets/heroes/rogue.json");
 
-        this.knight = new Knight(150, 0);
+        this.knight = new Knight();
         this.knight.load(loader, "assets/heroes/knight.json");
     }
 
-    draw() {
+    public draw() {
         this.knight.draw();
-        this.knight.position.x = -400;
+        this.knight.position.set(-400 + 150, 0);
         this.addChild(this.knight);
 
         this.rogue.draw();
-        this.rogue.position.x = -400;
+        this.rogue.position.set(-400 + 100, 50);
         this.addChild(this.rogue);
 
         this.witch.draw();
-        this.witch.position.x = -400;
+        this.witch.position.set(-400, 75);
         this.addChild(this.witch);
     }
 
-    idle() {
+    public idle() {
         this.knight.idle();
         this.rogue.idle();
         this.witch.idle();
     }
 
-    die() {
+    public die() {
         this.knight.die();
         this.rogue.die();
         this.witch.die();
     }
 
-    attack(attackType: ResultType): Promise<void> {
+    public attack(attackType: ResultType): Promise<void> {
         return new Promise((resolve: any, reject: any) => {
             if (attackType === ResultType.Shield) {
                 this.knight.attack(resolve);
@@ -70,12 +70,18 @@ export class Party extends PIXI.Container {
         });
     }
 
-    public enterStage(): Promise<void[]> {
+    public setPartyPosition(x: number, y: number): void {
+        this.knight.position.set(x + 150, y);
+        this.rogue.position.set(x + 100, y + 50);
+        this.witch.position.set(x, y + 75);
+    }
+
+    public moveParty(x: number, y: number): Promise<void[]> {
         let enterAnimations = [];
 
-        enterAnimations.push(this.knight.enterStage());
-        enterAnimations.push(this.rogue.enterStage());
-        enterAnimations.push(this.witch.enterStage());
+        enterAnimations.push(this.knight.move(x + 150, y));
+        enterAnimations.push(this.rogue.move(x + 100, y + 50));
+        enterAnimations.push(this.witch.move(x, y + 75));
 
         return Promise.all(enterAnimations);
     }

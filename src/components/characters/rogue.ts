@@ -1,8 +1,8 @@
 import { PlayerCharacter } from './player-character';
 
 export class Rogue extends PlayerCharacter {
-    constructor(x: number, y: number) {
-        super(x, y);
+    constructor() {
+        super();
 
         this.characterType = 'player';
     }

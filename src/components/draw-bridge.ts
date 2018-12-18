@@ -38,7 +38,7 @@ class Drawbridge {
         this.animation.state.timeScale = 1;
         this.animation.state.tracks[0].listener = {
             complete: () => {
-                stateMachine.party.enterStage();
+                stateMachine.party.moveParty(0, 0);
                 const tween: TweenLite = TweenLite.to(this, 1.5, {
                     zoom: 1.0,
                     onUpdate: () => this.animation.scale.set(this.zoomMin + this.zoom * (this.zoomMax - this.zoomMin)),
