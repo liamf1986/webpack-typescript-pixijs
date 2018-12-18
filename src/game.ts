@@ -1,12 +1,15 @@
 import { Cabinet } from './components/cabinet';
+import { Popup } from './components/popup'
 import Spinner from './components/spinner';
 import stateMachine from './state-machine/state-machine';
 import { PreGameState } from './state-machine/states/preGameState';
+import { TweenMax } from "gsap";
 
 export class Game {
     // Variable definitions
     private cabinet: Cabinet;
-    private logo: PIXI.Sprite;
+
+    private popup: Popup;
     private app: PIXI.Application;
     private spinner: Spinner;
 
@@ -24,7 +27,10 @@ export class Game {
     load(loader: PIXI.loaders.Loader) : void {
         this.cabinet = new Cabinet();
         this.cabinet.load(loader);
-        loader.add('logo', 'assets/logo.png');
+        loader.add('popup', 'assets/Pop-up.png');
+
+        this.popup = new Popup();
+        this.popup.load(loader); 
     }
     
     /**
@@ -37,16 +43,19 @@ export class Game {
         stateMachine.cabinet = this.cabinet;
         stateMachine.changeToState(new PreGameState());
 
-        this.logo = new PIXI.Sprite(app.loader.resources.logo.texture);
+        this.popup.draw(app);
 
         // Set any constiant data
-        this.logo.anchor.set(0.5);
+        //this.popup.anchor.set(0.5);
+        this.popup.scale.set(1);
+
+        TweenMax.fromTo(this.popup, 1, {x:650, y:1000}, {x:650, y:300});
 
         // Position any objects based on screen dimensions
         this.setPositions(app.screen.width, app.screen.height);
 
         // Add any objects to the stage so they can be drawn
-        // app.stage.addChild(this.logo);
+        app.stage.addChild(this.popup);
 
         this.createSpinner();
         /**
@@ -65,8 +74,8 @@ export class Game {
      * @param height The height of the game area in pixels
      */
     setPositions(width: number, height: number) : void {
-        this.logo.x = width / 2;
-        this.logo.y = height / 2;
+        this.popup.x = width / 2;
+        this.popup.y = height / 2;
     }
 
     /**
@@ -74,7 +83,7 @@ export class Game {
      * @param delta time between this frame and the last, used to ensure frame-rate independant animations
      */
     update(delta: number) : void {
-        this.logo.rotation += 0.1 * delta;
+        //this.logo.rotation += 0.1 * delta;
     }
 
     /**
