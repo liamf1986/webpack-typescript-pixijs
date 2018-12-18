@@ -54,6 +54,16 @@ export class Game {
         this.party.load(loader);
 
         enemyParty.load(loader);
+
+        // sounds
+        PIXI.sound.add('bgMusic', {url: 'assets/audio/cave-ambient-noise.{wav}'});
+        PIXI.sound.add('humanDamage', {url: 'assets/audio/human-damage-taken.{wav}'});
+        PIXI.sound.add('monsterDamage', {url: 'assets/audio/monster-damage-taken.{wav}'});
+        PIXI.sound.add('attackDagger', {url: 'assets/audio/attack-dagger.{wav}'});
+        PIXI.sound.add('attackShield', {url: 'assets/audio/attack-shield.{wav}'});
+        PIXI.sound.add('attackSpell', {url: 'assets/audio/attack-spell.{wav}'});
+        PIXI.sound.add('attackMonster', {url: 'assets/audio/attack-monster.{wav}'});
+        PIXI.sound.add('attackGolem', {url: 'assets/audio/attack-golem.{wav}'});
     }
     
     /**

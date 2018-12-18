@@ -11,6 +11,8 @@ export class Character extends PIXI.Container {
 
     protected characterType: string;
 
+    protected soundAlias: string;
+
     constructor() {
         super();
     }
@@ -54,7 +56,7 @@ export class Character extends PIXI.Container {
         this.addChild(this.idleAnim);
     }
 
-    public attack(resolve: any): void {
+    public attack(resolve: any, sound: boolean): void {
         const me = this;
         const movement: number = this.characterType === 'player' ? 30 : -30;
         const duration: number = 0.2;
@@ -67,6 +69,10 @@ export class Character extends PIXI.Container {
         }
 
         function playAttack() {
+            if (me.soundAlias !== undefined && sound) {
+                PIXI.sound.play(me.soundAlias);
+            }
+            
             me.removeChildren();
             me.stopAnimations();
 

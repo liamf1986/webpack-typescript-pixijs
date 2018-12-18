@@ -1,10 +1,11 @@
-import { Character } from './character';
+import { PlayerCharacter } from './player-character';
 
-export class Knight extends Character {
+export class Knight extends PlayerCharacter {
     constructor() {
         super();
 
         this.characterType = 'player';
+        this.soundAlias = 'attackShield';
     }
 
     draw() {

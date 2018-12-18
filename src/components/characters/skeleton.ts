@@ -1,10 +1,11 @@
-import { Character } from './character';
+import { EnemyCharacter } from './enemy-character';
 
-export class Skeleton extends Character {
+export class Skeleton extends EnemyCharacter {
     constructor() {
         super();
 
         this.characterType = 'enemy';
+        this.soundAlias = 'attackMonster';
     }
 
     load(loader: PIXI.loaders.Loader) {
