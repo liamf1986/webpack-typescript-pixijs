@@ -1,6 +1,7 @@
 import { Knight } from './characters/knight';
 import { Witch } from './characters/witch';
 import { Rogue } from './characters/rogue';
+import { ResultType } from '../result';
 
 export class Party extends PIXI.Container {
     private witch: Witch;
@@ -48,9 +49,24 @@ export class Party extends PIXI.Container {
         this.witch.die();
     }
 
-    attack() {
-        this.knight.attack();
-        this.rogue.attack();
-        this.witch.attack();
+    attack(attackType: ResultType): Promise<void> {
+        return new Promise((resolve: any, reject: any) => {
+            if (attackType === ResultType.Shield) {
+                this.knight.attack(resolve);
+                return;
+            }
+
+            if (attackType === ResultType.Sword) {
+                this.rogue.attack(resolve);
+                return;
+            }
+
+            if (attackType === ResultType.Magic) {
+                this.witch.attack(resolve);
+                return;
+            }
+
+            reject('Invalid attack type');
+        });
     }
 }

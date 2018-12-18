@@ -40,7 +40,7 @@ export class PlayGameState extends State {
         const enemyResult: ResultType = getRandomResult();
         const duration: number = 1;
 
-        console.log(['Sword', 'Magic', 'Shield'][playerResult], ' vs ', ['Sword', 'Magic', 'Shield'][enemyResult])
+        console.log(['Sword', 'Magic', 'Shield'][playerResult], ' vs ', ['Sword', 'Magic', 'Shield'][enemyResult]);
 
         if (stateMachine.playerSpinner !== undefined) {
             stateMachine.playerSpinner.spin(playerResult, duration);
@@ -51,32 +51,41 @@ export class PlayGameState extends State {
         }
         stateMachine.cabinet.disableActionButton();
 
-        TweenMax.delayedCall(duration, () =>{
-            stateMachine.cabinet.enableActionButton();
+        TweenMax.delayedCall(duration, () => {
+            let attacks = [];
 
-            result.setData({playerResult: playerResult});
-            result.setData({enemyResult: enemyResult});
+            attacks.push(stateMachine.enemyParty.attack(enemyResult));
+            attacks.push(stateMachine.party.attack(playerResult));
 
-            if (result.isWin()) { 
-                result.setData({enemyHealth: result.enemyHealth - 1});
-                if (result.enemyHealth === 0) {
-                    stateMachine.enemyParty.die();
-                    stateMachine.cabinet.off("actionclicked");
-                    stateMachine.changeToState(new WinGameState());
+            Promise.all(attacks).then(() => {
+                stateMachine.party.idle();
+                stateMachine.enemyParty.idle();
+                stateMachine.cabinet.enableActionButton();
+
+                result.setData({playerResult: playerResult});
+                result.setData({enemyResult: enemyResult});
+
+                if (result.isWin()) {
+                    result.setData({enemyHealth: result.enemyHealth - 1});
+                    if (result.enemyHealth === 0) {
+                        stateMachine.enemyParty.die();
+                        stateMachine.cabinet.off("actionclicked");
+                        stateMachine.changeToState(new WinGameState());
+                    }
+                    eventEmitter.emit(events.GAME.DAMAGE_ENEMY);
                 }
-                eventEmitter.emit(events.GAME.DAMAGE_ENEMY);
-            } 
-            else if (result.isLoss()) { 
-                result.setData({health: result.health - 1});
-                if (result.health === 0) {
-                    stateMachine.party.die();
-                    stateMachine.cabinet.off("actionclicked");
-                    stateMachine.changeToState(new LoseGameState());
+                else if (result.isLoss()) {
+                    result.setData({health: result.health - 1});
+                    if (result.health === 0) {
+                        stateMachine.party.die();
+                        stateMachine.cabinet.off("actionclicked");
+                        stateMachine.changeToState(new LoseGameState());
+                    }
+                    eventEmitter.emit(events.GAME.DAMAGE_PLAYER);
+                } else if (result.isDraw()) {
+                    console.log('DRAW - SPIN AGAIN!');
                 }
-                eventEmitter.emit(events.GAME.DAMAGE_PLAYER);
-            } else if (result.isDraw()) {
-                console.log('DRAW - SPIN AGAIN!');
-            }
+            });
         }, undefined, true);
         
     }

@@ -3,6 +3,8 @@ import { Character } from './character';
 export class Witch extends Character {
     constructor() {
         super();
+
+        this.characterType = 'player';
     }
 
     draw() {

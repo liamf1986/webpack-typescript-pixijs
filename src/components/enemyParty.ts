@@ -2,6 +2,7 @@ import { IceGolem } from './characters/ice-golem';
 import { Cyclops } from './characters/cyclops';
 import { Orc } from './characters/orc';
 import { Skeleton } from './characters/skeleton';
+import {ResultType} from "../result";
 
 export class EnemyParty extends PIXI.Container {
     private golem: IceGolem;
@@ -94,13 +95,30 @@ export class EnemyParty extends PIXI.Container {
         }
     }
 
-    attack() {
+    attack(attackType: ResultType): Promise<void> {
         if (this.golem.visible) {
-            this.golem.attack();
+            return new Promise((resolve: any, reject: any) => {
+                this.golem.attack(resolve);
+            });
         } else {
-            this.skeleton.attack();
-            this.cyclops.attack();
-            this.orc.attack();
+            return new Promise((resolve: any, reject: any) => {
+                if (attackType === ResultType.Shield) {
+                    this.cyclops.attack(resolve);
+                    return;
+                }
+
+                if (attackType === ResultType.Sword) {
+                    this.orc.attack(resolve);
+                    return;
+                }
+
+                if (attackType === ResultType.Magic) {
+                    this.skeleton.attack(resolve);
+                    return;
+                }
+
+                reject('Invalid attack type');
+            });
         }
     }
 }

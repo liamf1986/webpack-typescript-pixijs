@@ -3,6 +3,8 @@ import { Character } from './character';
 export class IceGolem extends Character {
     constructor() {
         super();
+
+        this.characterType = 'enemy';
     }
 
     load(loader: PIXI.loaders.Loader) {
