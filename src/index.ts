@@ -53,7 +53,7 @@ app.loader.load(onAssetsLoaded);
  * i.e. Each time an individual item is loaded
  */
 function loadProgressHandler() : void {
-    loadingText.text = "Loading... " + app.loader.progress + "%";
+    loadingText.text = "Loading... " + Math.floor(app.loader.progress) + "%";
 }
 
 /**
