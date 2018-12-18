@@ -7,6 +7,7 @@ import eventEmitter from "../../event-emitter";
 import events from "../../events";
 import popup from "../../components/popup";
 import drawBridge from "../../components/draw-bridge";
+import { playerHealthBar, enemyHealthBar } from "../../components/health-bar";
 
 export class PreGameState extends State {
     constructor() {
@@ -29,7 +30,9 @@ export class PreGameState extends State {
 
     public dispose():void {
         result.setData({health: 4});
-        result.setData({enemyHealth: 4});
+        result.setData({enemyHealth: 2});
+        playerHealthBar.maxHealth = playerHealthBar.health = result.health;
+        enemyHealthBar.maxHealth = enemyHealthBar.health = result.enemyHealth;
         eventEmitter.emit(events.GAME.DAMAGE_PLAYER);
         eventEmitter.emit(events.GAME.DAMAGE_ENEMY);
     }

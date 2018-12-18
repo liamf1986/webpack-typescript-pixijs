@@ -4,7 +4,8 @@ import { TweenLite } from 'gsap';
 class HealthBar extends Container {
     private loader: loaders.Loader;
     private segment: Sprite[] = [];
-
+    private currentHealth: number = 0;
+    
     constructor() {
         super();
     }
@@ -20,6 +21,7 @@ class HealthBar extends Container {
 
     public set maxHealth(value: number) {
         this.segment.forEach((segment) => this.removeChild(segment));
+        this.segment = [];
 
         for (let i = 0; i < value; ++i) {
             const texture: Texture = this.loader.resources['window'].texture;
@@ -38,6 +40,8 @@ class HealthBar extends Container {
 
             this.segment.push(segment);
         }
+
+        TweenLite.killTweensOf(this);
     }
 
     public get maxHealth(): number {
