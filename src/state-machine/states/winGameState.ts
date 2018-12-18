@@ -20,10 +20,11 @@ export class WinGameState extends State {
 
         console.log("WIN STATE");
         
+        const formattedPrize = formatCurrency(prizeStructure[result.currentStage] * stateMachine.cabinet.currentStake / 100, CURRENCY_DEFAULTS.GBP);
+        
         // Update the cabinet
         if(stateMachine.cabinet !== undefined) {
             // stateMachine.cabinet.setCabinetMessage('WIN STATE');
-            const formattedPrize = formatCurrency(prizeStructure[result.currentStage] * stateMachine.cabinet.currentStake / 100, CURRENCY_DEFAULTS.GBP);
             stateMachine.cabinet.setCabinetMessage(`Won ${formattedPrize} so far`);
             stateMachine.cabinet.disableActionButton();
         }
@@ -31,7 +32,7 @@ export class WinGameState extends State {
         // TweenMax.delayedCall(2, () =>{
         //     stateMachine.changeToState(new PreGameState())
         // }, undefined, true);
-        popup.showVictory();
+        popup.showVictory(formattedPrize);
         popup.once('continueclicked', () => {
             enemyParty.setAlpha(0);
             stateMachine.party.moveParty(window.innerWidth + 400, 0);
