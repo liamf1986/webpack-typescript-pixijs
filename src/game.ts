@@ -121,13 +121,15 @@ export class Game {
 
         app.stage.addChild(this.playerSpinner);
         app.stage.addChild(this.enemySpinner);
-        app.stage.addChild(this.popup);
+        // app.stage.addChild(this.popup);
         app.stage.addChild(drawBridge.animation);
 
         this.cabinet.draw(app);
         stateMachine.cabinet = this.cabinet;
         stateMachine.playerSpinner = this.playerSpinner;
         stateMachine.enemySpinner = this.enemySpinner;
+        stateMachine.party = this.party;
+        stateMachine.enemyParty = this.enemies;
         stateMachine.changeToState(new PreGameState());
     }
 

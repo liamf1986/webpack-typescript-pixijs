@@ -18,4 +18,12 @@ export class EnemyParty extends PIXI.Container {
         // this.golem.position.set(0, 75);
         this.addChild(this.golem);
     }
+
+    die() {
+        this.golem.die();
+    }
+
+    attack() {
+        this.golem.attack();
+    }
 }

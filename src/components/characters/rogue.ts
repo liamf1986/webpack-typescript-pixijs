@@ -1,6 +1,6 @@
 import { Character } from './character';
 
-export class Witch extends Character {
+export class Rogue extends Character {
     protected idleFrames: PIXI.Texture[] = [];
     protected attackFrames: PIXI.Texture[] = [];
     protected deadFrames: PIXI.Texture[] = [];
@@ -11,7 +11,7 @@ export class Witch extends Character {
 
     draw() {
         for (let i = 0; i < 6; i++) {
-            this.idleFrames.push(PIXI.Texture.fromFrame('Idle' + (i + 1) + '@2x.png'));
+            this.idleFrames.push(PIXI.Texture.fromFrame('idle' + (i + 1) + '@3x.png'));
         }
 
         super.draw();
