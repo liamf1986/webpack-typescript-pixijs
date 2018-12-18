@@ -40,6 +40,7 @@ export class PreGameState extends State {
             user.balancePennies -= stateMachine.cabinet.currentStake;
             stateMachine.cabinet.balanceMsg = 'balance\n' + user.balanceString;
             stateMachine.changeToState(new PlayGameState());
+            stateMachine.enemyParty.idle();
             drawBridge.onEnterGame();
         }
         else {

@@ -74,6 +74,10 @@ export class EnemyParty extends PIXI.Container {
         this.skeleton.visible = true;
     }
 
+    idle() {
+        this.golem.idle();
+    }
+
     die() {
         this.golem.die();
     }

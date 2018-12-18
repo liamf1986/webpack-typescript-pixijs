@@ -1,10 +1,6 @@
 import { Character } from './character';
 
 export class Knight extends Character {
-    protected idleFrames: PIXI.Texture[] = [];
-    protected attackFrames: PIXI.Texture[] = [];
-    protected deadFrames: PIXI.Texture[] = [];
-
     constructor() {
         super();
     }

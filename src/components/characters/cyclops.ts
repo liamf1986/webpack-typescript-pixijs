@@ -11,19 +11,10 @@ export class Cyclops extends Character {
     }
 
     draw() {
-        var frames = [];
-
         for (var i = 0; i < 6; i++) {
-            frames.push(PIXI.Texture.fromFrame('cyclopsidle' + (i + 1) + '.png'));
+            this.idleFrames.push(PIXI.Texture.fromFrame('cyclopsidle' + (i + 1) + '.png'));
         }
 
-        this.anim = new PIXI.extras.AnimatedSprite(frames);
-
-        this.anim.anchor.set(0.5);
-        this.anim.animationSpeed = 0.15;
-        this.anim.scale.set(0.5);
-        this.anim.play();
-
-        this.addChild(this.anim);
+        super.draw();
     }
 }
