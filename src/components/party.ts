@@ -49,20 +49,20 @@ export class Party extends PIXI.Container {
         this.witch.die();
     }
 
-    public attack(attackType: ResultType): Promise<void> {
+    attack(attackType: ResultType, sound: boolean): Promise<void> {
         return new Promise((resolve: any, reject: any) => {
             if (attackType === ResultType.Shield) {
-                this.knight.attack(resolve);
+                this.knight.attack(resolve, sound);
                 return;
             }
 
             if (attackType === ResultType.Sword) {
-                this.rogue.attack(resolve);
+                this.rogue.attack(resolve, sound);
                 return;
             }
 
             if (attackType === ResultType.Magic) {
-                this.witch.attack(resolve);
+                this.witch.attack(resolve, sound);
                 return;
             }
 

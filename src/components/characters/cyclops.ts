@@ -5,6 +5,7 @@ export class Cyclops extends EnemyCharacter {
         super();
 
         this.characterType = 'enemy';
+        this.soundAlias = 'attackMonster';
     }
 
     load(loader: PIXI.loaders.Loader) {

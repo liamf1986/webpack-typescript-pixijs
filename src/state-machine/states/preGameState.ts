@@ -30,10 +30,10 @@ export class PreGameState extends State {
     }
 
     public dispose():void {
-        result.setData({health: 4});
-        result.setData({enemyHealth: 2});
-        playerHealthBar.maxHealth = playerHealthBar.health = result.health;
-        enemyHealthBar.maxHealth = enemyHealthBar.health = result.enemyHealth;
+        // result.setData({health: 4});
+        // result.setData({enemyHealth: 2});
+        // playerHealthBar.maxHealth = playerHealthBar.health = result.health;
+        // enemyHealthBar.maxHealth = enemyHealthBar.health = result.enemyHealth;
         eventEmitter.emit(events.GAME.DAMAGE_PLAYER);
         eventEmitter.emit(events.GAME.DAMAGE_ENEMY);
     }
@@ -48,11 +48,11 @@ export class PreGameState extends State {
             stateMachine.party.idle();
             drawBridge.onEnterGame();
             
-            result.setData({currentStage: 0});
-            enemyParty.init(result.currentStage);
+            // result.setData({currentStage: 0});
+            // enemyParty.init(result.currentStage);
 
-            result.setData({enemyHealth: enemyParty.health});
-            enemyHealthBar.maxHealth = enemyParty.health;
+            // result.setData({enemyHealth: enemyParty.health});
+            // enemyHealthBar.maxHealth = enemyParty.health;
         }
         else {
             console.log("Insufficient Funds");

@@ -36,14 +36,18 @@ export class WinGameState extends State {
             screenTransition.start();
 
             screenTransition.on(events.GAME.TRANSITION, () => {
-                result.setData({currentStage: (result.currentStage + 1) % 2});
-                enemyParty.init(result.currentStage);
-                result.setData({enemyHealth: enemyParty.health});
+                const nextStage: number = (result.currentStage + 1) % 2;
+                enemyParty.init(nextStage);
+                result.setData({
+                    currentStage: nextStage, 
+                    enemyHealth: enemyParty.health
+                });
                 enemyHealthBar.maxHealth = enemyParty.health;
                 stateMachine.cabinet.enableActionButton();
             });
         });
         popup.once('leaveclicked', () => {
+            PIXI.sound.stop('bgMusic');
             stateMachine.party.moveParty(-400, 0);
             stateMachine.changeToState(new PreGameState());
             drawBridge.onGameComplete();

@@ -5,6 +5,7 @@ export class IceGolem extends EnemyCharacter {
         super();
 
         this.characterType = 'enemy';
+        this.soundAlias = 'attackGolem';
     }
 
     load(loader: PIXI.loaders.Loader) {
