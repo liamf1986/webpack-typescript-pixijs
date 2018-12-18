@@ -1,6 +1,6 @@
 {"frames": {
 
-"dead1@3x.png":
+"arcdead1@3x.png":
 {
 	"frame": {"x":863,"y":650,"w":252,"h":347},
 	"rotated": false,
@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":93,"y":21,"w":252,"h":347},
 	"sourceSize": {"w":433,"h":395}
 },
-"dead2@3x.png":
+"arcdead2@3x.png":
 {
 	"frame": {"x":595,"y":328,"w":276,"h":320},
 	"rotated": false,
@@ -16,7 +16,7 @@
 	"spriteSourceSize": {"x":93,"y":48,"w":276,"h":320},
 	"sourceSize": {"w":433,"h":395}
 },
-"dead3@3x.png":
+"arcdead3@3x.png":
 {
 	"frame": {"x":315,"y":705,"w":294,"h":302},
 	"rotated": false,
@@ -24,7 +24,7 @@
 	"spriteSourceSize": {"x":85,"y":66,"w":294,"h":302},
 	"sourceSize": {"w":433,"h":395}
 },
-"dead4@3x.png":
+"arcdead4@3x.png":
 {
 	"frame": {"x":869,"y":1,"w":341,"h":235},
 	"rotated": false,
@@ -32,7 +32,7 @@
 	"spriteSourceSize": {"x":77,"y":134,"w":341,"h":235},
 	"sourceSize": {"w":433,"h":395}
 },
-"dead5@3x.png":
+"arcdead5@3x.png":
 {
 	"frame": {"x":1379,"y":353,"w":344,"h":217},
 	"rotated": false,
@@ -40,7 +40,7 @@
 	"spriteSourceSize": {"x":74,"y":153,"w":344,"h":217},
 	"sourceSize": {"w":433,"h":395}
 },
-"dead6@3x.png":
+"arcdead6@3x.png":
 {
 	"frame": {"x":1212,"y":1,"w":341,"h":221},
 	"rotated": false,
@@ -48,7 +48,7 @@
 	"spriteSourceSize": {"x":84,"y":161,"w":341,"h":221},
 	"sourceSize": {"w":433,"h":395}
 },
-"hurt1@3x.png":
+"archurt1@3x.png":
 {
 	"frame": {"x":873,"y":238,"w":252,"h":347},
 	"rotated": false,
@@ -56,7 +56,7 @@
 	"spriteSourceSize": {"x":93,"y":21,"w":252,"h":347},
 	"sourceSize": {"w":433,"h":395}
 },
-"hurt2@3x.png":
+"archurt2@3x.png":
 {
 	"frame": {"x":584,"y":1,"w":283,"h":325},
 	"rotated": false,
@@ -64,7 +64,7 @@
 	"spriteSourceSize": {"x":96,"y":46,"w":283,"h":325},
 	"sourceSize": {"w":433,"h":395}
 },
-"hurt3@3x.png":
+"archurt3@3x.png":
 {
 	"frame": {"x":1,"y":705,"w":312,"h":309},
 	"rotated": false,
@@ -72,7 +72,7 @@
 	"spriteSourceSize": {"x":98,"y":61,"w":312,"h":309},
 	"sourceSize": {"w":433,"h":395}
 },
-"idle1@3x.png":
+"arcidle1@3x.png":
 {
 	"frame": {"x":611,"y":650,"w":250,"h":351},
 	"rotated": false,
@@ -80,7 +80,7 @@
 	"spriteSourceSize": {"x":92,"y":18,"w":250,"h":351},
 	"sourceSize": {"w":433,"h":395}
 },
-"idle2@3x.png":
+"arcidle2@3x.png":
 {
 	"frame": {"x":1117,"y":587,"w":250,"h":349},
 	"rotated": false,
@@ -88,7 +88,7 @@
 	"spriteSourceSize": {"x":92,"y":20,"w":250,"h":349},
 	"sourceSize": {"w":433,"h":395}
 },
-"idle3@3x.png":
+"arcidle3@3x.png":
 {
 	"frame": {"x":1369,"y":587,"w":250,"h":348},
 	"rotated": false,
@@ -96,7 +96,7 @@
 	"spriteSourceSize": {"x":92,"y":21,"w":250,"h":348},
 	"sourceSize": {"w":433,"h":395}
 },
-"idle4@3x.png":
+"arcidle4@3x.png":
 {
 	"frame": {"x":1127,"y":238,"w":250,"h":347},
 	"rotated": false,
@@ -104,7 +104,7 @@
 	"spriteSourceSize": {"x":92,"y":22,"w":250,"h":347},
 	"sourceSize": {"w":433,"h":395}
 },
-"idle5@3x.png":
+"arcidle5@3x.png":
 {
 	"frame": {"x":1369,"y":587,"w":250,"h":348},
 	"rotated": false,
@@ -112,7 +112,7 @@
 	"spriteSourceSize": {"x":92,"y":21,"w":250,"h":348},
 	"sourceSize": {"w":433,"h":395}
 },
-"idle6@3x.png":
+"arcidle6@3x.png":
 {
 	"frame": {"x":1117,"y":587,"w":250,"h":349},
 	"rotated": false,
@@ -120,7 +120,7 @@
 	"spriteSourceSize": {"x":92,"y":20,"w":250,"h":349},
 	"sourceSize": {"w":433,"h":395}
 },
-"shoot_straight1@3x.png":
+"arcshoot_straight1@3x.png":
 {
 	"frame": {"x":1,"y":1,"w":308,"h":350},
 	"rotated": false,
@@ -128,7 +128,7 @@
 	"spriteSourceSize": {"x":92,"y":19,"w":308,"h":350},
 	"sourceSize": {"w":433,"h":395}
 },
-"shoot_straight2@3x.png":
+"arcshoot_straight2@3x.png":
 {
 	"frame": {"x":1,"y":353,"w":304,"h":350},
 	"rotated": false,
@@ -136,7 +136,7 @@
 	"spriteSourceSize": {"x":92,"y":19,"w":304,"h":350},
 	"sourceSize": {"w":433,"h":395}
 },
-"shoot_straight3@3x.png":
+"arcshoot_straight3@3x.png":
 {
 	"frame": {"x":307,"y":353,"w":286,"h":350},
 	"rotated": false,
@@ -144,7 +144,7 @@
 	"spriteSourceSize": {"x":92,"y":19,"w":286,"h":350},
 	"sourceSize": {"w":433,"h":395}
 },
-"shoot_straight4@3x.png":
+"arcshoot_straight4@3x.png":
 {
 	"frame": {"x":311,"y":1,"w":271,"h":350},
 	"rotated": false,
@@ -152,7 +152,7 @@
 	"spriteSourceSize": {"x":92,"y":19,"w":271,"h":350},
 	"sourceSize": {"w":433,"h":395}
 },
-"shoot_straight5@3x.png":
+"arcshoot_straight5@3x.png":
 {
 	"frame": {"x":1555,"y":1,"w":242,"h":350},
 	"rotated": false,

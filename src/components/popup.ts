@@ -66,7 +66,7 @@ export class Popup extends PIXI.Container {
         this.addChild(this._defeatIcon);
 
         this.leaveButtonSprite.x = -230;
-        this.leaveButtonSprite.y = 90;
+        this.leaveButtonSprite.y = 110;
         this.leaveButtonSprite.scale.set(0.2);
         this.leaveButtonSprite.interactive = true;
         this.leaveButtonSprite.buttonMode = true;
@@ -74,7 +74,7 @@ export class Popup extends PIXI.Container {
         this.addChild(this.leaveButtonSprite);
 
         this.continueButtonSprite.x = 30;
-        this.continueButtonSprite.y = 90;
+        this.continueButtonSprite.y = 110;
         this.continueButtonSprite.scale.set(0.2);
         this.continueButtonSprite.interactive = true;
         this.continueButtonSprite.buttonMode = true;
@@ -139,7 +139,7 @@ export class Popup extends PIXI.Container {
         this.continueButtonSprite.position.x = 30;
 
         this._choiceMsg.position.x = -230;
-        this._choiceMsg.text = `You won ${prize} - Continue for more?`;
+        this._choiceMsg.text = `You won ${prize} - Retreat? Or continue\nand risk it all for a greater reward`;
         this._choiceMsg.scale.set(0.7);
     }
 

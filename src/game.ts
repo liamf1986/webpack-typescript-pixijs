@@ -87,13 +87,6 @@ export class Game {
 
         this.background = new Background(app.loader.resources['game-background'].texture);
 
-        /* let spinnerResources = {
-            dagger: app.loader.resources['spinner-dagger'].texture,
-            magic: app.loader.resources['spinner-magic'].texture,
-            shield: app.loader.resources['spinner-shield'].texture
-        } */
-        /* this.playerSpinner = new Spinner(spinnerResources);
-        this.playerSpinner.init(300, 150, 100); */
         this.playerSpinner.draw(app);
         this.playerSpinner.position.set(300, 150);
 
@@ -125,9 +118,6 @@ export class Game {
         app.stage.addChild(this.playerSpinner);
         app.stage.addChild(this.enemySpinner);
 
-        //this.popup.anchor.set(0.5);
-        // popup.scale.set(1);
-        //TweenMax.fromTo(this.popup, 1, {x:650, y:1000}, {x:650, y:300});
         app.stage.addChild(popup);
 
         app.stage.addChild(drawBridge.animation);
