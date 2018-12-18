@@ -51,13 +51,33 @@ export default class Spinner extends PIXI.Container {
     private _shieldTexture: PIXI.Texture;
 
     private _pointer: PIXI.Graphics;
+    private _pointerSprite: PIXI.Sprite;
+    private _wheelSprite: PIXI.Sprite;
 
-    constructor(resources: ISpinnerResources) {
+    constructor(resources: ISpinnerResources | undefined) {
         super();
 
-        this._daggerTexture = resources.dagger;
-        this._magicTexture = resources.magic;
-        this._shieldTexture = resources.shield;
+        if (resources !== undefined) {
+            this._daggerTexture = resources.dagger;
+            this._magicTexture = resources.magic;
+            this._shieldTexture = resources.shield;
+        }
+    }
+
+    public load(loader: PIXI.loaders.Loader) {
+        loader.add('spinnerPointer', './assets/spinner/arrow.png');
+        loader.add('wheel', './assets/spinner/wheel.png');
+    }
+
+    public draw(app: PIXI.Application) {
+        this._wheelSprite = new PIXI.Sprite(app.loader.resources.wheel.texture);
+        this._wheelSprite.anchor.set(0.5);
+        this.addChild(this._wheelSprite);
+        this._pointerSprite = new PIXI.Sprite(app.loader.resources.spinnerPointer.texture);
+        this._pointerSprite.anchor.set(0.5, 1.0);
+        this._pointerSprite.scale.set(0.5);
+        this._pointerSprite.position.y += 25;
+        this.addChild(this._pointerSprite);
     }
 
     public init(x: number, y:number, r: number) {
@@ -100,7 +120,7 @@ export default class Spinner extends PIXI.Container {
 
         const pointerWidth = 10;
         const pointerHeight = 30;
-        this._pointer = new PIXI.Graphics() ;
+        this._pointer = new PIXI.Graphics();
         this._pointer.beginFill(0x000000);
         this._pointer.drawRect(-pointerWidth * 0.5, -this.radius, pointerWidth, pointerHeight);
         this.addChild(this._pointer);
@@ -116,9 +136,9 @@ export default class Spinner extends PIXI.Container {
             stopPoint = -0.55 + Math.random() * 0.025;
         }
 
-        this._spinnerContainer.rotation = 0 ;
+        this._wheelSprite.rotation = 0 ;
         const rotation = Math.PI * 6 + stopPoint * (Math.PI * 2);
-        TweenMax.to(this._spinnerContainer, duration, { rotation });
+        TweenMax.to(this._wheelSprite, duration, { rotation });
     }
 
     private handleIcons() {

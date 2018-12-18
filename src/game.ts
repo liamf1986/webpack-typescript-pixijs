@@ -55,6 +55,10 @@ export class Game {
 
         enemyParty.load(loader);
 
+        this.playerSpinner = new Spinner(undefined);
+        this.playerSpinner.load(loader);
+        this.enemySpinner = new Spinner(undefined);
+
         // sounds
         PIXI.sound.add('bgMusic', {url: 'assets/audio/cave-ambient-noise.{wav}'});
         PIXI.sound.add('humanDamage', {url: 'assets/audio/human-damage-taken.{wav}'});
@@ -83,16 +87,18 @@ export class Game {
 
         this.background = new Background(app.loader.resources['game-background'].texture);
 
-        let spinnerResources = {
+        /* let spinnerResources = {
             dagger: app.loader.resources['spinner-dagger'].texture,
             magic: app.loader.resources['spinner-magic'].texture,
             shield: app.loader.resources['spinner-shield'].texture
-        }
-        this.playerSpinner = new Spinner(spinnerResources);
-        this.playerSpinner.init(300, 150, 100);
+        } */
+        /* this.playerSpinner = new Spinner(spinnerResources);
+        this.playerSpinner.init(300, 150, 100); */
+        this.playerSpinner.draw(app);
+        this.playerSpinner.position.set(300, 150);
 
-        this.enemySpinner = new Spinner(spinnerResources);
-        this.enemySpinner.init(1000, 150, 100);
+        this.enemySpinner.draw(app);
+        this.enemySpinner.position.set(1000, 150);
 
         // Add any objects to the stage so they can be drawn
         
