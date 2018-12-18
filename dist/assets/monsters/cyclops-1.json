@@ -1,6 +1,6 @@
 {"frames": {
 
-"attack1@3x.png":
+"cyclopsattack1.png":
 {
 	"frame": {"x":1,"y":586,"w":670,"h":587},
 	"rotated": false,
@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":143,"y":112,"w":670,"h":587},
 	"sourceSize": {"w":1000,"h":741}
 },
-"attack3@3x.png":
+"cyclopsattack3.png":
 {
 	"frame": {"x":1359,"y":1,"w":504,"h":593},
 	"rotated": false,
@@ -16,7 +16,7 @@
 	"spriteSourceSize": {"x":97,"y":106,"w":504,"h":593},
 	"sourceSize": {"w":1000,"h":741}
 },
-"attack4@3x.png":
+"cyclopsattack4.png":
 {
 	"frame": {"x":680,"y":958,"w":480,"h":580},
 	"rotated": false,
@@ -24,7 +24,7 @@
 	"spriteSourceSize": {"x":51,"y":119,"w":480,"h":580},
 	"sourceSize": {"w":1000,"h":741}
 },
-"dead1@3x.png":
+"cyclopsdead1.png":
 {
 	"frame": {"x":1334,"y":596,"w":574,"h":467},
 	"rotated": false,
@@ -32,7 +32,7 @@
 	"spriteSourceSize": {"x":206,"y":237,"w":574,"h":467},
 	"sourceSize": {"w":1000,"h":741}
 },
-"dead2@3x.png":
+"cyclopsdead2.png":
 {
 	"frame": {"x":1299,"y":1431,"w":600,"h":364},
 	"rotated": false,
@@ -40,7 +40,7 @@
 	"spriteSourceSize": {"x":229,"y":336,"w":600,"h":364},
 	"sourceSize": {"w":1000,"h":741}
 },
-"dead3@3x.png":
+"cyclopsdead3.png":
 {
 	"frame": {"x":680,"y":1540,"w":617,"h":350},
 	"rotated": false,
@@ -48,7 +48,7 @@
 	"spriteSourceSize": {"x":251,"y":391,"w":617,"h":350},
 	"sourceSize": {"w":1000,"h":741}
 },
-"dead4@3x.png":
+"dcyclopsead4.png":
 {
 	"frame": {"x":680,"y":581,"w":652,"h":375},
 	"rotated": false,
@@ -56,7 +56,7 @@
 	"spriteSourceSize": {"x":243,"y":335,"w":652,"h":375},
 	"sourceSize": {"w":1000,"h":741}
 },
-"dead5@3x.png":
+"cyclopsdead5.png":
 {
 	"frame": {"x":1162,"y":1065,"w":724,"h":364},
 	"rotated": false,
@@ -64,7 +64,7 @@
 	"spriteSourceSize": {"x":231,"y":344,"w":724,"h":364},
 	"sourceSize": {"w":1000,"h":741}
 },
-"idle2@3x.png":
+"cyclopsidle2.png":
 {
 	"frame": {"x":1,"y":1,"w":677,"h":583},
 	"rotated": false,
@@ -72,7 +72,7 @@
 	"spriteSourceSize": {"x":143,"y":113,"w":677,"h":583},
 	"sourceSize": {"w":1000,"h":741}
 },
-"idle3@3x.png":
+"cyclopsidle3.png":
 {
 	"frame": {"x":680,"y":1,"w":677,"h":578},
 	"rotated": false,
@@ -80,7 +80,7 @@
 	"spriteSourceSize": {"x":143,"y":118,"w":677,"h":578},
 	"sourceSize": {"w":1000,"h":741}
 },
-"idle4@3x.png":
+"cyclopsidle4.png":
 {
 	"frame": {"x":1,"y":1175,"w":677,"h":574},
 	"rotated": false,
@@ -88,7 +88,7 @@
 	"spriteSourceSize": {"x":143,"y":122,"w":677,"h":574},
 	"sourceSize": {"w":1000,"h":741}
 },
-"idle5@3x.png":
+"cyclopsidle5.png":
 {
 	"frame": {"x":680,"y":1,"w":677,"h":578},
 	"rotated": false,
@@ -96,7 +96,7 @@
 	"spriteSourceSize": {"x":143,"y":118,"w":677,"h":578},
 	"sourceSize": {"w":1000,"h":741}
 },
-"idle6@3x.png":
+"cyclopsidle6.png":
 {
 	"frame": {"x":1,"y":1,"w":677,"h":583},
 	"rotated": false,

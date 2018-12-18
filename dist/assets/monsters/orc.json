@@ -1,6 +1,6 @@
 {"frames": {
 
-"dead1@3x.png":
+"orcdead1.png":
 {
 	"frame": {"x":337,"y":767,"w":340,"h":337},
 	"rotated": false,
@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":82,"y":91,"w":340,"h":337},
 	"sourceSize": {"w":524,"h":450}
 },
-"dead2@3x.png":
+"orcdead2.png":
 {
 	"frame": {"x":1410,"y":728,"w":358,"h":304},
 	"rotated": false,
@@ -16,7 +16,7 @@
 	"spriteSourceSize": {"x":85,"y":124,"w":358,"h":304},
 	"sourceSize": {"w":524,"h":450}
 },
-"dead3@3x.png":
+"orcdead3.png":
 {
 	"frame": {"x":1044,"y":787,"w":354,"h":269},
 	"rotated": false,
@@ -24,7 +24,7 @@
 	"spriteSourceSize": {"x":118,"y":159,"w":354,"h":269},
 	"sourceSize": {"w":524,"h":450}
 },
-"dead4@3x.png":
+"orcdead4.png":
 {
 	"frame": {"x":1400,"y":1034,"w":370,"h":262},
 	"rotated": false,
@@ -32,7 +32,7 @@
 	"spriteSourceSize": {"x":101,"y":168,"w":370,"h":262},
 	"sourceSize": {"w":524,"h":450}
 },
-"dead5@3x.png":
+"orcdead5.png":
 {
 	"frame": {"x":1,"y":1106,"w":388,"h":226},
 	"rotated": false,
@@ -40,7 +40,7 @@
 	"spriteSourceSize": {"x":97,"y":212,"w":388,"h":226},
 	"sourceSize": {"w":524,"h":450}
 },
-"dead6@3x.png":
+"orcdead6.png":
 {
 	"frame": {"x":679,"y":1080,"w":432,"h":217},
 	"rotated": false,
@@ -48,7 +48,7 @@
 	"spriteSourceSize": {"x":83,"y":224,"w":432,"h":217},
 	"sourceSize": {"w":524,"h":450}
 },
-"idle1@3x.png":
+"orcidle1.png":
 {
 	"frame": {"x":412,"y":394,"w":334,"h":371},
 	"rotated": false,
@@ -56,7 +56,7 @@
 	"spriteSourceSize": {"x":82,"y":57,"w":334,"h":371},
 	"sourceSize": {"w":524,"h":450}
 },
-"idle2@3x.png":
+"orcidle2.png":
 {
 	"frame": {"x":1,"y":695,"w":334,"h":368},
 	"rotated": false,
@@ -64,7 +64,7 @@
 	"spriteSourceSize": {"x":82,"y":60,"w":334,"h":368},
 	"sourceSize": {"w":524,"h":450}
 },
-"idle3@3x.png":
+"orcidle3.png":
 {
 	"frame": {"x":1567,"y":1,"w":334,"h":363},
 	"rotated": false,
@@ -72,7 +72,7 @@
 	"spriteSourceSize": {"x":82,"y":65,"w":334,"h":363},
 	"sourceSize": {"w":524,"h":450}
 },
-"idle4@3x.png":
+"orcidle4.png":
 {
 	"frame": {"x":1567,"y":366,"w":334,"h":360},
 	"rotated": false,
@@ -80,7 +80,7 @@
 	"spriteSourceSize": {"x":82,"y":68,"w":334,"h":360},
 	"sourceSize": {"w":524,"h":450}
 },
-"idle5@3x.png":
+"orcidle5.png":
 {
 	"frame": {"x":1567,"y":1,"w":334,"h":363},
 	"rotated": false,
@@ -88,7 +88,7 @@
 	"spriteSourceSize": {"x":82,"y":65,"w":334,"h":363},
 	"sourceSize": {"w":524,"h":450}
 },
-"idle6@3x.png":
+"orcidle6.png":
 {
 	"frame": {"x":1,"y":695,"w":334,"h":368},
 	"rotated": false,
@@ -96,7 +96,7 @@
 	"spriteSourceSize": {"x":82,"y":60,"w":334,"h":368},
 	"sourceSize": {"w":524,"h":450}
 },
-"throw_left1@3x.png":
+"orcattack1.png":
 {
 	"frame": {"x":415,"y":1,"w":367,"h":391},
 	"rotated": false,
@@ -104,7 +104,7 @@
 	"spriteSourceSize": {"x":76,"y":37,"w":367,"h":391},
 	"sourceSize": {"w":524,"h":450}
 },
-"throw_left2@3x.png":
+"orcattack2.png":
 {
 	"frame": {"x":1244,"y":1,"w":321,"h":391},
 	"rotated": false,
@@ -112,7 +112,7 @@
 	"spriteSourceSize": {"x":76,"y":37,"w":321,"h":391},
 	"sourceSize": {"w":524,"h":450}
 },
-"throw_left3@3x.png":
+"orcattack3.png":
 {
 	"frame": {"x":1114,"y":394,"w":294,"h":391},
 	"rotated": false,
@@ -120,7 +120,7 @@
 	"spriteSourceSize": {"x":76,"y":37,"w":294,"h":391},
 	"sourceSize": {"w":524,"h":450}
 },
-"throw_left4@3x.png":
+"orcattack4.png":
 {
 	"frame": {"x":748,"y":687,"w":294,"h":391},
 	"rotated": false,
@@ -128,7 +128,7 @@
 	"spriteSourceSize": {"x":76,"y":37,"w":294,"h":391},
 	"sourceSize": {"w":524,"h":450}
 },
-"throw_left5@3x.png":
+"orcattack5.png":
 {
 	"frame": {"x":784,"y":305,"w":328,"h":380},
 	"rotated": false,
@@ -136,7 +136,7 @@
 	"spriteSourceSize": {"x":63,"y":48,"w":328,"h":380},
 	"sourceSize": {"w":524,"h":450}
 },
-"throw_left6@3x.png":
+"orcattack6.png":
 {
 	"frame": {"x":1,"y":1,"w":412,"h":359},
 	"rotated": false,
@@ -144,7 +144,7 @@
 	"spriteSourceSize": {"x":39,"y":69,"w":412,"h":359},
 	"sourceSize": {"w":524,"h":450}
 },
-"throw_left7@3x.png":
+"orcattack7.png":
 {
 	"frame": {"x":1,"y":362,"w":409,"h":331},
 	"rotated": false,
@@ -152,7 +152,7 @@
 	"spriteSourceSize": {"x":42,"y":97,"w":409,"h":331},
 	"sourceSize": {"w":524,"h":450}
 },
-"throw_left8@3x.png":
+"orcattack8.png":
 {
 	"frame": {"x":784,"y":1,"w":458,"h":302},
 	"rotated": false,

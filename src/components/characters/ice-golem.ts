@@ -1,6 +1,10 @@
 import { Character } from './character';
 
 export class IceGolem extends Character {
+    protected idleFrames: PIXI.Texture[] = [];
+    protected attackFrames: PIXI.Texture[] = [];
+    protected deadFrames: PIXI.Texture[] = [];
+
     constructor() {
         super();
     }
@@ -13,19 +17,18 @@ export class IceGolem extends Character {
     }
 
     draw() {
-        var frames = [];
-
-        for (var i = 0; i < 6; i++) {
-            frames.push(PIXI.Texture.fromFrame('GolemIdle' + (i + 1) + '@2x.png'));
+        for (let i = 0; i < 6; i++) {
+            this.idleFrames.push(PIXI.Texture.fromFrame('GolemIdle' + (i + 1) + '@2x.png'));
         }
 
-        this.anim = new PIXI.extras.AnimatedSprite(frames);
+        for (let i = 0; i < 7; i++) {
+            this.attackFrames.push(PIXI.Texture.fromFrame(`GolemAttack${i + 1}@2x.png`));
+        }
 
-        this.anim.anchor.set(0.5);
-        this.anim.animationSpeed = 0.15;
-        this.anim.scale.set(0.5);
-        this.anim.play();
+        for (let i = 0; i < 3; i++) {
+            this.deadFrames.push(PIXI.Texture.fromFrame(`GolemDead${i + 1}@2x.png`));
+        }
 
-        this.addChild(this.anim);
+        super.draw();
     }
 }

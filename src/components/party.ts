@@ -1,10 +1,10 @@
-import { Character } from './characters/character';
 import { Knight } from './characters/knight';
 import { Witch } from './characters/witch';
+import { Rogue } from './characters/rogue';
 
 export class Party extends PIXI.Container {
     private witch: Witch;
-    private rogue: Character;
+    private rogue: Rogue;
     private knight: Knight;
 
     constructor() {
@@ -15,7 +15,7 @@ export class Party extends PIXI.Container {
         this.witch = new Witch();
         this.witch.load(loader, "assets/heroes/witch.json");
 
-        this.rogue = new Character();
+        this.rogue = new Rogue();
         this.rogue.load(loader, "assets/heroes/rogue.json");
 
         this.knight = new Knight();
@@ -23,13 +23,13 @@ export class Party extends PIXI.Container {
     }
 
     draw() {
-        this.rogue.draw();
-        this.rogue.position.set(100, 0);
-        this.addChild(this.rogue);
-
         this.knight.draw();
-        this.knight.position.set(150, 50);
+        this.knight.position.set(150, 0);
         this.addChild(this.knight);
+
+        this.rogue.draw();
+        this.rogue.position.set(100, 50);
+        this.addChild(this.rogue);
 
         this.witch.draw();
         this.witch.position.set(0, 75);

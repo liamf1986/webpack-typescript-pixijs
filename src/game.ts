@@ -62,21 +62,11 @@ export class Game {
      * @param app The Application instance to be used for this game
      */
     startGame(app: PIXI.Application) : void {
-        // create your assets: Sprites, Sounds, etc...
-        /* this.cabinet.draw(app);
-        stateMachine.cabinet = this.cabinet;
-        stateMachine.changeToState(new PreGameState()); */
-
         popup.draw(app);
-        //this.logo = new PIXI.Sprite(app.loader.resources.logo.texture);
 
         drawBridge.init(app.loader.resources['background'].spineData);
 
         // Set any constiant data
-        //this.popup.anchor.set(0.5);
-        //this.popup.scale.set(1);
-
-        //TweenMax.fromTo(this.popup, 1, {x:650, y:1000}, {x:650, y:300});
 
         // Position any objects based on screen dimensions
         this.setPositions(app.screen.width, app.screen.height);
@@ -104,6 +94,7 @@ export class Game {
 
         this.enemies.draw();
         this.enemies.position.set(1000, 350);
+        this.enemies.setupGroup();
         app.stage.addChild(this.enemies);
 
         playerHealthBar.init(app.loader);
@@ -119,13 +110,20 @@ export class Game {
 
         app.stage.addChild(this.playerSpinner);
         app.stage.addChild(this.enemySpinner);
-        app.stage.addChild(popup);
+
+        //this.popup.anchor.set(0.5);
+        popup.scale.set(1);
+        //TweenMax.fromTo(this.popup, 1, {x:650, y:1000}, {x:650, y:300});
+        //app.stage.addChild(this.popup);
+
         app.stage.addChild(drawBridge.animation);
 
         this.cabinet.draw(app);
         stateMachine.cabinet = this.cabinet;
         stateMachine.playerSpinner = this.playerSpinner;
         stateMachine.enemySpinner = this.enemySpinner;
+        stateMachine.party = this.party;
+        stateMachine.enemyParty = this.enemies;
         stateMachine.changeToState(new PreGameState());
     }
 
