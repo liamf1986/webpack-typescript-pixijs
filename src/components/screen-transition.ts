@@ -33,33 +33,47 @@ class ScreenTransition extends Container {
         this.renderable = false;
     }
 
-    public start(): void {
+    public start(): Promise<void> {
+        const me = this;
         const completionTime: number = (720 / SIZE) * 0.01 + (1280 / SIZE) * 0.02;
-        this.renderable = true;
-        setTimeout(() => {
-            this.emit(events.GAME.TRANSITION);
-            stateMachine.party.setPartyPosition(-400, 0);
-        }, completionTime * 1000);
+        let endTransitionAnimations: Promise<void>[] = [];
+        let initialTransitionAnimations: Promise<void>[] = [];
 
-        setTimeout(() => {
-            this.renderable = false;
-            stateMachine.party.moveParty(0, 0);
-        }, completionTime * 2500);
+        me.renderable = true;
 
         for (let y = 0; y < (720 / SIZE); ++y) {
             for( let x = 0; x < (1280 / SIZE); ++x) {                
-                TweenLite.to(this.blocks[y][x].scale, 0.33, {
-                    delay: x * 0.01 + y * 0.02, 
-                    x: 1,
-                    y: 1,
-                });
-                TweenLite.to(this.blocks[y][x].scale, 0.33, {
-                    delay: completionTime + x * 0.01 + y * 0.02, 
-                    x: 0,
-                    y: 0,
-                });
+                initialTransitionAnimations.push(new Promise((resolve: any) => {
+                    TweenLite.to(me.blocks[y][x].scale, 0.33, {
+                        delay: x * 0.01 + y * 0.02,
+                        x: 1,
+                        y: 1,
+                        onComplete: resolve
+                    });
+                }));
+
+                endTransitionAnimations.push(new Promise((resolve: any) => {
+                    TweenLite.to(me.blocks[y][x].scale, 0.33, {
+                        delay: completionTime + x * 0.01 + y * 0.02,
+                        x: 0,
+                        y: 0,
+                        onComplete: resolve
+                    });
+                }));
             }
         }
+
+        Promise.all(initialTransitionAnimations).then(() => {
+            me.emit(events.GAME.TRANSITION);
+            stateMachine.party.setPartyPosition(-400, 0);
+            initialTransitionAnimations = [];
+        });
+
+        return Promise.all(endTransitionAnimations).then(() => {
+            me.renderable = false;
+            stateMachine.party.moveParty(0, 0);
+            endTransitionAnimations = [];
+        });
     }
 }
 

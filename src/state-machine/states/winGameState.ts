@@ -34,6 +34,7 @@ export class WinGameState extends State {
             popup.hide();
             
             screenTransition.start();
+
             screenTransition.on(events.GAME.TRANSITION, () => {
                 result.setData({currentStage: (result.currentStage + 1) % 2});
                 enemyParty.init(result.currentStage);
