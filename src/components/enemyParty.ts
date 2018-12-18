@@ -75,14 +75,32 @@ export class EnemyParty extends PIXI.Container {
     }
 
     idle() {
-        this.golem.idle();
+        if (this.golem.visible) {
+            this.golem.idle();
+        } else {
+            this.skeleton.idle();
+            this.cyclops.idle();
+            this.orc.idle();
+        }
     }
 
     die() {
-        this.golem.die();
+        if (this.golem.visible) {
+            this.golem.die();
+        } else {
+            this.skeleton.die();
+            this.cyclops.die();
+            this.orc.die();
+        }
     }
 
     attack() {
-        this.golem.attack();
+        if (this.golem.visible) {
+            this.golem.attack();
+        } else {
+            this.skeleton.attack();
+            this.cyclops.attack();
+            this.orc.attack();
+        }
     }
 }

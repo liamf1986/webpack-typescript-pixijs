@@ -41,6 +41,7 @@ export class PreGameState extends State {
             stateMachine.cabinet.balanceMsg = 'balance\n' + user.balanceString;
             stateMachine.changeToState(new PlayGameState());
             stateMachine.enemyParty.idle();
+            stateMachine.party.idle();
             drawBridge.onEnterGame();
         }
         else {

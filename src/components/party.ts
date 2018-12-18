@@ -35,4 +35,22 @@ export class Party extends PIXI.Container {
         this.witch.position.set(0, 75);
         this.addChild(this.witch);
     }
+
+    idle() {
+        this.knight.idle();
+        this.rogue.idle();
+        this.witch.idle();
+    }
+
+    die() {
+        this.knight.die();
+        this.rogue.die();
+        this.witch.die();
+    }
+
+    attack() {
+        this.knight.attack();
+        this.rogue.attack();
+        this.witch.attack();
+    }
 }

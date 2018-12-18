@@ -67,6 +67,7 @@ export class PlayGameState extends State {
             else if (result.isLoss()) { 
                 result.setData({health: result.health - 1});
                 if (result.health === 0) {
+                    stateMachine.party.die();
                     stateMachine.cabinet.off("actionclicked");
                     stateMachine.changeToState(new LoseGameState());
                 }
