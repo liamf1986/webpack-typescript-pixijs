@@ -33,6 +33,7 @@ export class WinGameState extends State {
         // }, undefined, true);
         popup.showVictory();
         popup.once('continueclicked', () => {
+            enemyParty.setAlpha(0);
             stateMachine.party.moveParty(window.innerWidth + 400, 0);
             stateMachine.changeToState(new PlayGameState());
             popup.hide();

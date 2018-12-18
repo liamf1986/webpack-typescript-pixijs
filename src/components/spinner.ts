@@ -7,9 +7,9 @@ const HALF = 1.0;
 const THIRD = (2.0 / 3);
 const QUARTER = (0.5);
 
-export const DAGGER_COLOUR = 0xFF0000;
-export const MAGIC_COLOUR = 0x0000FF;
-export const SHIELD_COLOUR = 0x00FF00;
+export const DAGGER_COLOUR = 0xA51E0E;
+export const MAGIC_COLOUR = 0x0C2487;
+export const SHIELD_COLOUR = 0x1B9E34;
 
 export interface ISpinnerResources {
     dagger: PIXI.Texture

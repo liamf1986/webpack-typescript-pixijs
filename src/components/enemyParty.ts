@@ -71,6 +71,8 @@ export class EnemyParty extends PIXI.Container {
         const levelData = LEVELS[level];
         levelData.enemies.forEach((enemy) => ((this as any)[enemy] as Character).visible = true);
 
+        this.idle();
+
         this._health = levelData.health;
     }
 
