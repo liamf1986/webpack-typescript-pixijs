@@ -26,13 +26,13 @@ class HealthBar extends Container {
         for (let i = 0; i < value; ++i) {
             const texture: Texture = this.loader.resources['window'].texture;
             const backgroundSprite: Sprite = new Sprite(Texture.from(texture.baseTexture));
-            backgroundSprite.texture.frame = new Rectangle(6189, 2354, 825, 192);
+            backgroundSprite.texture.frame = new Rectangle(19, 13, 825, 192);
             backgroundSprite.x = i * 825;
 
 
             this.addChild(backgroundSprite);
             const segment: Sprite = new Sprite(Texture.from(texture.baseTexture));
-            segment.texture.frame = new Rectangle(6365, 2554, 615, 110);
+            segment.texture.frame = new Rectangle(200, 208, 615, 110);
             segment.x = 180;
             segment.y = 32;
             
@@ -58,11 +58,11 @@ class HealthBar extends Container {
             onUpdate: () => {
                 for (let i = 0; i < this.maxHealth; ++i) {
                     if (i < value) {
-                        this.segment[i].texture.frame = new Rectangle(6365, 2554, 615, 110);
+                        this.segment[i].texture.frame = new Rectangle(200, 208, 615, 110);
                     } else if (i > value) {
-                        this.segment[i].texture.frame = new Rectangle(6365, 2554, 0, 110);
+                        this.segment[i].texture.frame = new Rectangle(200, 208, 0, 110);
                     } else {
-                        this.segment[i].texture.frame = new Rectangle(6365, 2554, 615 * (1.0 - tween.progress()), 110);
+                        this.segment[i].texture.frame = new Rectangle(200, 208, 615 * (1.0 - tween.progress()), 110);
                     }
                 }                
             }
