@@ -103,6 +103,7 @@ export class PlayGameState extends State {
                     console.log('DRAW - SPIN AGAIN!');
                     stateMachine.cabinet.setCabinetMessage('DRAW!');
 
+                    stateMachine.cabinet.disableActionButton();
                     TweenMax.delayedCall(1.5, () => {
                         this.onActionClicked();
                     });
