@@ -23,13 +23,13 @@ export class Party extends PIXI.Container {
     }
 
     draw() {
-        this.rogue.draw();
-        this.rogue.position.set(100, 0);
-        this.addChild(this.rogue);
-
         this.knight.draw();
-        this.knight.position.set(150, 50);
+        this.knight.position.set(150, 0);
         this.addChild(this.knight);
+
+        this.rogue.draw();
+        this.rogue.position.set(100, 50);
+        this.addChild(this.rogue);
 
         this.witch.draw();
         this.witch.position.set(0, 75);
