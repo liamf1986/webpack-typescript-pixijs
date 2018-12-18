@@ -13,27 +13,27 @@ export class Party extends PIXI.Container {
     }
 
     load(loader: PIXI.loaders.Loader) {
-        this.witch = new Witch();
+        this.witch = new Witch(0, 75);
         this.witch.load(loader, "assets/heroes/witch.json");
 
-        this.rogue = new Rogue();
+        this.rogue = new Rogue(100, 50);
         this.rogue.load(loader, "assets/heroes/rogue.json");
 
-        this.knight = new Knight();
+        this.knight = new Knight(150, 0);
         this.knight.load(loader, "assets/heroes/knight.json");
     }
 
     draw() {
         this.knight.draw();
-        this.knight.position.set(150, 0);
+        this.knight.position.x = -400;
         this.addChild(this.knight);
 
         this.rogue.draw();
-        this.rogue.position.set(100, 50);
+        this.rogue.position.x = -400;
         this.addChild(this.rogue);
 
         this.witch.draw();
-        this.witch.position.set(0, 75);
+        this.witch.position.x = -400;
         this.addChild(this.witch);
     }
 
@@ -68,5 +68,15 @@ export class Party extends PIXI.Container {
 
             reject('Invalid attack type');
         });
+    }
+
+    public enterStage(): Promise<void[]> {
+        let enterAnimations = [];
+
+        enterAnimations.push(this.knight.enterStage());
+        enterAnimations.push(this.rogue.enterStage());
+        enterAnimations.push(this.witch.enterStage());
+
+        return Promise.all(enterAnimations);
     }
 }

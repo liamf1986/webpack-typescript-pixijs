@@ -1,5 +1,6 @@
 import { spine } from "pixi.js";
 import { TweenLite } from "gsap";
+import stateMachine from "../state-machine/state-machine";
 
 const BASE_HEIGHT = 845;
 const BASE_WIDTH = 900;
@@ -37,6 +38,7 @@ class Drawbridge {
         this.animation.state.timeScale = 1;
         this.animation.state.tracks[0].listener = {
             complete: () => {
+                stateMachine.party.enterStage();
                 const tween: TweenLite = TweenLite.to(this, 1.5, {
                     zoom: 1.0,
                     onUpdate: () => this.animation.scale.set(this.zoomMin + this.zoom * (this.zoomMax - this.zoomMin)),
