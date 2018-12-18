@@ -27,7 +27,7 @@ export class Character extends PIXI.Container {
         if (this.attackFrames.length > 0) {
             this.attackAnim = new PIXI.extras.AnimatedSprite(this.attackFrames);
             this.attackAnim.anchor.set(0.5);
-            this.attackAnim.animationSpeed = 0.15;
+            this.attackAnim.animationSpeed = 0.3;
             this.attackAnim.scale.set(0.5);
         }
 
@@ -59,7 +59,7 @@ export class Character extends PIXI.Container {
     public attack(resolve: any, sound: boolean): void {
         const me = this;
         const movement: number = this.characterType === 'player' ? 30 : -30;
-        const duration: number = 0.2;
+        const duration: number = 0.1;
 
         function moveForward() {
             TweenLite.to(me.position, duration, {
