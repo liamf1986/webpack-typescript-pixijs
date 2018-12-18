@@ -8,6 +8,7 @@ import result, { ResultType } from "../../result";
 import eventEmitter from "../../event-emitter";
 import events from "../../events";
 import { TweenMax } from "gsap";
+import enemyParty from "../../components/enemyParty";
 
 function getRandomResult(): ResultType {
     const value: number =  Math.random();
@@ -54,27 +55,29 @@ export class PlayGameState extends State {
         TweenMax.delayedCall(duration, () => {
             let attacks = [];
 
-            attacks.push(stateMachine.enemyParty.attack(enemyResult));
+            attacks.push(enemyParty.attack(enemyResult));
             attacks.push(stateMachine.party.attack(playerResult));
 
             Promise.all(attacks).then(() => {
                 stateMachine.party.idle();
-                stateMachine.enemyParty.idle();
+                enemyParty.idle();
                 stateMachine.cabinet.enableActionButton();
 
                 result.setData({playerResult: playerResult});
                 result.setData({enemyResult: enemyResult});
 
                 if (result.isWin()) {
+                    console.log('WIN');
                     result.setData({enemyHealth: result.enemyHealth - 1});
                     if (result.enemyHealth === 0) {
-                        stateMachine.enemyParty.die();
+                        enemyParty.die();
                         stateMachine.cabinet.off("actionclicked");
                         stateMachine.changeToState(new WinGameState());
                     }
                     eventEmitter.emit(events.GAME.DAMAGE_ENEMY);
                 }
                 else if (result.isLoss()) {
+                    console.log('LOSE');
                     result.setData({health: result.health - 1});
                     if (result.health === 0) {
                         stateMachine.party.die();

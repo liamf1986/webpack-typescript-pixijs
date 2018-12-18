@@ -8,6 +8,7 @@ import events from "../../events";
 import popup from "../../components/popup";
 import drawBridge from "../../components/draw-bridge";
 import { playerHealthBar, enemyHealthBar } from "../../components/health-bar";
+import enemyParty from "../../components/enemyParty";
 
 export class PreGameState extends State {
     constructor() {
@@ -43,7 +44,7 @@ export class PreGameState extends State {
             user.balancePennies -= stateMachine.cabinet.currentStake;
             stateMachine.cabinet.balanceMsg = 'balance\n' + user.balanceString;
             stateMachine.changeToState(new PlayGameState());
-            stateMachine.enemyParty.idle();
+            enemyParty.idle();
             stateMachine.party.idle();
             drawBridge.onEnterGame();
         }

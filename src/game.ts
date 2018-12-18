@@ -12,7 +12,8 @@ import eventEmitter from './event-emitter';
 import events from './events';
 import result from './result';
 import { Party } from './components/party';
-import { EnemyParty } from './components/enemyParty';
+import enemyParty, { EnemyParty } from './components/enemyParty';
+import screenTransition from './components/screen-transition';
 
 export class Game {
     // Variable definitions
@@ -23,7 +24,6 @@ export class Game {
     private enemySpinner: Spinner;
     private background: Background;
     private party: Party;
-    private enemies: EnemyParty;
 
     /**
      * Constructor for the Game Object
@@ -53,8 +53,7 @@ export class Game {
         this.party = new Party();
         this.party.load(loader);
 
-        this.enemies = new EnemyParty();
-        this.enemies.load(loader);
+        enemyParty.load(loader);
     }
     
     /**
@@ -92,10 +91,10 @@ export class Game {
         this.party.position.set(200, 450);
         app.stage.addChild(this.party);
 
-        this.enemies.draw();
-        this.enemies.position.set(1000, 350);
-        this.enemies.setupGroup();
-        app.stage.addChild(this.enemies);
+        enemyParty.draw();
+        enemyParty.position.set(1000, 350);
+        enemyParty.init();
+        app.stage.addChild(enemyParty);
 
         playerHealthBar.init(app.loader);
         app.stage.addChild(playerHealthBar);
@@ -115,13 +114,13 @@ export class Game {
         app.stage.addChild(popup);
 
         app.stage.addChild(drawBridge.animation);
+        app.stage.addChild(screenTransition);
 
         this.cabinet.draw(app);
         stateMachine.cabinet = this.cabinet;
         stateMachine.playerSpinner = this.playerSpinner;
         stateMachine.enemySpinner = this.enemySpinner;
         stateMachine.party = this.party;
-        stateMachine.enemyParty = this.enemies;
         stateMachine.changeToState(new PreGameState());
     }
 

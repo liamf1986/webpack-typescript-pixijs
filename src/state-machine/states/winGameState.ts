@@ -6,6 +6,11 @@ import { PreGameState } from "./preGameState";
 import popup from "../../components/popup";
 import { PlayGameState } from "./playGameState";
 import drawBridge from "../../components/draw-bridge";
+import result from "../../result";
+import enemyParty from "../../components/enemyParty";
+import { enemyHealthBar } from "../../components/health-bar";
+import screenTransition from "../../components/screen-transition";
+import events from "../../events";
 
 export class WinGameState extends State {
     constructor() {
@@ -22,10 +27,19 @@ export class WinGameState extends State {
         // TweenMax.delayedCall(2, () =>{
         //     stateMachine.changeToState(new PreGameState())
         // }, undefined, true);
-        popup.show();
+        popup.showVictory();
         popup.once('continueclicked', () => {
             stateMachine.changeToState(new PlayGameState());
             popup.hide();
+            
+            screenTransition.start();
+            screenTransition.on(events.GAME.TRANSITION, () => {
+                result.setData({currentStage: (result.currentStage + 1) % 2});
+                enemyParty.init(result.currentStage);
+                result.setData({enemyHealth: enemyParty.health});
+                enemyHealthBar.maxHealth = enemyParty.health;
+                stateMachine.cabinet.enableActionButton();
+            });
         });
         popup.once('leaveclicked', () => {
             stateMachine.changeToState(new PreGameState());

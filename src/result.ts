@@ -15,6 +15,7 @@ export interface IResultData {
     enemyResult?: ResultType;
     health?: number;
     enemyHealth?: number;
+    currentStage?: number;
 };
 
 export class Result implements IResultData {
@@ -22,13 +23,17 @@ export class Result implements IResultData {
     public enemyResult: ResultType;
     public health: number = 0;
     public enemyHealth: number = 0;
+    public currentStage: number = 0;
 
     public setData(data: IResultData): void {
         if (data.playerResult !== undefined) { this.playerResult = data.playerResult; }
         if (data.enemyResult !== undefined) { this.enemyResult = data.enemyResult; }
         if (data.health !== undefined) { this.health = data.health; }
         if (data.enemyHealth !== undefined) { this.enemyHealth = data.enemyHealth; }
-}
+        if (data.currentStage !== undefined) { this.currentStage = data.currentStage; }
+
+        console.log(this);
+    }
 
     public isDraw(): boolean { 
         return this.playerResult === this.enemyResult;
