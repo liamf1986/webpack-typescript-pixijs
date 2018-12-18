@@ -124,7 +124,7 @@ export class Popup extends PIXI.Container {
         this.continueButtonSprite.visible = false;
     }
 
-    public showVictory() : void {
+    public showVictory(prize: string) : void {
         this.visible = true;
         this._defeatIcon.visible = false;
 
@@ -133,6 +133,9 @@ export class Popup extends PIXI.Container {
 
         this._continueMsg.position.x = 40;
         this.leaveButtonSprite.position.x = -230;
+
+        this._choiceMsg.text = `You won ${prize} - Continue for more?`;
+        this._choiceMsg.scale.set(0.7);
     }
 }
 
