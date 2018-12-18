@@ -72,8 +72,12 @@ export class PlayGameState extends State {
             result.setData({playerResult: playerResult});
             result.setData({enemyResult: enemyResult});
 
-            attacks.push(enemyParty.attack(enemyResult, (result.isLoss() && !result.isDraw())));
+            attacks.push(enemyParty.attack(enemyResult, result.isLoss()));
             attacks.push(stateMachine.party.attack(playerResult, result.isWin()));
+
+            if (result.isDraw()) {
+                PIXI.sound.play('attackDraw');
+            }
 
             Promise.all(attacks).then(() => {
                 stateMachine.party.idle();

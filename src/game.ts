@@ -64,6 +64,7 @@ export class Game {
         PIXI.sound.add('attackSpell', {url: 'assets/audio/attack-spell.{wav}'});
         PIXI.sound.add('attackMonster', {url: 'assets/audio/attack-monster.{wav}'});
         PIXI.sound.add('attackGolem', {url: 'assets/audio/attack-golem.{wav}'});
+        PIXI.sound.add('attackDraw', {url: 'assets/audio/attack-draw.{wav}'});
     }
     
     /**
