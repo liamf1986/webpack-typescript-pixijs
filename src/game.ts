@@ -1,5 +1,5 @@
 import { Cabinet } from './components/cabinet';
-import { Popup } from './components/popup'
+import popup, { Popup } from './components/popup'
 import Spinner from './components/spinner';
 import stateMachine from './state-machine/state-machine';
 import { PreGameState } from './state-machine/states/preGameState';
@@ -18,7 +18,6 @@ export class Game {
     // Variable definitions
     private cabinet: Cabinet;
 
-    private popup: Popup;
     private app: PIXI.Application;
     private playerSpinner: Spinner;
     private enemySpinner: Spinner;
@@ -42,8 +41,7 @@ export class Game {
         this.cabinet.load(loader);
         loader.add('popup', 'assets/Pop-up.png');
 
-        this.popup = new Popup();
-        this.popup.load(loader); 
+        popup.load(loader); 
         loader.add('logo', 'assets/logo.png');
         loader.add('background', 'assets/background/background.json');
         loader.add('game-background', 'assets/game-background/game-background.png');
@@ -69,14 +67,14 @@ export class Game {
         stateMachine.cabinet = this.cabinet;
         stateMachine.changeToState(new PreGameState()); */
 
-        this.popup.draw(app);
+        popup.draw(app);
         //this.logo = new PIXI.Sprite(app.loader.resources.logo.texture);
 
         drawBridge.init(app.loader.resources['background'].spineData);
 
         // Set any constiant data
         //this.popup.anchor.set(0.5);
-        this.popup.scale.set(1);
+        //this.popup.scale.set(1);
 
         //TweenMax.fromTo(this.popup, 1, {x:650, y:1000}, {x:650, y:300});
 
@@ -121,7 +119,7 @@ export class Game {
 
         app.stage.addChild(this.playerSpinner);
         app.stage.addChild(this.enemySpinner);
-        app.stage.addChild(this.popup);
+        app.stage.addChild(popup);
         app.stage.addChild(drawBridge.animation);
 
         this.cabinet.draw(app);
@@ -138,8 +136,8 @@ export class Game {
      * @param height The height of the game area in pixels
      */
     setPositions(width: number, height: number) : void {
-        this.popup.x = width / 2;
-        this.popup.y = height / 2;
+        popup.x = width / 2;
+        popup.y = height / 2;
     }
 
     /**
@@ -147,8 +145,6 @@ export class Game {
      * @param delta time between this frame and the last, used to ensure frame-rate independant animations
      */
     update(delta: number) : void {
-        this.playerSpinner.update(delta);
-        this.enemySpinner.update(delta);
     }
 
     /**

@@ -5,6 +5,8 @@ import { PlayGameState } from "./playGameState";
 import result from "../../result";
 import eventEmitter from "../../event-emitter";
 import events from "../../events";
+import popup from "../../components/popup";
+import drawBridge from "../../components/draw-bridge";
 
 export class PreGameState extends State {
     constructor() {
@@ -21,6 +23,8 @@ export class PreGameState extends State {
             stateMachine.cabinet.enableStakeButtons();
             stateMachine.cabinet.on("actionclicked", this.onActionClicked);
         }
+
+        popup.hide();
     }
 
     public dispose():void {
@@ -36,6 +40,7 @@ export class PreGameState extends State {
             user.balancePennies -= stateMachine.cabinet.currentStake;
             stateMachine.cabinet.balanceMsg = 'balance\n' + user.balanceString;
             stateMachine.changeToState(new PlayGameState());
+            drawBridge.onEnterGame();
         }
         else {
             console.log("Insufficient Funds");

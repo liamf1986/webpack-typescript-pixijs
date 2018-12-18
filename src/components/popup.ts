@@ -86,4 +86,14 @@ export class Popup extends PIXI.Container {
     leaveButtonClicked() : void {
         this.emit('leaveclicked');
     }
+
+    public show(): void {
+        this.visible = true;
+    }
+
+    public hide(): void {
+        this.visible = false;
+    }
 }
+
+export default new Popup();

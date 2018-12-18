@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import {ResultType} from '../result';
+import { TweenMax } from 'gsap';
 
 const FULL = 2.0;
 const HALF = 1.0;
@@ -30,7 +31,6 @@ function getCirclePoint(x: number, y: number, length: number, radians: number): 
 
 export default class Spinner extends PIXI.Container {
     private radius: number;
-    private _rotationSpeed: number = 0;
 
     private _spinerContainer: PIXI.Container;
     private _daggerSegment: number = THIRD * Math.PI;
@@ -49,8 +49,6 @@ export default class Spinner extends PIXI.Container {
     private _shieldTexture: PIXI.Texture;
 
     private _pointer: PIXI.Graphics;
-
-    private _isRotating: boolean = false;
 
     constructor(resources: ISpinnerResources) {
         super();
@@ -101,31 +99,19 @@ export default class Spinner extends PIXI.Container {
         this.addChild(this._pointer);
     }
 
-    public update(delta: number) {
-        if (this._isRotating) {
-            this._spinerContainer.rotation += (this._rotationSpeed * delta);
-        }
-    }
-
     public spin(result: ResultType, duration: number) {
-        const revolutionDistance: number = 6 * Math.PI;
-        const segmentDistance: number = (2 * Math.PI) / 3;
-        let speed: number = 0;
-
+        let stopPoint: number = 0;
         if (result === ResultType.Knight) {
-            speed = revolutionDistance / duration;
+            stopPoint = -0.2 + Math.random() * 0.025;
         } else if (result === ResultType.Mage) {
-            speed = (revolutionDistance + segmentDistance) / duration;
+            stopPoint = -0.9 + Math.random() * 0.025;
         } else if (result === ResultType.Rogue) {
-            speed = (revolutionDistance - segmentDistance) / duration;
+            stopPoint = -0.55 + Math.random() * 0.025;
         }
 
-        this._rotationSpeed = speed;
-        this._isRotating = true;
-    }
-
-    public stopSpinning() {
-        this._isRotating = false;
+        this.rotation = 0 ;
+        const rotation = Math.PI * 6 + stopPoint * (Math.PI * 2);
+        TweenMax.to(this, duration, { rotation });
     }
 
     private handleIcons() {

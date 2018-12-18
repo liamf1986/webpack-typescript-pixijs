@@ -3,6 +3,9 @@ import stateMachine from "../state-machine";
 import { TweenMax } from "gsap";
 
 import { PreGameState } from "./preGameState";
+import popup from "../../components/popup";
+import { PlayGameState } from "./playGameState";
+import drawBridge from "../../components/draw-bridge";
 
 export class WinGameState extends State {
     constructor() {
@@ -16,9 +19,18 @@ export class WinGameState extends State {
             stateMachine.cabinet.disableActionButton();
         }
         
-        TweenMax.delayedCall(2, () =>{
-            stateMachine.changeToState(new PreGameState())
-        }, undefined, true);
+        // TweenMax.delayedCall(2, () =>{
+        //     stateMachine.changeToState(new PreGameState())
+        // }, undefined, true);
+        popup.show();
+        popup.once('continueclicked', () => {
+            stateMachine.changeToState(new PlayGameState());
+            popup.hide();
+        });
+        popup.once('leaveclicked', () => {
+            stateMachine.changeToState(new PreGameState());
+            drawBridge.onGameComplete();
+        });
     }
 
     public dispose():void {

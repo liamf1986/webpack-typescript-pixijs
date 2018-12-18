@@ -29,12 +29,10 @@ export class PlayGameState extends State {
             stateMachine.cabinet.disableStakeButtons();
             stateMachine.cabinet.on("actionclicked", this.onActionClicked.bind(this));
         }
-
-        drawBridge.onEnterGame();
     }
 
     public dispose():void {
-        drawBridge.onGameComplete();
+        
     }
 
     private onActionClicked() : void {
@@ -52,8 +50,6 @@ export class PlayGameState extends State {
         stateMachine.cabinet.disableActionButton();
 
         TweenMax.delayedCall(duration, () =>{
-            stateMachine.playerSpinner.stopSpinning();
-            stateMachine.enemySpinner.stopSpinning();
             stateMachine.cabinet.enableActionButton();
 
             result.setData({playerResult: playerResult});
