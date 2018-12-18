@@ -21,7 +21,7 @@ export class LoseGameState extends State {
         // TweenMax.delayedCall(2, () =>{
         //     stateMachine.changeToState(new PreGameState())
         // }, undefined, true);
-        popup.show();
+        popup.showDefeat();
         popup.once('continueclicked', () => {
             stateMachine.changeToState(new PreGameState());
             drawBridge.onGameComplete();

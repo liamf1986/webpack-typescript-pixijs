@@ -1,3 +1,5 @@
+import { TweenLite } from 'gsap';
+
 export class Character extends PIXI.Container {
     protected idleFrames: PIXI.Texture[] = [];
     protected attackFrames: PIXI.Texture[] = [];
@@ -6,6 +8,8 @@ export class Character extends PIXI.Container {
     protected idleAnim: PIXI.extras.AnimatedSprite;
     protected attackAnim: PIXI.extras.AnimatedSprite;
     protected deadAnim: PIXI.extras.AnimatedSprite;
+
+    protected characterType: string;
 
     constructor() {
         super();
@@ -50,14 +54,37 @@ export class Character extends PIXI.Container {
         this.addChild(this.idleAnim);
     }
 
-    public attack(): void {
-        this.removeChildren();
-        this.stopAnimations();
+    public attack(resolve: any): void {
+        const me = this;
+        const movement: number = this.characterType === 'player' ? 30 : -30;
+        const duration: number = 0.2;
 
-        this.attackAnim.loop = false;
-        this.attackAnim.play();
+        function moveForward() {
+            TweenLite.to(me.position, duration, {
+                x: me.position.x + movement,
+                onComplete: playAttack
+            });
+        }
 
-        this.addChild(this.attackAnim);
+        function playAttack() {
+            me.removeChildren();
+            me.stopAnimations();
+
+            me.attackAnim.loop = false;
+            me.attackAnim.play();
+            me.attackAnim.onComplete = moveBackward;
+
+            me.addChild(me.attackAnim);
+        }
+
+        function moveBackward() {
+            TweenLite.to(me.position, duration, {
+                x: me.position.x - movement,
+                onComplete: resolve
+            });
+        }
+
+        moveForward();
     }
 
     public die(): void {

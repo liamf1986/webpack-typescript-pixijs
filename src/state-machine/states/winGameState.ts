@@ -27,7 +27,7 @@ export class WinGameState extends State {
         // TweenMax.delayedCall(2, () =>{
         //     stateMachine.changeToState(new PreGameState())
         // }, undefined, true);
-        popup.show();
+        popup.showVictory();
         popup.once('continueclicked', () => {
             stateMachine.changeToState(new PlayGameState());
             popup.hide();
