@@ -38,21 +38,26 @@ export class PlayGameState extends State {
     }
 
     private onActionClicked() : void {
+        const playerResult: ResultType = getRandomResult();
+        const enemyResult: ResultType = getRandomResult();
+        const duration: number = 1;
+
         if (stateMachine.playerSpinner !== undefined) {
-            stateMachine.playerSpinner.spin();
+            stateMachine.playerSpinner.spin(playerResult, duration);
         }
+
         if (stateMachine.enemySpinner !== undefined) {
-            stateMachine.enemySpinner.spin();
+            stateMachine.enemySpinner.spin(enemyResult, duration);
         }
         stateMachine.cabinet.disableActionButton();
 
-        TweenMax.delayedCall(1, () =>{
+        TweenMax.delayedCall(duration, () =>{
             stateMachine.playerSpinner.stopSpinning();
             stateMachine.enemySpinner.stopSpinning();
             stateMachine.cabinet.enableActionButton();
 
-            result.setData({playerResult: getRandomResult()});
-            result.setData({enemyResult: getRandomResult()});
+            result.setData({playerResult: playerResult});
+            result.setData({enemyResult: enemyResult});
 
             if (result.isWin()) { 
                 result.setData({enemyHealth: result.enemyHealth - 1});

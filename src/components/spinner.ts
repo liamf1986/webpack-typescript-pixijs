@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import {ResultType} from '../result';
 
 const FULL = 2.0;
 const HALF = 1.0;
@@ -29,6 +30,7 @@ function getCirclePoint(x: number, y: number, length: number, radians: number): 
 
 export default class Spinner extends PIXI.Container {
     private radius: number;
+    private _rotationSpeed: number = 0;
 
     private _daggerSegment: number = THIRD * Math.PI;
     private _magicSegment: number = (THIRD * 2) * Math.PI;
@@ -95,15 +97,30 @@ export default class Spinner extends PIXI.Container {
         this.addChild(this._pointer);
     }
 
-    public update(speed: number) {
+    public update(delta: number) {
         if (this._isRotating) {
-            this.rotation += speed;
+            this.rotation += (this._rotationSpeed * delta);
         }
     }
 
-    public spin() {
+    public spin(result: ResultType, duration: number) {
+        const circumference: number = 2 * (Math.PI * this.radius);
+        const revolutionDistance: number = circumference * 3;
+        const segmentDistance: number = circumference / 3;
+        let speed: number = 0;
+
+        if (result === ResultType.Knight) {
+            speed = revolutionDistance / duration;
+        } else if (result === ResultType.Mage) {
+            speed = (revolutionDistance - segmentDistance) / duration;
+        } else if (result === ResultType.Rogue) {
+            speed = (revolutionDistance + segmentDistance) / duration;
+        }
+
+        this._rotationSpeed = speed;
         this._isRotating = true;
     }
+
     public stopSpinning() {
         this._isRotating = false;
     }
