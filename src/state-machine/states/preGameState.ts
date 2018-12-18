@@ -37,6 +37,7 @@ export class PreGameState extends State {
         });
         playerHealthBar.maxHealth = playerHealthBar.health = result.health;
         enemyHealthBar.maxHealth = enemyHealthBar.health = result.enemyHealth;
+
     }
 
     public dispose():void {
@@ -59,7 +60,8 @@ export class PreGameState extends State {
             drawBridge.onEnterGame();
 
             stateMachine.cabinet.setCabinetMessage(`Good luck`);
-            
+            enemyParty.setAlpha(1);
+
             // result.setData({currentStage: 0});
             // enemyParty.init(result.currentStage);
 

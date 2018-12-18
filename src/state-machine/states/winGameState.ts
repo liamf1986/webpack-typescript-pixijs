@@ -63,7 +63,7 @@ export class WinGameState extends State {
                 PIXI.sound.stop('bgMusic');
                 stateMachine.party.moveParty(-400, 0);
                 stateMachine.changeToState(new PreGameState());
-                drawBridge.onGameComplete();
+                drawBridge.onGameComplete();                
             });
         }
 
