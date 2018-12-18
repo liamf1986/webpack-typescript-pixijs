@@ -40,6 +40,8 @@ export class PlayGameState extends State {
         const enemyResult: ResultType = getRandomResult();
         const duration: number = 1;
 
+        console.log(['Sword', 'Magic', 'Shield'][playerResult], ' vs ', ['Sword', 'Magic', 'Shield'][enemyResult])
+
         if (stateMachine.playerSpinner !== undefined) {
             stateMachine.playerSpinner.spin(playerResult, duration);
         }

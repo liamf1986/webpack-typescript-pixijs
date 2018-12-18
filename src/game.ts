@@ -98,12 +98,10 @@ export class Game {
         app.stage.addChild(this.enemies);
 
         playerHealthBar.init(app.loader);
-        playerHealthBar.maxHealth = 4;
         app.stage.addChild(playerHealthBar);
         eventEmitter.on(events.GAME.DAMAGE_PLAYER, () => playerHealthBar.health = result.health);
 
         enemyHealthBar.init(app.loader);
-        enemyHealthBar.maxHealth = 2;
         enemyHealthBar.x = 1235;
         app.stage.addChild(enemyHealthBar);
         eventEmitter.on(events.GAME.DAMAGE_ENEMY, () => enemyHealthBar.health = result.enemyHealth);
@@ -112,9 +110,9 @@ export class Game {
         app.stage.addChild(this.enemySpinner);
 
         //this.popup.anchor.set(0.5);
-        popup.scale.set(1);
+        // popup.scale.set(1);
         //TweenMax.fromTo(this.popup, 1, {x:650, y:1000}, {x:650, y:300});
-        //app.stage.addChild(this.popup);
+        app.stage.addChild(popup);
 
         app.stage.addChild(drawBridge.animation);
 

@@ -28,7 +28,7 @@ export class Result implements IResultData {
         if (data.enemyResult !== undefined) { this.enemyResult = data.enemyResult; }
         if (data.health !== undefined) { this.health = data.health; }
         if (data.enemyHealth !== undefined) { this.enemyHealth = data.enemyHealth; }
-    }
+}
 
     public isDraw(): boolean { 
         return this.playerResult === this.enemyResult;
