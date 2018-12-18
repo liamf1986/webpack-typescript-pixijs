@@ -21,6 +21,10 @@ export class Rogue extends PlayerCharacter {
             this.attackFrames.push(PIXI.Texture.fromFrame(`attack${i + 1}@3x.png`));
         }
 
+        for (let i = 0; i < 3; i++) {
+            this.hurtFrames.push(PIXI.Texture.fromFrame(`hurt${i + 1}@3x.png`));
+        }
+
         super.draw();
     }
 }
