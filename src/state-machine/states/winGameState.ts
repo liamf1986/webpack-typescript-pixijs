@@ -29,36 +29,44 @@ export class WinGameState extends State {
             stateMachine.cabinet.disableActionButton();
         }
         
-        // TweenMax.delayedCall(2, () =>{
-        //     stateMachine.changeToState(new PreGameState())
-        // }, undefined, true);
-        popup.showVictory(formattedPrize);
-        popup.once('continueclicked', () => {
-            enemyParty.setAlpha(0);
-            stateMachine.party.moveParty(window.innerWidth + 400, 0);
-            stateMachine.changeToState(new PlayGameState());
-            popup.hide();
-            
-            screenTransition.start();
-
-            screenTransition.on(events.GAME.TRANSITION, () => {
-                const nextStage: number = (result.currentStage + 1) % 2;
-                enemyParty.init(nextStage);
-                enemyParty.setAlpha(1);
-                result.setData({
-                    currentStage: nextStage,
-                    enemyHealth: enemyParty.health
-                });
-                enemyHealthBar.maxHealth = enemyParty.health;
-                stateMachine.cabinet.enableActionButton();
+        if (result.currentStage === 1) {
+            popup.showFinalVictory(formattedPrize);
+            popup.once('continueclicked', () => {
+                PIXI.sound.stop('bgMusic');
+                stateMachine.party.moveParty(-400, 0);
+                stateMachine.changeToState(new PreGameState());
+                drawBridge.onGameComplete();
             });
-        });
-        popup.once('leaveclicked', () => {
-            PIXI.sound.stop('bgMusic');
-            stateMachine.party.moveParty(-400, 0);
-            stateMachine.changeToState(new PreGameState());
-            drawBridge.onGameComplete();
-        });
+        } else {
+            popup.showVictory(formattedPrize);
+            popup.once('continueclicked', () => {
+                enemyParty.setAlpha(0);
+                stateMachine.party.moveParty(window.innerWidth + 400, 0);
+                stateMachine.changeToState(new PlayGameState());
+                popup.hide();
+
+                screenTransition.start();
+                screenTransition.on(events.GAME.TRANSITION, () => {
+                    const nextStage: number = (result.currentStage + 1) % 2;
+                    enemyParty.init(nextStage);
+                    enemyParty.setAlpha(1);
+                    result.setData({
+                        currentStage: nextStage,
+                        enemyHealth: enemyParty.health
+                    });
+                    enemyHealthBar.maxHealth = enemyParty.health;
+                    stateMachine.cabinet.enableActionButton();
+                });
+            });
+            popup.once('leaveclicked', () => {
+                PIXI.sound.stop('bgMusic');
+                stateMachine.party.moveParty(-400, 0);
+                stateMachine.changeToState(new PreGameState());
+                drawBridge.onGameComplete();
+            });
+        }
+
+        
     }
 
     public dispose():void {

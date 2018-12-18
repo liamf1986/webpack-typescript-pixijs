@@ -133,9 +133,26 @@ export class Popup extends PIXI.Container {
 
         this._continueMsg.position.x = 40;
         this.leaveButtonSprite.position.x = -230;
+        this.continueButtonSprite.position.x = 30;
 
         this._choiceMsg.text = `You won ${prize} - Continue for more?`;
         this._choiceMsg.scale.set(0.7);
+    }
+
+    public showFinalVictory(prize: string) : void {
+        this.visible = true;
+        this._defeatIcon.visible = false;
+
+        this._victoryIcon.visible = true;
+        this.leaveButtonSprite.visible = false;
+        this.continueButtonSprite.visible = true;
+        this.continueButtonSprite.position.x = -230;
+
+        this.continueButtonSprite.position.x = -100;
+
+        this._choiceMsg.position.x = -100;
+        this._choiceMsg.text = `You won ${prize}`;
+        this._choiceMsg.scale.set(1);
     }
 }
 
