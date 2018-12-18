@@ -57,40 +57,40 @@ export class Character extends PIXI.Container {
     }
 
     public attack(resolve: any, sound: boolean): void {
-        const me = this;
+        this.moveForward(resolve, sound);
+    }
+
+    protected moveForward(resolve: any, sound: boolean): void {
         const movement: number = this.characterType === 'player' ? 30 : -30;
-        const duration: number = 0.1;
 
-        function moveForward() {
-            TweenLite.to(me.position, duration, {
-                x: me.position.x + movement,
-                onComplete: playAttack
-            });
+        TweenLite.to(this.position, 0.1, {
+            x: this.position.x + movement,
+            onComplete: this.playAttack.bind(this, resolve, sound)
+        });
+    }
+
+    protected playAttack(resolve: any, sound: boolean) {
+        if (this.soundAlias !== undefined && sound) {
+            PIXI.sound.play(this.soundAlias);
         }
 
-        function playAttack() {
-            if (me.soundAlias !== undefined && sound) {
-                PIXI.sound.play(me.soundAlias);
-            }
-            
-            me.removeChildren();
-            me.stopAnimations();
+        this.removeChildren();
+        this.stopAnimations();
 
-            me.attackAnim.loop = false;
-            me.attackAnim.play();
-            me.attackAnim.onComplete = moveBackward;
+        this.attackAnim.loop = false;
+        this.attackAnim.play();
+        this.attackAnim.onComplete = this.moveBackward.bind(this, resolve, sound);
 
-            me.addChild(me.attackAnim);
-        }
+        this.addChild(this.attackAnim);
+    }
 
-        function moveBackward() {
-            TweenLite.to(me.position, duration, {
-                x: me.position.x - movement,
-                onComplete: resolve
-            });
-        }
+    protected moveBackward(resolve: any, sound: boolean): void {
+        const movement: number = this.characterType === 'player' ? 30 : -30;
 
-        moveForward();
+        TweenLite.to(this.position, 0.1, {
+            x: this.position.x - movement,
+            onComplete: resolve
+        });
     }
 
     public die(): void {
@@ -103,7 +103,7 @@ export class Character extends PIXI.Container {
         this.addChild(this.deadAnim);
     }
 
-    private stopAnimations(): void {
+    protected stopAnimations(): void {
         this.idleAnim.gotoAndStop(0);
         this.attackAnim.gotoAndStop(0);
         this.deadAnim.gotoAndStop(0);

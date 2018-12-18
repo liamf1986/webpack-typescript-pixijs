@@ -21,6 +21,10 @@ export class Knight extends PlayerCharacter {
             this.attackFrames.push(PIXI.Texture.fromFrame(`Attack${i}.png`));
         }
 
+        for (let i = 0; i < 10; i++) {
+            this.hurtFrames.push(PIXI.Texture.fromFrame(`Hurt${i}.png`));
+        }
+
         super.draw();
     }
 }

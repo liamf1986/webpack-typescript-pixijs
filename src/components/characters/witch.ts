@@ -21,6 +21,10 @@ export class Witch extends PlayerCharacter {
             this.attackFrames.push(PIXI.Texture.fromFrame(`CastSpell${i + 1}@2x.png`));
         }
 
+        for (let i = 0; i < 3; i++) {
+            this.hurtFrames.push(PIXI.Texture.fromFrame(`Hurt${i + 1}@2x.png`));
+        }
+
         super.draw();
     }
 }
