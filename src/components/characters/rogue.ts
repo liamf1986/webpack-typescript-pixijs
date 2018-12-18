@@ -1,6 +1,6 @@
-import { Character } from './character';
+import { PlayerCharacter } from './player-character';
 
-export class Rogue extends Character {
+export class Rogue extends PlayerCharacter {
     constructor() {
         super();
 

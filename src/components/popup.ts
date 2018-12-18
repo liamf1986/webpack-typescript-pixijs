@@ -23,7 +23,7 @@ export class Popup extends PIXI.Container {
         //loader.add('leaveBtn', 'assets/popup/leave-button.png');
         //loader.add('continueBtn', 'assets/popup/continue-button.png')
         loader.add('popupPnl', 'assets/pop-up/pop-up-panel.png');
-        loader.add('button', 'assets/buttons.png')
+        loader.add('button', 'assets/buttons.png');
         loader.add('victoryIcon', 'assets/pop-up/victory-icon.png');
         loader.add('defeatIcon', 'assets/pop-up/defeat-icon.png');
     }
@@ -62,7 +62,7 @@ export class Popup extends PIXI.Container {
         this._defeatIcon.anchor.set(0.5);
         this._defeatIcon.scale.set(0.4);
         this._defeatIcon.position.y = -30;
-        this.addChild(this._defeatIcon)
+        this.addChild(this._defeatIcon);
 
         this.leaveButtonSprite.x = -230;
         this.leaveButtonSprite.y = 90;
