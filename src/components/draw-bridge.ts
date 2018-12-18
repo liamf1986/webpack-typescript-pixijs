@@ -34,7 +34,6 @@ class Drawbridge {
     }
 
     public onEnterGame(): void {
-        console.trace('ENTER GAME');
         this.animation.state.setAnimationByName(0, 'bonusOutro', false);
         this.animation.state.timeScale = 1;
         this.animation.state.tracks[0].listener = {
@@ -49,7 +48,6 @@ class Drawbridge {
     }
 
     public onGameComplete(): void {
-        console.trace('GAME COMPLETE');
         const tween: TweenLite = TweenLite.to(this, 1.5, {
             zoom: 0.0,
             onUpdate: () => this.animation.scale.set(this.zoomMin + this.zoom * (this.zoomMax - this.zoomMin)),

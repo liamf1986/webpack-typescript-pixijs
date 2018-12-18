@@ -35,15 +35,6 @@ export class PlayGameState extends State {
             stateMachine.cabinet.disableStakeButtons();
             stateMachine.cabinet.on("actionclicked", this.onActionClicked.bind(this));
         }
-
-        enemyParty.init();
-        result.setData({
-            currentStage: 0,
-            health: 4,
-            enemyHealth: 2
-        });
-        playerHealthBar.maxHealth = playerHealthBar.health = result.health;
-        enemyHealthBar.maxHealth = enemyHealthBar.health = result.enemyHealth;
     }
 
     public dispose():void {
