@@ -29,7 +29,7 @@ export class PlayGameState extends State {
         
         // Update the cabinet
         if(stateMachine.cabinet !== undefined) {
-            // stateMachine.cabinet.setCabinetMessage('PLAY STATE');
+            stateMachine.cabinet.setCabinetMessage('The battle begins');
             stateMachine.cabinet.hideStakeText();
             stateMachine.cabinet.changeActionTexture(1);
             stateMachine.cabinet.disableStakeButtons();
@@ -85,6 +85,7 @@ export class PlayGameState extends State {
                 stateMachine.cabinet.enableActionButton();
 
                 if (result.isWin()) {
+                    stateMachine.cabinet.setCabinetMessage(['Sword', 'Magic', 'Shield'][playerResult] + ' beats ' + ['Sword', 'Magic', 'Shield'][enemyResult]);
                     console.log('WIN');
                     result.setData({enemyHealth: result.enemyHealth - 1});
                     PIXI.sound.play('monsterDamage');
@@ -98,6 +99,7 @@ export class PlayGameState extends State {
                 }
                 else if (result.isLoss()) {
                     console.log('LOSE');
+                    stateMachine.cabinet.setCabinetMessage(['Sword', 'Magic', 'Shield'][playerResult] + ' loses to ' + ['Sword', 'Magic', 'Shield'][enemyResult]);
                     result.setData({health: result.health - 1});
                     PIXI.sound.play('humanDamage');
                     if (result.health === 0) {
@@ -108,6 +110,7 @@ export class PlayGameState extends State {
                     eventEmitter.emit(events.GAME.DAMAGE_PLAYER);
                 } else if (result.isDraw()) {
                     console.log('DRAW - SPIN AGAIN!');
+                    stateMachine.cabinet.setCabinetMessage('DRAW!');
                 }
             });
         }, undefined, true);
