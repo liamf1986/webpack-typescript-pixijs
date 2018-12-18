@@ -2,6 +2,12 @@ import { IceGolem } from './characters/ice-golem';
 import { Cyclops } from './characters/cyclops';
 import { Orc } from './characters/orc';
 import { Skeleton } from './characters/skeleton';
+import { Character } from './characters/character';
+
+const LEVELS = [
+    { health: 2, enemies: ['cyclops', 'orc', 'skeleton'] },
+    { health: 4, enemies: ['golem'] }
+];
 
 export class EnemyParty extends PIXI.Container {
     private golem: IceGolem;
@@ -58,21 +64,30 @@ export class EnemyParty extends PIXI.Container {
         this.skeleton.visible = false;
     }
 
-    setupGolem() {
-        this._health = 4;
-        this.golem.visible = true;
-        this.cyclops.visible = false;
-        this.orc.visible = false;
-        this.skeleton.visible = false;
+    public init(level: number = 0): void {
+        this.children.forEach((child) => child.visible = false);
+
+        const levelData = LEVELS[level];
+        levelData.enemies.forEach((enemy) => ((this as any)[enemy] as Character).visible = true);
+
+        this._health = levelData.health;
     }
 
-    setupGroup() {
-        this._health = 2;
-        this.golem.visible = false;
-        this.cyclops.visible = true;
-        this.orc.visible = true;
-        this.skeleton.visible = true;
-    }
+    // setupGolem() {
+    //     this._health = 4;
+    //     this.golem.visible = true;
+    //     this.cyclops.visible = false;
+    //     this.orc.visible = false;
+    //     this.skeleton.visible = false;
+    // }
+
+    // setupGroup() {
+    //     this._health = 2;
+    //     this.golem.visible = false;
+    //     this.cyclops.visible = true;
+    //     this.orc.visible = true;
+    //     this.skeleton.visible = true;
+    // }
 
     idle() {
         if (this.golem.visible) {
@@ -104,3 +119,5 @@ export class EnemyParty extends PIXI.Container {
         }
     }
 }
+
+export default new EnemyParty();
