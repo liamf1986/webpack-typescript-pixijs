@@ -5,6 +5,7 @@ export class Rogue extends Character {
         super();
 
         this.characterType = 'player';
+        this.soundAlias = 'attackDagger';
     }
 
     draw() {

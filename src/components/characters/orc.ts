@@ -5,6 +5,7 @@ export class Orc extends Character {
         super();
 
         this.characterType = 'enemy';
+        this.soundAlias = 'attackMonster';
     }
 
     load(loader: PIXI.loaders.Loader) {

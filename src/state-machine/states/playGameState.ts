@@ -10,6 +10,8 @@ import events from "../../events";
 import { TweenMax } from "gsap";
 import enemyParty from "../../components/enemyParty";
 
+
+
 function getRandomResult(): ResultType {
     const value: number =  Math.random();
     return value > 0.66 ? ResultType.Sword : 
@@ -21,6 +23,8 @@ export class PlayGameState extends State {
         super();
 
         console.log("PLAY STATE");
+        PIXI.sound.play('bgMusic', {loop: true});
+        PIXI.sound.volume('bgMusic', 0.4);
         
         // Update the cabinet
         if(stateMachine.cabinet !== undefined) {
@@ -55,20 +59,21 @@ export class PlayGameState extends State {
         TweenMax.delayedCall(duration, () => {
             let attacks = [];
 
-            attacks.push(enemyParty.attack(enemyResult));
-            attacks.push(stateMachine.party.attack(playerResult));
+            result.setData({playerResult: playerResult});
+            result.setData({enemyResult: enemyResult});
+
+            attacks.push(enemyParty.attack(enemyResult, (result.isLoss() && !result.isDraw())));
+            attacks.push(stateMachine.party.attack(playerResult, result.isWin()));
 
             Promise.all(attacks).then(() => {
                 stateMachine.party.idle();
                 enemyParty.idle();
                 stateMachine.cabinet.enableActionButton();
 
-                result.setData({playerResult: playerResult});
-                result.setData({enemyResult: enemyResult});
-
                 if (result.isWin()) {
                     console.log('WIN');
                     result.setData({enemyHealth: result.enemyHealth - 1});
+                    PIXI.sound.play('monsterDamage');
                     if (result.enemyHealth === 0) {
                         enemyParty.die();
                         stateMachine.cabinet.off("actionclicked");
@@ -79,6 +84,7 @@ export class PlayGameState extends State {
                 else if (result.isLoss()) {
                     console.log('LOSE');
                     result.setData({health: result.health - 1});
+                    PIXI.sound.play('humanDamage');
                     if (result.health === 0) {
                         stateMachine.party.die();
                         stateMachine.cabinet.off("actionclicked");

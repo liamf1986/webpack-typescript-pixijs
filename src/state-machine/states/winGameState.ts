@@ -42,6 +42,7 @@ export class WinGameState extends State {
             });
         });
         popup.once('leaveclicked', () => {
+            PIXI.sound.stop('bgMusic');
             stateMachine.changeToState(new PreGameState());
             drawBridge.onGameComplete();
         });

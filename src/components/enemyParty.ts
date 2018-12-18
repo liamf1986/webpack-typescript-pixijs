@@ -110,25 +110,25 @@ export class EnemyParty extends PIXI.Container {
         }
     }
 
-    attack(attackType: ResultType): Promise<void> {
+    attack(attackType: ResultType, sound: boolean): Promise<void> {
         if (this.golem.visible) {
             return new Promise((resolve: any, reject: any) => {
-                this.golem.attack(resolve);
+                this.golem.attack(resolve, sound);
             });
         } else {
             return new Promise((resolve: any, reject: any) => {
                 if (attackType === ResultType.Shield) {
-                    this.cyclops.attack(resolve);
+                    this.cyclops.attack(resolve, sound);
                     return;
                 }
 
                 if (attackType === ResultType.Sword) {
-                    this.orc.attack(resolve);
+                    this.orc.attack(resolve, sound);
                     return;
                 }
 
                 if (attackType === ResultType.Magic) {
-                    this.skeleton.attack(resolve);
+                    this.skeleton.attack(resolve, sound);
                     return;
                 }
 

@@ -5,6 +5,7 @@ export class Witch extends Character {
         super();
 
         this.characterType = 'player';
+        this.soundAlias = 'attackSpell';
     }
 
     draw() {

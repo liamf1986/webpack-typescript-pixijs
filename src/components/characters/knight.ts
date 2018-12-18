@@ -5,6 +5,7 @@ export class Knight extends Character {
         super();
 
         this.characterType = 'player';
+        this.soundAlias = 'attackShield';
     }
 
     draw() {
