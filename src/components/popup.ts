@@ -127,6 +127,12 @@ export class Popup extends PIXI.Container {
     public showVictory() : void {
         this.visible = true;
         this._defeatIcon.visible = false;
+
+        this._victoryIcon.visible = true;
+        this.continueButtonSprite.visible = true;
+
+        this._continueMsg.position.x = 40;
+        this.leaveButtonSprite.position.x = -230;
     }
 }
 
