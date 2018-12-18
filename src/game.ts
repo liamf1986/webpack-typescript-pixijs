@@ -115,13 +115,15 @@ export class Game {
         popup.scale.set(1);
         //TweenMax.fromTo(this.popup, 1, {x:650, y:1000}, {x:650, y:300});
         //app.stage.addChild(this.popup);
-        
+
         app.stage.addChild(drawBridge.animation);
 
         this.cabinet.draw(app);
         stateMachine.cabinet = this.cabinet;
         stateMachine.playerSpinner = this.playerSpinner;
         stateMachine.enemySpinner = this.enemySpinner;
+        stateMachine.party = this.party;
+        stateMachine.enemyParty = this.enemies;
         stateMachine.changeToState(new PreGameState());
     }
 

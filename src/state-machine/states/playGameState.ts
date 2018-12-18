@@ -58,6 +58,7 @@ export class PlayGameState extends State {
             if (result.isWin()) { 
                 result.setData({enemyHealth: result.enemyHealth - 1});
                 if (result.enemyHealth === 0) {
+                    stateMachine.enemyParty.die();
                     stateMachine.cabinet.off("actionclicked");
                     stateMachine.changeToState(new WinGameState());
                 }

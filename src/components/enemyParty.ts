@@ -73,4 +73,12 @@ export class EnemyParty extends PIXI.Container {
         this.orc.visible = true;
         this.skeleton.visible = true;
     }
+
+    die() {
+        this.golem.die();
+    }
+
+    attack() {
+        this.golem.attack();
+    }
 }
