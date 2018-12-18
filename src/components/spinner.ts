@@ -103,22 +103,21 @@ export default class Spinner extends PIXI.Container {
 
     public update(delta: number) {
         if (this._isRotating) {
-            this._spinerContainer.rotation += this._rotationSpeed;
+            this._spinerContainer.rotation += (this._rotationSpeed * delta);
         }
     }
 
     public spin(result: ResultType, duration: number) {
-        const circumference: number = 2 * (Math.PI * this.radius);
-        const revolutionDistance: number = circumference;
-        const segmentDistance: number = circumference / 3;
+        const revolutionDistance: number = 6 * Math.PI;
+        const segmentDistance: number = (2 * Math.PI) / 3;
         let speed: number = 0;
 
         if (result === ResultType.Knight) {
             speed = revolutionDistance / duration;
         } else if (result === ResultType.Mage) {
-            speed = (revolutionDistance - segmentDistance) / duration;
-        } else if (result === ResultType.Rogue) {
             speed = (revolutionDistance + segmentDistance) / duration;
+        } else if (result === ResultType.Rogue) {
+            speed = (revolutionDistance - segmentDistance) / duration;
         }
 
         this._rotationSpeed = speed;
