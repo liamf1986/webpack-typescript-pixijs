@@ -1,21 +1,28 @@
 import { Container, Sprite, loaders, Rectangle, Texture } from 'pixi.js';
 import { TweenLite } from 'gsap';
 
-export class HealthBar extends Container {
+class HealthBar extends Container {
+    private loader: loaders.Loader;
     private segment: Sprite[] = [];
-    private maxHealth: number = 0;
-    private currentHealth: number = 0;
 
-    constructor(maxHealth: number = 1) {
+    constructor() {
         super();
-
-        this.maxHealth = maxHealth;
-        this.currentHealth = maxHealth;
     }
 
     public init(loader: loaders.Loader): void {
-        for (let i = 0; i < this.maxHealth; ++i) {
-            const texture: Texture = loader.resources['window'].texture;
+        this.loader = loader;
+
+        this.scale.set(0.2);
+        this.rotation = -Math.PI / 2;
+        this.x = 10;
+        this.y = 680;
+    }
+
+    public set maxHealth(value: number) {
+        this.segment.forEach((segment) => this.removeChild(segment));
+
+        for (let i = 0; i < value; ++i) {
+            const texture: Texture = this.loader.resources['window'].texture;
             const backgroundSprite: Sprite = new Sprite(Texture.from(texture.baseTexture));
             backgroundSprite.texture.frame = new Rectangle(6189, 2354, 825, 192);
             backgroundSprite.x = i * 825;
@@ -31,11 +38,10 @@ export class HealthBar extends Container {
 
             this.segment.push(segment);
         }
+    }
 
-        this.scale.set(0.2);
-        this.rotation = -Math.PI / 2;
-        this.x = 10;
-        this.y = 680;
+    public get maxHealth(): number {
+        return this.segment.length;
     }
 
     public set health(value: number) {
@@ -59,3 +65,6 @@ export class HealthBar extends Container {
         });
     }
 }
+
+export const playerHealthBar = new HealthBar();
+export const enemyHealthBar = new HealthBar();

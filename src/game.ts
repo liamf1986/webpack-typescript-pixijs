@@ -7,7 +7,7 @@ import { TweenMax } from "gsap";
 import drawBridge from './components/draw-bridge';
 import Background from './components/background';
 import { add } from 'pixi-sound';
-import { HealthBar } from './components/health-bar';
+import { playerHealthBar, enemyHealthBar } from './components/health-bar';
 import eventEmitter from './event-emitter';
 import events from './events';
 import result from './result';
@@ -97,13 +97,13 @@ export class Game {
         this.enemies.setupGroup();
         app.stage.addChild(this.enemies);
 
-        const playerHealthBar = new HealthBar(4);
         playerHealthBar.init(app.loader);
+        playerHealthBar.maxHealth = 4;
         app.stage.addChild(playerHealthBar);
         eventEmitter.on(events.GAME.DAMAGE_PLAYER, () => playerHealthBar.health = result.health);
 
-        const enemyHealthBar = new HealthBar(4);
         enemyHealthBar.init(app.loader);
+        enemyHealthBar.maxHealth = 2;
         enemyHealthBar.x = 1235;
         app.stage.addChild(enemyHealthBar);
         eventEmitter.on(events.GAME.DAMAGE_ENEMY, () => enemyHealthBar.health = result.enemyHealth);
