@@ -86,6 +86,7 @@ export class PlayGameState extends State {
                     PIXI.sound.play('monsterDamage');
                     if (result.enemyHealth === 0) {
                         enemyParty.die();
+                        enemyParty.fadeOut();
                         stateMachine.cabinet.off("actionclicked");
                         stateMachine.changeToState(new WinGameState());
                     }

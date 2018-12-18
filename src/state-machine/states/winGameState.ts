@@ -38,8 +38,9 @@ export class WinGameState extends State {
             screenTransition.on(events.GAME.TRANSITION, () => {
                 const nextStage: number = (result.currentStage + 1) % 2;
                 enemyParty.init(nextStage);
+                enemyParty.setAlpha(1);
                 result.setData({
-                    currentStage: nextStage, 
+                    currentStage: nextStage,
                     enemyHealth: enemyParty.health
                 });
                 enemyHealthBar.maxHealth = enemyParty.health;

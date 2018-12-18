@@ -136,6 +136,27 @@ export class EnemyParty extends PIXI.Container {
             });
         }
     }
+
+    public setAlpha(alpha: number) {
+        this.golem.setAlpha(alpha);
+        this.cyclops.setAlpha(alpha);
+        this.skeleton.setAlpha(alpha);
+        this.orc.setAlpha(alpha);
+    }
+
+    public fadeOut(): Promise<void> | Promise<void[]> {
+        if (this.golem.visible) {
+            return this.golem.fadeOut();
+        } else {
+            let animations: Promise<void>[] = [];
+
+            animations.push(this.cyclops.fadeOut());
+            animations.push(this.skeleton.fadeOut());
+            animations.push(this.orc.fadeOut());
+
+            return Promise.all(animations);
+        }
+    }
 }
 
 export default new EnemyParty();
