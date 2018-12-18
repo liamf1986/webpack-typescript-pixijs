@@ -20,7 +20,7 @@ class HealthBar extends Container {
     }
 
     public set maxHealth(value: number) {
-        this.segment.forEach((segment) => this.removeChild(segment));
+        this.removeChildren();
         this.segment = [];
 
         for (let i = 0; i < value; ++i) {

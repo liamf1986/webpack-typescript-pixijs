@@ -9,6 +9,7 @@ import eventEmitter from "../../event-emitter";
 import events from "../../events";
 import { TweenMax } from "gsap";
 import enemyParty from "../../components/enemyParty";
+import { playerHealthBar, enemyHealthBar } from "../../components/health-bar";
 
 function getRandomResult(): ResultType {
     const value: number =  Math.random();
@@ -30,6 +31,15 @@ export class PlayGameState extends State {
             stateMachine.cabinet.disableStakeButtons();
             stateMachine.cabinet.on("actionclicked", this.onActionClicked.bind(this));
         }
+
+        enemyParty.init();
+        result.setData({
+            currentStage: 0,
+            health: 4,
+            enemyHealth: 2
+        });
+        playerHealthBar.maxHealth = playerHealthBar.health = result.health;
+        enemyHealthBar.maxHealth = enemyHealthBar.health = result.enemyHealth;
     }
 
     public dispose():void {
