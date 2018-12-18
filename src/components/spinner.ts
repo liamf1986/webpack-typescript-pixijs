@@ -128,12 +128,12 @@ export default class Spinner extends PIXI.Container {
 
     public spin(result: ResultType, duration: number) {
         let stopPoint: number = 0;
-        if (result === ResultType.Knight) {
-            stopPoint = -0.2 + Math.random() * 0.025;
-        } else if (result === ResultType.Mage) {
-            stopPoint = -0.9 + Math.random() * 0.025;
+        if (result === ResultType.Mage) {
+            stopPoint = 0.165 + Math.random() * 0.11;
         } else if (result === ResultType.Rogue) {
-            stopPoint = -0.55 + Math.random() * 0.025;
+            stopPoint = 0.495 + Math.random() * 0.11;
+        } else if (result === ResultType.Knight) {
+            stopPoint = 0.825 + Math.random() * 0.11;
         }
 
         this._wheelSprite.rotation = 0 ;
