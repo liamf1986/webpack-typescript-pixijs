@@ -37,6 +37,8 @@ export default class Spinner extends PIXI.Container {
     private _magicSegment: number = (THIRD * 2) * Math.PI;
     private _shieldSegment: number = FULL * Math.PI;
 
+    private _border: PIXI.Graphics;
+
     private _daggerGraphics: PIXI.Graphics;
     private _magicGraphics: PIXI.Graphics;
     private _shieldGraphics: PIXI.Graphics;
@@ -59,33 +61,38 @@ export default class Spinner extends PIXI.Container {
     }
 
     public init(x: number, y:number, r: number) {
-        this._spinnerContainer = new PIXI.Container();
-        this.addChild(this._spinnerContainer);
-
         this.x = x;
         this.y = y;
         this.radius = r;
         this.width = this.radius * 2;
         this.height = this.radius * 2;
 
+        this._border = new PIXI.Graphics();
+        this._border.beginFill(0x6F05A7);
+        this._border.drawCircle(0, 0, this.radius);
+        this.addChild(this._border);
+
+        this._spinnerContainer = new PIXI.Container();
+        this.addChild(this._spinnerContainer);
+
         this._daggerGraphics = new PIXI.Graphics();
         this._daggerGraphics.beginFill(DAGGER_COLOUR);
         this._daggerGraphics.lineStyle(1, DAGGER_COLOUR, 1);
-        this._daggerGraphics.arc(0, 0, this.radius, 0, this._daggerSegment, false);
+        this._daggerGraphics.arc(0, 0, this.radius-10, 0, this._daggerSegment, false);
         this._daggerGraphics.lineTo(0, 0);
         this._spinnerContainer.addChild(this._daggerGraphics);
         
         this._magicGraphics = new PIXI.Graphics();
         this._magicGraphics.beginFill(MAGIC_COLOUR);
         this._magicGraphics.lineStyle(1, MAGIC_COLOUR, 1);
-        this._magicGraphics.arc(0, 0, this.radius, this._daggerSegment, this._magicSegment, false);
+        this._magicGraphics.arc(0, 0, this.radius-10, this._daggerSegment, this._magicSegment, false);
         this._magicGraphics.lineTo(0, 0);
         this._spinnerContainer.addChild(this._magicGraphics);
 
         this._shieldGraphics = new PIXI.Graphics();
         this._shieldGraphics.beginFill(SHIELD_COLOUR);
         this._shieldGraphics.lineStyle(1, SHIELD_COLOUR, 1);
-        this._shieldGraphics.arc(0, 0, this.radius, this._magicSegment, this._shieldSegment, false);
+        this._shieldGraphics.arc(0, 0, this.radius-10, this._magicSegment, this._shieldSegment, false);
         this._shieldGraphics.lineTo(0, 0);
         this._spinnerContainer.addChild(this._shieldGraphics);
 
