@@ -32,6 +32,7 @@ export default class Spinner extends PIXI.Container {
     private radius: number;
     private _rotationSpeed: number = 0;
 
+    private _spinerContainer: PIXI.Container;
     private _daggerSegment: number = THIRD * Math.PI;
     private _magicSegment: number = (THIRD * 2) * Math.PI;
     private _shieldSegment: number = FULL * Math.PI;
@@ -60,6 +61,9 @@ export default class Spinner extends PIXI.Container {
     }
 
     public init(x: number, y:number, r: number) {
+        this._spinerContainer = new PIXI.Container();
+        this.addChild(this._spinerContainer);
+
         this.x = x;
         this.y = y;
         this.radius = r;
@@ -71,21 +75,21 @@ export default class Spinner extends PIXI.Container {
         this._daggerGraphics.lineStyle(1, DAGGER_COLOUR, 1);
         this._daggerGraphics.arc(0, 0, this.radius, 0, this._daggerSegment, false);
         this._daggerGraphics.lineTo(0, 0);
-        this.addChild(this._daggerGraphics);
+        this._spinerContainer.addChild(this._daggerGraphics);
         
         this._magicGraphics = new PIXI.Graphics();
         this._magicGraphics.beginFill(MAGIC_COLOUR);
         this._magicGraphics.lineStyle(1, MAGIC_COLOUR, 1);
         this._magicGraphics.arc(0, 0, this.radius, this._daggerSegment, this._magicSegment, false);
         this._magicGraphics.lineTo(0, 0);
-        this.addChild(this._magicGraphics);
+        this._spinerContainer.addChild(this._magicGraphics);
 
         this._shieldGraphics = new PIXI.Graphics();
         this._shieldGraphics.beginFill(SHIELD_COLOUR);
         this._shieldGraphics.lineStyle(1, SHIELD_COLOUR, 1);
         this._shieldGraphics.arc(0, 0, this.radius, this._magicSegment, this._shieldSegment, false);
         this._shieldGraphics.lineTo(0, 0);
-        this.addChild(this._shieldGraphics);
+        this._spinerContainer.addChild(this._shieldGraphics);
 
         this.handleIcons();
 
@@ -99,13 +103,13 @@ export default class Spinner extends PIXI.Container {
 
     public update(delta: number) {
         if (this._isRotating) {
-            this.rotation += (this._rotationSpeed * delta);
+            this._spinerContainer.rotation += this._rotationSpeed;
         }
     }
 
     public spin(result: ResultType, duration: number) {
         const circumference: number = 2 * (Math.PI * this.radius);
-        const revolutionDistance: number = circumference * 3;
+        const revolutionDistance: number = circumference;
         const segmentDistance: number = circumference / 3;
         let speed: number = 0;
 
@@ -136,7 +140,7 @@ export default class Spinner extends PIXI.Container {
         this._daggerSprite.position.set(daggerPosition.endX, daggerPosition.endY);
         this._daggerSprite.width = iconScale;
         this._daggerSprite.height = iconScale;
-        this.addChild(this._daggerSprite);
+        this._daggerGraphics.addChild(this._daggerSprite);
 
         // Create, scale and position magic icon
         let magicPosition = getCirclePoint(0, 0, this.radius * 0.5, -((this._magicSegment + this._daggerSegment) * 0.5));
