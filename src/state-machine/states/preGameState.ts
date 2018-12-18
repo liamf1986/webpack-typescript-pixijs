@@ -47,6 +47,12 @@ export class PreGameState extends State {
             enemyParty.idle();
             stateMachine.party.idle();
             drawBridge.onEnterGame();
+            
+            result.setData({currentStage: 0});
+            enemyParty.init(result.currentStage);
+
+            result.setData({enemyHealth: enemyParty.health});
+            enemyHealthBar.maxHealth = enemyParty.health;
         }
         else {
             console.log("Insufficient Funds");
