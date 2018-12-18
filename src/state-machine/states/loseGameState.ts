@@ -14,7 +14,8 @@ export class LoseGameState extends State {
         
         // Update the cabinet
         if(stateMachine.cabinet !== undefined) {
-            stateMachine.cabinet.setCabinetMessage('LOSE STATE');
+            // stateMachine.cabinet.setCabinetMessage('LOSE STATE');
+            stateMachine.cabinet.setCabinetMessage(`no win`);
             stateMachine.cabinet.disableActionButton();
         }
         

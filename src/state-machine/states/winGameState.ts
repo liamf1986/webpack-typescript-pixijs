@@ -11,6 +11,8 @@ import enemyParty from "../../components/enemyParty";
 import { enemyHealthBar } from "../../components/health-bar";
 import screenTransition from "../../components/screen-transition";
 import events from "../../events";
+import { formatCurrency, CURRENCY_DEFAULTS } from "../../format-currency";
+import prizeStructure from "../../prize-structure";
 
 export class WinGameState extends State {
     constructor() {
@@ -20,7 +22,9 @@ export class WinGameState extends State {
         
         // Update the cabinet
         if(stateMachine.cabinet !== undefined) {
-            stateMachine.cabinet.setCabinetMessage('WIN STATE');
+            // stateMachine.cabinet.setCabinetMessage('WIN STATE');
+            const formattedPrize = formatCurrency(prizeStructure[result.currentStage] * stateMachine.cabinet.currentStake / 100, CURRENCY_DEFAULTS.GBP);
+            stateMachine.cabinet.setCabinetMessage(`Won ${formattedPrize} so far`);
             stateMachine.cabinet.disableActionButton();
         }
         

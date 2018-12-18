@@ -18,7 +18,8 @@ export class PreGameState extends State {
         
         // Update the cabinet
         if(stateMachine.cabinet !== undefined) {
-            stateMachine.cabinet.setCabinetMessage('PRE STATE');
+            // stateMachine.cabinet.setCabinetMessage('PRE STATE');
+            stateMachine.cabinet.setCabinetMessage(`Select stake and buy`);
             stateMachine.cabinet.changeActionTexture(0);
             stateMachine.cabinet.displayStakeText();
             stateMachine.cabinet.enableActionButton();
@@ -47,6 +48,8 @@ export class PreGameState extends State {
             enemyParty.idle();
             stateMachine.party.idle();
             drawBridge.onEnterGame();
+
+            stateMachine.cabinet.setCabinetMessage(`Good luck`);
             
             // result.setData({currentStage: 0});
             // enemyParty.init(result.currentStage);
