@@ -57,11 +57,11 @@ export class PlayGameState extends State {
         }
         stateMachine.cabinet.disableActionButton();
 
+        result.setData({playerResult, enemyResult});
+        
         TweenMax.delayedCall(duration, () => {
             let attacks = [];
 
-            result.setData({playerResult: playerResult});
-            result.setData({enemyResult: enemyResult});
 
             attacks.push(enemyParty.attack(enemyResult, result.isLoss()));
             attacks.push(stateMachine.party.attack(playerResult, result.isWin()));
