@@ -39,9 +39,9 @@ export class Popup extends PIXI.Container {
 
         let choiceMsgXPos = -200;
         let choiceMsgYPos = 25;
-        let continueMsgXPos = 40;
+        let continueMsgXPos = 110;
         let continueMsgYPos = 110;
-        let leaveMsgXPos = 40;
+        let leaveMsgXPos = 110;
         let leaveMsgYPos = 110;
         
 
@@ -55,13 +55,14 @@ export class Popup extends PIXI.Container {
 
         this._victoryIcon = new PIXI.Sprite(app.loader.resources.victoryIcon.texture);
         this._victoryIcon.anchor.set(0.5);
-        this._victoryIcon.scale.set(0.4);
+        this._victoryIcon.scale.set(1.3);
+        this._victoryIcon.position.y = -70;
         this.addChild(this._victoryIcon);
 
         this._defeatIcon = new PIXI.Sprite(app.loader.resources.defeatIcon.texture);
         this._defeatIcon.anchor.set(0.5);
-        this._defeatIcon.scale.set(0.4);
-        this._defeatIcon.position.y = -30;
+        this._defeatIcon.scale.set(1.3);
+        this._defeatIcon.position.y = -70;
         this.addChild(this._defeatIcon);
 
         this.leaveButtonSprite.x = -230;
@@ -114,6 +115,7 @@ export class Popup extends PIXI.Container {
 
      public showDefeat() : void {
         this.visible = true;
+        this._defeatIcon.visible = true;
         this._victoryIcon.visible = false;
         
         this._choiceMsg.text = "You dropped all your loot to get away.";
@@ -132,7 +134,7 @@ export class Popup extends PIXI.Container {
         this.continueButtonSprite.visible = true;
         this.leaveButtonSprite.visible = true;
 
-        this._continueMsg.position.x = 40;
+        this._continueMsg.position.x = 100;
         this.leaveButtonSprite.position.x = -230;
         this.continueButtonSprite.position.x = 30;
 
