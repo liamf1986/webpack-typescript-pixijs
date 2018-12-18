@@ -1,7 +1,9 @@
 import { Cabinet } from './components/cabinet';
+import { Popup } from './components/popup'
 import Spinner from './components/spinner';
 import stateMachine from './state-machine/state-machine';
 import { PreGameState } from './state-machine/states/preGameState';
+import { TweenMax } from "gsap";
 import drawBridge from './components/draw-bridge';
 import Background from './components/background';
 import { add } from 'pixi-sound';
@@ -15,7 +17,8 @@ import { EnemyParty } from './components/enemyParty';
 export class Game {
     // Variable definitions
     private cabinet: Cabinet;
-    private logo: PIXI.Sprite;
+
+    private popup: Popup;
     private app: PIXI.Application;
     private playerSpinner: Spinner;
     private enemySpinner: Spinner;
@@ -37,6 +40,10 @@ export class Game {
     load(loader: PIXI.loaders.Loader) : void {
         this.cabinet = new Cabinet();
         this.cabinet.load(loader);
+        loader.add('popup', 'assets/Pop-up.png');
+
+        this.popup = new Popup();
+        this.popup.load(loader); 
         loader.add('logo', 'assets/logo.png');
         loader.add('background', 'assets/background/background.json');
         loader.add('game-background', 'assets/game-background/game-background.png');
@@ -58,12 +65,20 @@ export class Game {
      */
     startGame(app: PIXI.Application) : void {
         // create your assets: Sprites, Sounds, etc...
-        this.logo = new PIXI.Sprite(app.loader.resources.logo.texture);
+        /* this.cabinet.draw(app);
+        stateMachine.cabinet = this.cabinet;
+        stateMachine.changeToState(new PreGameState()); */
+
+        this.popup.draw(app);
+        //this.logo = new PIXI.Sprite(app.loader.resources.logo.texture);
 
         drawBridge.init(app.loader.resources['background'].spineData);
 
         // Set any constiant data
-        this.logo.anchor.set(0.5);
+        //this.popup.anchor.set(0.5);
+        this.popup.scale.set(1);
+
+        //TweenMax.fromTo(this.popup, 1, {x:650, y:1000}, {x:650, y:300});
 
         // Position any objects based on screen dimensions
         this.setPositions(app.screen.width, app.screen.height);
@@ -82,6 +97,7 @@ export class Game {
         this.enemySpinner.init(1000, 150, 100);
 
         // Add any objects to the stage so they can be drawn
+        
         app.stage.addChild(this.background);
         
         this.party.draw();
@@ -99,12 +115,13 @@ export class Game {
 
         const enemyHealthBar = new HealthBar(4);
         enemyHealthBar.init(app.loader);
-        enemyHealthBar.x = 1275;
+        enemyHealthBar.x = 1235;
         app.stage.addChild(enemyHealthBar);
         eventEmitter.on(events.GAME.DAMAGE_ENEMY, () => enemyHealthBar.health = result.enemyHealth);
 
         app.stage.addChild(this.playerSpinner);
         app.stage.addChild(this.enemySpinner);
+        app.stage.addChild(this.popup);
         app.stage.addChild(drawBridge.animation);
 
         this.cabinet.draw(app);
@@ -121,8 +138,8 @@ export class Game {
      * @param height The height of the game area in pixels
      */
     setPositions(width: number, height: number) : void {
-        this.logo.x = width / 2;
-        this.logo.y = height / 2;
+        this.popup.x = width / 2;
+        this.popup.y = height / 2;
     }
 
     /**
