@@ -130,11 +130,13 @@ export class Popup extends PIXI.Container {
 
         this._victoryIcon.visible = true;
         this.continueButtonSprite.visible = true;
+        this.leaveButtonSprite.visible = true;
 
         this._continueMsg.position.x = 40;
         this.leaveButtonSprite.position.x = -230;
         this.continueButtonSprite.position.x = 30;
 
+        this._choiceMsg.position.x = -230;
         this._choiceMsg.text = `You won ${prize} - Continue for more?`;
         this._choiceMsg.scale.set(0.7);
     }
