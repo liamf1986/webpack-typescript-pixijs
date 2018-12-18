@@ -58,7 +58,7 @@ export class PlayGameState extends State {
         stateMachine.cabinet.disableActionButton();
 
         result.setData({playerResult, enemyResult});
-        
+
         TweenMax.delayedCall(duration, () => {
             let attacks = [];
 
@@ -102,6 +102,10 @@ export class PlayGameState extends State {
                 } else if (result.isDraw()) {
                     console.log('DRAW - SPIN AGAIN!');
                     stateMachine.cabinet.setCabinetMessage('DRAW!');
+
+                    TweenMax.delayedCall(1.5, () => {
+                        this.onActionClicked();
+                    });
                 }
             });
         }, undefined, true);
