@@ -22,11 +22,6 @@ export class LoseGameState extends State {
         //     stateMachine.changeToState(new PreGameState())
         // }, undefined, true);
         popup.showDefeat();
-        popup.once('continueclicked', () => {
-            PIXI.sound.stop('bgMusic');
-            stateMachine.changeToState(new PreGameState());
-            drawBridge.onGameComplete();
-        });
         popup.once('leaveclicked', () => {
             PIXI.sound.stop('bgMusic');
             stateMachine.changeToState(new PreGameState());
