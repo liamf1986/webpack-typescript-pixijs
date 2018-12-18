@@ -63,7 +63,7 @@ export class Popup extends PIXI.Container {
         this._leaveButton.on('pointerdown', this.leaveButtonClicked.bind(this))
         this.addChild(this._leaveButton);
 
-        this._choiceMsg = new PIXI.Text ('What will you Choose ?', {fontFamily : 'lato-lig', fontSize: 40,fontWeight: 'bold', align: 'centre'});
+        this._choiceMsg = new PIXI.Text ('What will you choose ?', {fontFamily : 'lato-lig', fontSize: 40,fontWeight: 'bold', align: 'centre'});
         this._choiceMsg.position.x = choiceMsgXPos;
         this._choiceMsg.position.y = choiceMsgYPos;
         this.addChild(this._choiceMsg);

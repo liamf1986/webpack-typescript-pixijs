@@ -1,0 +1,272 @@
+
+background.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bird0001
+  rotate: false
+  xy: 466, 594
+  size: 54, 35
+  orig: 54, 35
+  offset: 0, 0
+  index: -1
+Bird0002
+  rotate: false
+  xy: 793, 1236
+  size: 54, 35
+  orig: 54, 35
+  offset: 0, 0
+  index: -1
+Bird0008
+  rotate: false
+  xy: 793, 1236
+  size: 54, 35
+  orig: 54, 35
+  offset: 0, 0
+  index: -1
+Bird0003
+  rotate: false
+  xy: 1014, 1357
+  size: 54, 35
+  orig: 54, 35
+  offset: 0, 0
+  index: -1
+Bird0007
+  rotate: false
+  xy: 1014, 1357
+  size: 54, 35
+  orig: 54, 35
+  offset: 0, 0
+  index: -1
+Bird0004
+  rotate: false
+  xy: 1889, 1878
+  size: 54, 35
+  orig: 54, 35
+  offset: 0, 0
+  index: -1
+Bird0006
+  rotate: false
+  xy: 1889, 1878
+  size: 54, 35
+  orig: 54, 35
+  offset: 0, 0
+  index: -1
+Bird0005
+  rotate: false
+  xy: 1586, 1549
+  size: 54, 35
+  orig: 54, 35
+  offset: 0, 0
+  index: -1
+HorseTail01
+  rotate: false
+  xy: 711, 1186
+  size: 80, 85
+  orig: 80, 85
+  offset: 0, 0
+  index: -1
+HorseTail02
+  rotate: false
+  xy: 932, 1307
+  size: 80, 85
+  orig: 80, 85
+  offset: 0, 0
+  index: -1
+HorseTail03
+  rotate: false
+  xy: 1807, 1828
+  size: 80, 85
+  orig: 80, 85
+  offset: 0, 0
+  index: -1
+backLeg02_Ankle
+  rotate: false
+  xy: 1725, 1725
+  size: 53, 67
+  orig: 53, 67
+  offset: 0, 0
+  index: -1
+backLeg02_Foot
+  rotate: false
+  xy: 141, 320
+  size: 53, 67
+  orig: 53, 67
+  offset: 0, 0
+  index: -1
+backLeg02_Thigh
+  rotate: false
+  xy: 553, 793
+  size: 53, 67
+  orig: 53, 67
+  offset: 0, 0
+  index: -1
+body_Back
+  rotate: false
+  xy: 1586, 1915
+  size: 219, 119
+  orig: 219, 119
+  offset: 0, 0
+  index: -1
+body_Back_blue
+  rotate: false
+  xy: 2, 510
+  size: 219, 119
+  orig: 219, 119
+  offset: 0, 0
+  index: -1
+body_Front
+  rotate: false
+  xy: 711, 1273
+  size: 219, 119
+  orig: 219, 119
+  offset: 0, 0
+  index: -1
+body_Front_blue
+  rotate: false
+  xy: 1586, 1794
+  size: 219, 119
+  orig: 219, 119
+  offset: 0, 0
+  index: -1
+body_Middle
+  rotate: false
+  xy: 1807, 1915
+  size: 219, 119
+  orig: 219, 119
+  offset: 0, 0
+  index: -1
+body_Middle_blue
+  rotate: false
+  xy: 2, 389
+  size: 219, 119
+  orig: 219, 119
+  offset: 0, 0
+  index: -1
+castleStone
+  rotate: false
+  xy: 2, 751
+  size: 549, 641
+  orig: 549, 641
+  offset: 0, 0
+  index: -1
+clouds
+  rotate: false
+  xy: 2, 631
+  size: 519, 118
+  orig: 519, 118
+  offset: 0, 0
+  index: -1
+flatBG
+  rotate: false
+  xy: 2, 1394
+  size: 1137, 640
+  orig: 1137, 640
+  offset: 0, 0
+  index: -1
+frontLeg01_Ankle
+  rotate: false
+  xy: 223, 423
+  size: 83, 60
+  orig: 83, 60
+  offset: 0, 0
+  index: -1
+frontLeg01_Tigh
+  rotate: false
+  xy: 1586, 1586
+  size: 83, 60
+  orig: 83, 60
+  offset: 0, 0
+  index: -1
+frontLeg01_Toe
+  rotate: false
+  xy: 2, 181
+  size: 83, 60
+  orig: 83, 60
+  offset: 0, 0
+  index: -1
+gateBridge
+  rotate: false
+  xy: 1141, 1394
+  size: 443, 640
+  orig: 443, 640
+  offset: 0, 0
+  index: -1
+horseHead
+  rotate: false
+  xy: 553, 1008
+  size: 137, 144
+  orig: 137, 144
+  offset: 0, 0
+  index: -1
+horseHead_Neck
+  rotate: false
+  xy: 223, 485
+  size: 137, 144
+  orig: 137, 144
+  offset: 0, 0
+  index: -1
+horseHead_Neck_blue
+  rotate: false
+  xy: 1586, 1648
+  size: 137, 144
+  orig: 137, 144
+  offset: 0, 0
+  index: -1
+horseHead_rope
+  rotate: false
+  xy: 2, 243
+  size: 137, 144
+  orig: 137, 144
+  offset: 0, 0
+  index: -1
+horseHead_ropeTop
+  rotate: false
+  xy: 553, 862
+  size: 137, 144
+  orig: 137, 144
+  offset: 0, 0
+  index: -1
+joustBody
+  rotate: false
+  xy: 523, 718
+  size: 19, 31
+  orig: 19, 31
+  offset: 0, 0
+  index: -1
+joustFoot
+  rotate: false
+  xy: 2028, 2018
+  size: 8, 16
+  orig: 8, 16
+  offset: 0, 0
+  index: -1
+joustJavlin
+  rotate: false
+  xy: 711, 1173
+  size: 79, 11
+  orig: 79, 11
+  offset: 0, 0
+  index: -1
+joustThigh
+  rotate: false
+  xy: 692, 1143
+  size: 14, 9
+  orig: 14, 9
+  offset: 0, 0
+  index: -1
+tree01
+  rotate: false
+  xy: 553, 1154
+  size: 156, 238
+  orig: 156, 238
+  offset: 0, 0
+  index: -1
+tree02
+  rotate: false
+  xy: 362, 487
+  size: 102, 142
+  orig: 102, 142
+  offset: 0, 0
+  index: -1

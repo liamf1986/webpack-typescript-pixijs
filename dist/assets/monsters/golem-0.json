@@ -1,0 +1,52 @@
+{"frames": {
+
+"GolemAttack3@2x.png":
+{
+	"frame": {"x":1,"y":1,"w":865,"h":920},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":177,"w":865,"h":920},
+	"sourceSize": {"w":1356,"h":1200}
+},
+"GolemAttack4@2x.png":
+{
+	"frame": {"x":1072,"y":688,"w":662,"h":949},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":322,"y":148,"w":662,"h":949},
+	"sourceSize": {"w":1356,"h":1200}
+},
+"GolemAttack7@2x.png":
+{
+	"frame": {"x":868,"y":1,"w":916,"h":685},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":350,"y":458,"w":916,"h":685},
+	"sourceSize": {"w":1356,"h":1200}
+},
+"GolemDead4@2x.png":
+{
+	"frame": {"x":1,"y":923,"w":1069,"h":541},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":74,"y":566,"w":1069,"h":541},
+	"sourceSize": {"w":1356,"h":1200}
+},
+"GolemDead5@2x.png":
+{
+	"frame": {"x":1,"y":1466,"w":1069,"h":434},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":74,"y":673,"w":1069,"h":434},
+	"sourceSize": {"w":1356,"h":1200}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "golem-0.png",
+	"format": "RGBA8888",
+	"size": {"w":1785,"h":1901},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:b418a52ef7481145eef0cbd461329f7e:f76829c637ca33270c908941f8168d80:4444eee0bc9d80923df204243c834c61$"
+}
+}

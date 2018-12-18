@@ -4,6 +4,15 @@ import Spinner from './components/spinner';
 import stateMachine from './state-machine/state-machine';
 import { PreGameState } from './state-machine/states/preGameState';
 import { TweenMax } from "gsap";
+import drawBridge from './components/draw-bridge';
+import Background from './components/background';
+import { add } from 'pixi-sound';
+import { HealthBar } from './components/health-bar';
+import eventEmitter from './event-emitter';
+import events from './events';
+import result from './result';
+import { Party } from './components/party';
+import { EnemyParty } from './components/enemyParty';
 
 export class Game {
     // Variable definitions
@@ -11,7 +20,11 @@ export class Game {
 
     private popup: Popup;
     private app: PIXI.Application;
-    private spinner: Spinner;
+    private playerSpinner: Spinner;
+    private enemySpinner: Spinner;
+    private background: Background;
+    private party: Party;
+    private enemies: EnemyParty;
 
     /**
      * Constructor for the Game Object
@@ -31,6 +44,19 @@ export class Game {
 
         this.popup = new Popup();
         this.popup.load(loader); 
+        loader.add('logo', 'assets/logo.png');
+        loader.add('background', 'assets/background/background.json');
+        loader.add('game-background', 'assets/game-background/game-background.png');
+        loader.add('window', 'assets/window.png');
+        loader.add('spinner-dagger', 'assets/spinner/dagger.png');
+        loader.add('spinner-shield', 'assets/spinner/shield.png');
+        loader.add('spinner-magic', 'assets/spinner/wand.png');
+
+        this.party = new Party();
+        this.party.load(loader);
+
+        this.enemies = new EnemyParty();
+        this.enemies.load(loader);
     }
     
     /**
@@ -39,32 +65,70 @@ export class Game {
      */
     startGame(app: PIXI.Application) : void {
         // create your assets: Sprites, Sounds, etc...
-        this.cabinet.draw(app);
+        /* this.cabinet.draw(app);
         stateMachine.cabinet = this.cabinet;
-        stateMachine.changeToState(new PreGameState());
+        stateMachine.changeToState(new PreGameState()); */
 
         this.popup.draw(app);
+        //this.logo = new PIXI.Sprite(app.loader.resources.logo.texture);
+
+        drawBridge.init(app.loader.resources['background'].spineData);
 
         // Set any constiant data
         //this.popup.anchor.set(0.5);
         this.popup.scale.set(1);
 
-        TweenMax.fromTo(this.popup, 1, {x:650, y:1000}, {x:650, y:300});
+        //TweenMax.fromTo(this.popup, 1, {x:650, y:1000}, {x:650, y:300});
 
         // Position any objects based on screen dimensions
         this.setPositions(app.screen.width, app.screen.height);
 
-        // Add any objects to the stage so they can be drawn
-        app.stage.addChild(this.popup);
+        this.background = new Background(app.loader.resources['game-background'].texture);
 
-        this.createSpinner();
-        /**
-         * Anything you don't want to draw yet should still be added
-         * but set the visible value to false
-         * eg. this.logo.visible = false;
-         * 
-         * This can be set to true when you want to display it.
-         */
+        let spinnerResources = {
+            dagger: app.loader.resources['spinner-dagger'].texture,
+            magic: app.loader.resources['spinner-magic'].texture,
+            shield: app.loader.resources['spinner-shield'].texture
+        }
+        this.playerSpinner = new Spinner(spinnerResources);
+        this.playerSpinner.init(300, 150, 100);
+
+        this.enemySpinner = new Spinner(spinnerResources);
+        this.enemySpinner.init(1000, 150, 100);
+
+        // Add any objects to the stage so they can be drawn
+        
+        app.stage.addChild(this.background);
+        
+        this.party.draw();
+        this.party.position.set(200, 450);
+        app.stage.addChild(this.party);
+
+        this.enemies.draw();
+        this.enemies.position.set(1000, 350);
+        app.stage.addChild(this.enemies);
+
+        const playerHealthBar = new HealthBar(4);
+        playerHealthBar.init(app.loader);
+        app.stage.addChild(playerHealthBar);
+        eventEmitter.on(events.GAME.DAMAGE_PLAYER, () => playerHealthBar.health = result.health);
+
+        const enemyHealthBar = new HealthBar(4);
+        enemyHealthBar.init(app.loader);
+        enemyHealthBar.x = 1275;
+        app.stage.addChild(enemyHealthBar);
+        eventEmitter.on(events.GAME.DAMAGE_ENEMY, () => enemyHealthBar.health = result.enemyHealth);
+
+        app.stage.addChild(this.playerSpinner);
+        app.stage.addChild(this.enemySpinner);
+        app.stage.addChild(this.popup);
+        app.stage.addChild(drawBridge.animation);
+
+        this.cabinet.draw(app);
+        stateMachine.cabinet = this.cabinet;
+        stateMachine.playerSpinner = this.playerSpinner;
+        stateMachine.enemySpinner = this.enemySpinner;
+        stateMachine.changeToState(new PreGameState());
     }
 
     /**
@@ -83,7 +147,8 @@ export class Game {
      * @param delta time between this frame and the last, used to ensure frame-rate independant animations
      */
     update(delta: number) : void {
-        //this.logo.rotation += 0.1 * delta;
+        this.playerSpinner.update(delta);
+        this.enemySpinner.update(delta);
     }
 
     /**
@@ -93,11 +158,5 @@ export class Game {
      */
     onResize(app: PIXI.Application) : void {
         this.setPositions(app.screen.width, app.screen.height);
-    }
-
-    private createSpinner(): void {
-        this.spinner = new Spinner();
-
-        this.app.stage.addChild(this.spinner);
     }
 }

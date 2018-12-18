@@ -1,7 +1,10 @@
 
 import 'pixi.js';
+import 'pixi-spine';
+import 'gsap';
 import 'pixi-sound';
 import { Game } from './game';
+import drawBridge from './components/draw-bridge';
 
 // Canvas dimensions
 let MAX_SCREEN_WIDTH = 1280;    // 1280 x 720 = 16:9 ratio
@@ -63,6 +66,8 @@ function onAssetsLoaded() : void
     game.startGame(app);
     // Set the game.update function to the app.ticker so it is called every frame
     app.ticker.add((delta) => game.update(delta));
+
+    calcSize();
 }
 
 /**
@@ -94,6 +99,8 @@ function calcSize() : void {
      */
     app.renderer.view.style.width = width + 'px';
     app.renderer.view.style.height = height + 'px';
+
+    drawBridge.resize(width, height);
 }
 
 /**
