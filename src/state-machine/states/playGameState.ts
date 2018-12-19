@@ -104,7 +104,7 @@ export class PlayGameState extends State {
                     stateMachine.cabinet.setCabinetMessage('DRAW!');
 
                     stateMachine.cabinet.disableActionButton();
-                    TweenMax.delayedCall(1.5, () => {
+                    TweenMax.delayedCall(0.5, () => {
                         this.onActionClicked();
                     });
                 }

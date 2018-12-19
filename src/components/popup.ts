@@ -124,6 +124,7 @@ export class Popup extends PIXI.Container {
         this.leaveButtonSprite.position.x = -100;
 
         this.continueButtonSprite.visible = false;
+        this.leaveButtonSprite.visible = true;
     }
 
     public showVictory(prize: string) : void {
