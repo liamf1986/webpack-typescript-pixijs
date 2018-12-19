@@ -68,6 +68,8 @@ export class EnemyParty extends PIXI.Container {
     public init(level: number = 0): void {
         this.children.forEach((child) => child.visible = false);
 
+        console.log('Init enemies for level ', level);
+
         const levelData = LEVELS[level];
         levelData.enemies.forEach((enemy) => ((this as any)[enemy] as Character).visible = true);
 

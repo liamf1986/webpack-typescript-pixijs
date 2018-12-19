@@ -59,6 +59,9 @@ export class WinGameState extends State {
                     enemyHealthBar.maxHealth = enemyParty.health;
                     stateMachine.cabinet.enableActionButton();
                 });
+
+                popup.off('continueclicked');
+                popup.off('leaveclicked');
             });
             popup.once('leaveclicked', () => {
                 PIXI.sound.stop('bgMusic');
@@ -66,6 +69,9 @@ export class WinGameState extends State {
                 stateMachine.changeToState(new PreGameState());
                 stateMachine.cabinet.disableActionButton();
                 drawBridge.onGameComplete();                
+
+                popup.off('continueclicked');
+                popup.off('leaveclicked');
             });
         }
 
