@@ -57,7 +57,9 @@ export class PreGameState extends State {
             stateMachine.changeToState(new PlayGameState());
             enemyParty.idle();
             stateMachine.party.idle();
+            stateMachine.cabinet.disableActionButton();
             drawBridge.onEnterGame();
+            drawBridge.on('complete', () => stateMachine.cabinet.enableActionButton());
 
             stateMachine.cabinet.setCabinetMessage(`Good luck`);
             enemyParty.setAlpha(1);

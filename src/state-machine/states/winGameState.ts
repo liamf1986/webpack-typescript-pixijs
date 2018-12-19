@@ -35,6 +35,7 @@ export class WinGameState extends State {
                 PIXI.sound.stop('bgMusic');
                 stateMachine.party.moveParty(-400, 0);
                 stateMachine.changeToState(new PreGameState());
+                stateMachine.cabinet.disableActionButton();
                 drawBridge.onGameComplete();
             });
         } else {
@@ -63,6 +64,7 @@ export class WinGameState extends State {
                 PIXI.sound.stop('bgMusic');
                 stateMachine.party.moveParty(-400, 0);
                 stateMachine.changeToState(new PreGameState());
+                stateMachine.cabinet.disableActionButton();
                 drawBridge.onGameComplete();                
             });
         }

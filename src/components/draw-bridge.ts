@@ -1,11 +1,11 @@
-import { spine } from "pixi.js";
+import { spine, utils } from "pixi.js";
 import { TweenLite } from "gsap";
 import stateMachine from "../state-machine/state-machine";
 
 const BASE_HEIGHT = 845;
 const BASE_WIDTH = 900;
 
-class Drawbridge {
+class Drawbridge extends utils.EventEmitter{
     public animation: spine.Spine;
     public zoom: number = 0.0;
     private zoomMin: number = 1.2;
@@ -42,6 +42,7 @@ class Drawbridge {
                 const tween: TweenLite = TweenLite.to(this, 1.5, {
                     zoom: 1.0,
                     onUpdate: () => this.animation.scale.set(this.zoomMin + this.zoom * (this.zoomMax - this.zoomMin)),
+                    onComplete: () => this.emit('complete'),
                 });
             }
         };
@@ -54,6 +55,7 @@ class Drawbridge {
             onComplete: () => {
                 this.animation.state.setAnimationByName(0, 'bonusIntro', false);
                 this.animation.state.timeScale = 1;
+                this.emit('complete');
             },
         });        
     }
