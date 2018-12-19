@@ -13,6 +13,7 @@ import screenTransition from "../../components/screen-transition";
 import events from "../../events";
 import { formatCurrency, CURRENCY_DEFAULTS } from "../../format-currency";
 import prizeStructure from "../../prize-structure";
+import testUser from "../../User";
 
 export class WinGameState extends State {
     constructor() {
@@ -37,6 +38,8 @@ export class WinGameState extends State {
                 stateMachine.changeToState(new PreGameState());
                 stateMachine.cabinet.disableActionButton();
                 drawBridge.onGameComplete();
+                testUser.balancePennies += prizeStructure[result.currentStage] * stateMachine.cabinet.currentStake / 100;
+                stateMachine.cabinet.balanceMsg = 'balance\n' + formatCurrency(testUser.balancePennies, CURRENCY_DEFAULTS.GBP);
             });
         } else {
             popup.showVictory(formattedPrize);
@@ -69,6 +72,9 @@ export class WinGameState extends State {
                 stateMachine.changeToState(new PreGameState());
                 stateMachine.cabinet.disableActionButton();
                 drawBridge.onGameComplete();                
+
+                testUser.balancePennies += prizeStructure[result.currentStage] * stateMachine.cabinet.currentStake / 100;
+                stateMachine.cabinet.balanceMsg = 'balance\n' + formatCurrency(testUser.balancePennies, CURRENCY_DEFAULTS.GBP);
 
                 popup.off('continueclicked');
                 popup.off('leaveclicked');

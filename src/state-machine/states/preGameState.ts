@@ -9,6 +9,7 @@ import popup from "../../components/popup";
 import drawBridge from "../../components/draw-bridge";
 import { playerHealthBar, enemyHealthBar } from "../../components/health-bar";
 import enemyParty from "../../components/enemyParty";
+import { formatCurrency, CURRENCY_DEFAULTS } from "../../format-currency";
 
 let firstPlay = true;
 
@@ -60,7 +61,7 @@ export class PreGameState extends State {
         if (user.balancePennies >= stateMachine.cabinet.currentStake) {
             stateMachine.cabinet.off("actionclicked", this.onActionClicked);
             user.balancePennies -= stateMachine.cabinet.currentStake;
-            stateMachine.cabinet.balanceMsg = 'balance\n' + user.balanceString;
+            stateMachine.cabinet.balanceMsg = 'balance\n' + formatCurrency(user.balancePennies, CURRENCY_DEFAULTS.GBP);
             stateMachine.changeToState(new PlayGameState());
             enemyParty.idle();
             stateMachine.party.idle();
