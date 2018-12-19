@@ -7,6 +7,7 @@ export class Popup extends PIXI.Container {
     private _popupPanel : PIXI.Sprite;
     private _victoryIcon : PIXI.Sprite;
     private _defeatIcon : PIXI.Sprite;
+    private _htpImage : PIXI.Sprite;
     private _choiceMsg : PIXI.Text;
     private _continueMsg : PIXI.Text;
     private _leaveMsg : PIXI.Text;
@@ -26,6 +27,7 @@ export class Popup extends PIXI.Container {
         loader.add('button', 'assets/buttons.png');
         loader.add('victoryIcon', 'assets/pop-up/victory-icon.png');
         loader.add('defeatIcon', 'assets/pop-up/defeat-icon.png');
+        loader.add('htpImage', 'assets/pop-up/how-to-play.png');
     }
 
     draw(app: PIXI.Application) : void {
@@ -65,6 +67,12 @@ export class Popup extends PIXI.Container {
         this._defeatIcon.position.y = -70;
         this.addChild(this._defeatIcon);
 
+        this._htpImage = new PIXI.Sprite(app.loader.resources.htpImage.texture);
+        this._htpImage.anchor.set(0.5);
+        this._htpImage.scale.set(0.8);
+        this._htpImage.position.y = -40;
+        this.addChild(this._htpImage);
+
         this.leaveButtonSprite.x = -230;
         this.leaveButtonSprite.y = 110;
         this.leaveButtonSprite.scale.set(0.2);
@@ -97,8 +105,6 @@ export class Popup extends PIXI.Container {
         this._leaveMsg.position.y = leaveMsgYPos;
         this._leaveMsg.scale.set(5);
         this.leaveButtonSprite.addChild(this._leaveMsg);
-
-        //this.showDefeat();
     }
 
     continueButtonClicked() : void {
@@ -117,6 +123,7 @@ export class Popup extends PIXI.Container {
         this.visible = true;
         this._defeatIcon.visible = true;
         this._victoryIcon.visible = false;
+        this._htpImage.visible = false;
         
         this._choiceMsg.text = "You dropped all your loot to get away.";
         this._choiceMsg.scale.set(0.7);
@@ -130,8 +137,9 @@ export class Popup extends PIXI.Container {
     public showVictory(prize: string) : void {
         this.visible = true;
         this._defeatIcon.visible = false;
-
         this._victoryIcon.visible = true;
+        this._htpImage.visible = false;
+
         this.continueButtonSprite.visible = true;
         this.leaveButtonSprite.visible = true;
 
@@ -147,8 +155,9 @@ export class Popup extends PIXI.Container {
     public showFinalVictory(prize: string) : void {
         this.visible = true;
         this._defeatIcon.visible = false;
-
         this._victoryIcon.visible = true;
+        this._htpImage.visible = false;
+
         this.leaveButtonSprite.visible = false;
         this.continueButtonSprite.visible = true;
         this.continueButtonSprite.position.x = -230;
@@ -158,6 +167,21 @@ export class Popup extends PIXI.Container {
         this._choiceMsg.position.x = -100;
         this._choiceMsg.text = `You won ${prize}`;
         this._choiceMsg.scale.set(1);
+    }
+
+    public showHTP() : void {
+        this.visible = true;
+        this._defeatIcon.visible = false;
+        this._victoryIcon.visible = false;
+        this._htpImage.visible = true;
+        
+        this._choiceMsg.text = "";
+        this._choiceMsg.scale.set(0.7);
+        this._choiceMsg.position.x = -230;
+        this.continueButtonSprite.position.x = -100;
+
+        this.continueButtonSprite.visible = true;
+        this.leaveButtonSprite.visible = false;
     }
 }
 

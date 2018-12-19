@@ -10,6 +10,8 @@ import drawBridge from "../../components/draw-bridge";
 import { playerHealthBar, enemyHealthBar } from "../../components/health-bar";
 import enemyParty from "../../components/enemyParty";
 
+let firstPlay = true;
+
 export class PreGameState extends State {
     constructor() {
         super();
@@ -18,7 +20,6 @@ export class PreGameState extends State {
         
         // Update the cabinet
         if(stateMachine.cabinet !== undefined) {
-            // stateMachine.cabinet.setCabinetMessage('PRE STATE');
             stateMachine.cabinet.setCabinetMessage(`Select stake and buy`);
             stateMachine.cabinet.changeActionTexture(0);
             stateMachine.cabinet.displayStakeText();
@@ -27,7 +28,17 @@ export class PreGameState extends State {
             stateMachine.cabinet.on("actionclicked", this.onActionClicked);
         }
 
-        popup.hide();
+        if (firstPlay) {
+            popup.showHTP();
+            popup.once('continueclicked', () => {
+                popup.hide();
+                stateMachine.cabinet.enableActionButton();
+                firstPlay = false;
+                drawBridge.on('complete', () => stateMachine.cabinet.enableActionButton());
+            })
+        }
+        else
+            popup.hide();
 
         enemyParty.init();
         result.setData({
@@ -41,10 +52,6 @@ export class PreGameState extends State {
     }
 
     public dispose():void {
-        // result.setData({health: 4});
-        // result.setData({enemyHealth: 2});
-        // playerHealthBar.maxHealth = playerHealthBar.health = result.health;
-        // enemyHealthBar.maxHealth = enemyHealthBar.health = result.enemyHealth;
         eventEmitter.emit(events.GAME.DAMAGE_PLAYER);
         eventEmitter.emit(events.GAME.DAMAGE_ENEMY);
     }
@@ -59,16 +66,11 @@ export class PreGameState extends State {
             stateMachine.party.idle();
             stateMachine.cabinet.disableActionButton();
             drawBridge.onEnterGame();
-            drawBridge.on('complete', () => stateMachine.cabinet.enableActionButton());
+            if (!firstPlay)
+                drawBridge.on('complete', () => stateMachine.cabinet.enableActionButton());
 
             stateMachine.cabinet.setCabinetMessage(`Good luck`);
             enemyParty.setAlpha(1);
-
-            // result.setData({currentStage: 0});
-            // enemyParty.init(result.currentStage);
-
-            // result.setData({enemyHealth: enemyParty.health});
-            // enemyHealthBar.maxHealth = enemyParty.health;
         }
         else {
             console.log("Insufficient Funds");

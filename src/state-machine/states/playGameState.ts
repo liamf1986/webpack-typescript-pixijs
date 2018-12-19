@@ -29,7 +29,7 @@ export class PlayGameState extends State {
         
         // Update the cabinet
         if(stateMachine.cabinet !== undefined) {
-            stateMachine.cabinet.setCabinetMessage('The battle begins');
+            //stateMachine.cabinet.setCabinetMessage('The battle begins');
             stateMachine.cabinet.hideStakeText();
             stateMachine.cabinet.changeActionTexture(1);
             stateMachine.cabinet.disableStakeButtons();
