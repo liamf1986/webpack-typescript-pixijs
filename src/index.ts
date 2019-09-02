@@ -1,6 +1,6 @@
 
 import * as PIXI from 'pixi.js';
-import * as PIXISound from 'pixi-sound';
+//import * as PIXISound from 'pixi-sound';
 import { Game } from './game';
 
 // Canvas dimensions
@@ -10,6 +10,9 @@ let ratio = MAX_SCREEN_WIDTH / MAX_SCREEN_HEIGHT;
 
 // Create the Application instance
 var app = new PIXI.Application(MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT);
+
+app.renderer.backgroundColor = 0x2d1b00;
+
 PIXI.settings.RESOLUTION = window.devicePixelRatio;
 calcSize();
 // Add the canvas element to the HTML page
@@ -37,7 +40,7 @@ app.stage.addChild(loadingText);
 app.loader.on("progress", loadProgressHandler);
 
 // Create the Game instance
-let game = new Game();
+let game = new Game(app);
 
 // Call the Game Loader
 game.load(app.loader);
@@ -60,9 +63,9 @@ function onAssetsLoaded() : void
 {
     app.stage.removeChildren();
     // Initialise the game
-    game.startGame(app);
+    game.setup();
     // Set the game.update function to the app.ticker so it is called every frame
-    app.ticker.add((delta) => game.update(delta));
+    app.ticker.add((delta) => game.main(delta));
 }
 
 /**

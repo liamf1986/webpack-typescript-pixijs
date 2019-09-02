@@ -1,70 +1,182 @@
+import {Player} from './player';
+import {Enemy} from './enemy'
+import {KeyHandler} from './keyboard'
+import {Arena} from './arena'
+import {Cursor} from './cursor'
+import {Bullet} from './bullet'
+import {UI} from './ui'
+
 export class Game {
-    // Variable definitions
-    private logo: PIXI.Sprite;
+    private app: PIXI.Application;
+    private player: Player;
+    private cursor: Cursor;
+    private mouseIsClicked: boolean = false;
 
-    /**
-     * Constructor for the Game Object
-     */
-    constructor() {}
+    public gameDifficulty:number = .1;
 
-    /**
-     * Load function called before startGame to load all required assets
-     * @param loader The loader to add these assets too
-     */
+    private enemys: Enemy[];
+    private timerSpawnEnemy:number;
+    private delaySpawnEnemy:number = 8/this.gameDifficulty;
+
+    private bullets: Bullet[];
+
+    private moveLeft:KeyHandler;
+    private moveRight:KeyHandler;
+    private moveUp:KeyHandler;
+    private moveDown:KeyHandler;
+
+    private arena:Arena;
+    private ui:UI;
+
+    //private enemy: Enemy []:
+
+    //create game Object with reference to Application
+    constructor(app:PIXI.Application){
+        this.app=app;
+        this.app.stage.interactive = true;
+        this.app.stage.buttonMode = true;
+
+        this.bullets = [];
+        this.mouseIsClicked = false;
+
+        this.enemys = [];
+        this.timerSpawnEnemy = Math.floor(Math.random()*this.delaySpawnEnemy);
+
+        this.moveLeft = new KeyHandler("a");
+        this.moveRight = new KeyHandler('d');
+        this.moveUp = new KeyHandler('w');
+        this.moveDown = new KeyHandler('s');;
+    }
+
     load(loader: PIXI.loaders.Loader) : void {
-        loader.add('logo', 'assets/logo.png');
+    //    loader.add('logo', 'assets/logo.png');
     }
     
-    /**
-     * Called once to initialise the game before the Update loop begins
-     * @param app The Application instance to be used for this game
-     */
-    startGame(app: PIXI.Application) : void {
-        // create your assets: Sprites, Sounds, etc...
-        this.logo = new PIXI.Sprite(app.loader.resources.logo.texture);
+    //attaching children and listeners to the game object
+    setup() : void {
+        this.arena= new Arena(this.app,[0,0]);
+        this.app.stage.addChild(this.arena);
 
-        // Set any constiant data
-        this.logo.anchor.set(0.5);
+        this.player = new Player([500,500],[this.arena.width,this.arena.height]);
+        this.app.stage.addChild(this.player);
 
-        // Position any objects based on screen dimensions
-        this.setPositions(app.screen.width, app.screen.height);
+        this.ui = new UI(this.app);
+        this.app.stage.addChild(this.ui);
 
-        // Add any objects to the stage so they can be drawn
-        app.stage.addChild(this.logo);
-        /**
-         * Anything you don't want to draw yet should still be added
-         * but set the visible value to false
-         * eg. this.logo.visible = false;
-         * 
-         * This can be set to true when you want to display it.
-         */
+        this.cursor = new Cursor([500,500]);
+        this.app.stage.addChild(this.cursor);
+        
+        //listener for fire event from the arena
+        this.arena.on("ClickDown", () => {this.mouseIsClicked=true;});
+        this.arena.on("ClickUp", () => {this.mouseIsClicked=false;});
     }
 
-    /**
-     * Positional data is based on screen size so will change on mobile Orientation changes (possibly mid-game).
-     * This function can be called when required to reposition all objects.
-     * @param width The width of the game area in pixels
-     * @param height The height of the game area in pixels
-     */
-    setPositions(width: number, height: number) : void {
-        this.logo.x = width / 2;
-        this.logo.y = height / 2;
+    movePlayer(direction:boolean, axis:boolean){
+        this.player.move(direction,axis);
     }
 
-    /**
-     * Called once every frame
-     * @param delta time between this frame and the last, used to ensure frame-rate independant animations
-     */
-    update(delta: number) : void {
-        this.logo.rotation += 0.1 * delta;
+    fireBullet(){
+        let newBullet = new Bullet([this.player.x,this.player.y],this.player.rotation);
+        this.arena.addChild(newBullet);
+        this.bullets.push(newBullet);
+        this.ui.updateAmmo(this.player.useAmmo());
     }
 
-    /**
-     * Called when the window detects a resize
-     * @param app The Application instance to be used for this game
-     * IMPORTANT: This is currently never called, see index.ts
-     */
-    onResize(app: PIXI.Application) : void {
-        this.setPositions(app.screen.width, app.screen.height);
+    damagePlayer(){
+        this.ui.updateHealth(this.player.takeDamage(1));;
     }
+
+    spawnEnemy(){
+        
+        let randomX = Math.random() < .5 ? 1 : -1;
+        let randomY = Math.random() < .5 ? 1 : -1;
+
+        var tempEn = new Enemy([
+            (this.arena.size[0]+10)*randomX,
+            (this.arena.size[1]+10)*randomY
+        ])
+
+        tempEn.on("touchedPlayer", () => {this.damagePlayer();});
+        this.arena.addChild(tempEn);
+        this.enemys.push(tempEn);
+    }
+
+    eventHandle(delta:number){
+        //Player handling
+        //Sends keyboard input and mouse posistion to update for next frame
+        if (this.moveLeft.isDown){this.movePlayer(false,true);}
+        if (this.moveRight.isDown){this.movePlayer(true,true);}
+        if (this.moveUp.isDown){this.movePlayer(false,false);}
+        if (this.moveDown.isDown){this.movePlayer(true,false);}
+        this.player.aim(this.arena.mousePos);
+
+        //sending mouse position data to the cursor to update for next frame
+        this.cursor.setPos(this.arena.mousePos);
+
+        //the bullet firing timer
+        //will fire if the mouse is held and the timer is 0 or less
+        if(!this.mouseIsClicked){
+            this.player.fireReset();
+        }
+        else{
+            this.player.bulletTimer-=1;
+        }
+        if(this.player.canFire && this.mouseIsClicked){
+            this.fireBullet();
+            this.player.attackResetTimer();
+        }
+    }
+
+    update(){
+        this.player.update(this.arena);    
+        this.enemys.forEach(enemy => {
+            enemy.update([this.player.position.x,this.player.position.y],this.bullets)
+        });
+
+        this.bullets.forEach((bullet,index) => {
+            bullet.update(this.arena.size);
+            if (bullet.outofbounds){
+                this.arena.removeChild(bullet);
+                this.bullets.splice(index,1);
+                
+            }
+        });
+        //decrement the spawn enemy timer and check if it has run down
+        this.timerSpawnEnemy-=1;
+        if (this.timerSpawnEnemy<=1){
+            this.timerSpawnEnemy=Math.floor(Math.random()*this.delaySpawnEnemy)
+            this.spawnEnemy();
+
+        }
+    }
+
+    detectCollisions(){
+
+        //check each bullet to see if it has hit an enemy
+        this.bullets.forEach(bullet => {
+            this.enemys.forEach((enemy,index) => {
+                    
+                var dist_X = enemy.position.x - bullet.x;
+                var dist_Y = enemy.position.y - bullet.y;
+
+                if (!(dist_Y > bullet.attackRange || dist_Y < -bullet.attackRange) && !(dist_X > bullet.attackRange || dist_X < -bullet.attackRange)){
+                    enemy.takeDamage(bullet.attackDamage);
+                    bullet.remove();
+                    if (enemy.health<=0){
+                        this.player.giveAmmo(enemy.killReward);
+                        this.arena.removeChild(enemy);
+                        enemy=null;
+                        this.enemys.splice(index,1)   
+                    }
+                }
+            });
+        });
+    }
+
+    main(delta: number) : void {
+        this.eventHandle(delta);
+        this.detectCollisions();
+        this.update();
+    }
+
 }
