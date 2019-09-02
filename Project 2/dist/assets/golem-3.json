@@ -1,0 +1,44 @@
+{"frames": {
+
+"GolemAttack5@2x.png":
+{
+	"frame": {"x":1,"y":1,"w":870,"h":686},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":357,"y":416,"w":870,"h":686},
+	"sourceSize": {"w":1356,"h":1200}
+},
+"GolemIdle3@2x.png":
+{
+	"frame": {"x":873,"y":1,"w":868,"h":696},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":179,"y":406,"w":868,"h":696},
+	"sourceSize": {"w":1356,"h":1200}
+},
+"GolemIdle4@2x.png":
+{
+	"frame": {"x":1,"y":689,"w":868,"h":689},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":179,"y":413,"w":868,"h":689},
+	"sourceSize": {"w":1356,"h":1200}
+},
+"GolemIdle5@2x.png":
+{
+	"frame": {"x":873,"y":1,"w":868,"h":696},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":179,"y":406,"w":868,"h":696},
+	"sourceSize": {"w":1356,"h":1200}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "golem-3.png",
+	"format": "RGBA8888",
+	"size": {"w":1742,"h":1379},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:b418a52ef7481145eef0cbd461329f7e:f76829c637ca33270c908941f8168d80:4444eee0bc9d80923df204243c834c61$"
+}
+}

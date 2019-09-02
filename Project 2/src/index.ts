@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import * as PIXISound from 'pixi-sound';
 import { Game } from './game';
 
+
 // Canvas dimensions
 let MAX_SCREEN_WIDTH = 1280;    // 1280 x 720 = 16:9 ratio
 let MAX_SCREEN_HEIGHT = 720;
@@ -37,10 +38,12 @@ app.stage.addChild(loadingText);
 app.loader.on("progress", loadProgressHandler);
 
 // Create the Game instance
-let game = new Game();
+let game = new Game(app);
+
 
 // Call the Game Loader
 game.load(app.loader);
+app.renderer.backgroundColor = 0xff668f;
 
 // Load added assets, afterwhich call the onAssetsLoaded function
 app.loader.load(onAssetsLoaded);
@@ -60,7 +63,7 @@ function onAssetsLoaded() : void
 {
     app.stage.removeChildren();
     // Initialise the game
-    game.startGame(app);
+    game.startGame();
     // Set the game.update function to the app.ticker so it is called every frame
     app.ticker.add((delta) => game.update(delta));
 }
