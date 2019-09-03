@@ -1,4 +1,4 @@
-export class Bullet extends PIXI.Graphics{
+export class Standard extends PIXI.Graphics{
 
     private size:number = 10;
     private inaccuracy:number;    
@@ -25,8 +25,6 @@ export class Bullet extends PIXI.Graphics{
 
         //setting the angle of the bullet to the given value
         this.rotation = angle;
-
-
 
         //centering rotation around the body
         this.position.set(position[0],position[1]);

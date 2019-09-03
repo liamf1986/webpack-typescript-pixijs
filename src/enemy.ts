@@ -1,35 +1,50 @@
 export class Enemy extends PIXI.Graphics {
 
-    public size:number = 50;
-    public movementSpeed:number = 3;
-    public attackRange:number = 40;
-    public targetRange:number = 35;
-    public killReward:number = 15;
+    public size:number;
+
+    public movementSpeed:number;
+    public attackRange:number;
+    public attackDamage:number;
+    public killReward:number;
+    public health:number;
+    public maxHealth:number;
+
+    public cull: boolean = false;
 
     public damageCooldown:number;
-    public health:number;
-
     private attackCoolDown:number;
-
-    //position and movement data
-
 
     public movementVelocity:number [] = [0,0];
 
     constructor(position:number[]){
         super();
 
-        this.health = 10;
+        this.size = Math.floor(Math.random() * (100 - 15 + 1)) + 15;
+
+        this.movementSpeed = 120/this.size;
+        
+        this.attackRange = this.size/1.8;
+        this.attackDamage = this.size/20;
+        this.killReward = .55*this.size;
+        this.maxHealth = .5*this.size;
+        this.health =this.maxHealth;  
+
+        this.health = this.maxHealth;
         this.damageCooldown=0;
         this.attackCoolDown=0;
+
+        let color = PIXI.utils.rgb2hex([
+            1-this.health/this.maxHealth,
+            this.health/this.maxHealth,
+            .1
+        ]);
 
         //creating player body
         this.beginFill(0x2d1b00);
         this.drawRect(0, 0, this.size, this.size);
-        this.beginFill(0x22ff22);
-        this.drawRect(35, 5, 10, 4*this.health);
+        this.beginFill(color);
+        this.drawRect(this.size*.65, this.size*.1, this.size/4, (this.size/this.maxHealth)*.8*this.health);
         this.endFill();
-
 
 
         //centering rotation around the body
@@ -51,17 +66,17 @@ export class Enemy extends PIXI.Graphics {
         this.drawRect(0, 0, this.size, this.size);
 
         let color = PIXI.utils.rgb2hex([
-            255-(this.health*25/255),
-            1+(this.health*25/255),
-            10/255
+            1-this.health/this.maxHealth,
+            this.health/this.maxHealth,
+            .1
         ]);
 
         this.beginFill(color);
-        this.drawRect(35, 5, 10, 4*this.health);
-        this.endFill();
+        this.drawRect(this.size*.65, this.size*.1, this.size/4, (this.size/this.maxHealth)*.8*this.health);
+        this.endFill();        
     }
 
-    update(playerPos:number[], bullets:any[]){
+    update(playerPos:number[]){
         //calculate the distance on X and Y from this to the target
         var dist_X = playerPos[0] - this.position.x;
         var dist_Y = playerPos[1] - this.position.y;
@@ -73,13 +88,18 @@ export class Enemy extends PIXI.Graphics {
 
         //moving this if the target is further than the target position
         //this is to prevent this from oscilating around the player
-        if ((dist_X > this.targetRange || dist_X < -this.targetRange)){
-            this.x += this.movementVelocity[0];
-        }
-        if ((dist_Y > this.targetRange || dist_Y < -this.targetRange)){
-            this.y += this.movementVelocity[1];
-        }
 
+
+        // calculate distance to player and move if unable to attack
+        let a = this.x-playerPos[0]
+        let b = this.y-playerPos[1]
+        let distance = Math.sqrt( a*a + b*b)
+
+        if (distance>this.attackRange){
+            this.x+=this.movementVelocity[0]
+            this.y+=this.movementVelocity[1]
+        }
+    
         //emits a signal that the enemy should be attacked if the player is within attack range
         //resets the cooldown after attack
         this.attackCoolDown-=1;
@@ -91,36 +111,4 @@ export class Enemy extends PIXI.Graphics {
         //decrement damagecooldown
         this.damageCooldown-=1;
     }
-
-        // a function to gind the corners of the square of the player
-        getCorners(){
-            let corners:number[][] = [
-                [   this.x-this.size*.5*(Math.sin(this.rotation)+Math.cos(this.rotation)),
-                    this.y-this.size*.5*(Math.sin(this.rotation)-Math.cos(this.rotation))
-                ],
-                [   this.x+this.size*.5*(Math.sin(this.rotation)-Math.cos(this.rotation)),
-                    this.y-this.size*.5*(Math.sin(this.rotation)+Math.cos(this.rotation))
-                ],
-                [   this.x+this.size*.5*(Math.sin(this.rotation)+Math.cos(this.rotation)),
-                    this.y+this.size*.5*(Math.sin(this.rotation)-Math.cos(this.rotation))
-                ],
-                [   this.x-this.size*.5*(Math.sin(this.rotation)-Math.cos(this.rotation)),
-                    this.y+this.size*.5*(Math.sin(this.rotation)+Math.cos(this.rotation))
-                ]
-            ]
-            return corners;
-    
-            //"Raw math" from stackexchange
-            //(ℎ−12𝐿(sin𝜃+cos𝜃),
-            // 𝑘−12𝐿(sin𝜃−cos𝜃),
-    
-            //(ℎ+12𝐿(sin𝜃−cos𝜃),
-            // 𝑘−12𝐿(sin𝜃+cos𝜃),
-    
-            //(ℎ+12𝐿(sin𝜃+cos𝜃),
-            // 𝑘+12𝐿(sin𝜃−cos𝜃),
-    
-            //(ℎ−12𝐿(sin𝜃−cos𝜃),
-            // 𝑘+12𝐿(sin𝜃+cos𝜃)
-        }
 }

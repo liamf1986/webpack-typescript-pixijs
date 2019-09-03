@@ -2,7 +2,8 @@ export class Cursor extends PIXI.Graphics {
     constructor(position: number []){
         super();
         this.beginFill(0xc4f0c2);
-        this.drawRect(0, 0, 20, 20);
+        this.drawRect((20/2), 0, 5, 25);
+        this.drawRect(0, (20/2), 25, 5);
         this.endFill();
 
         //centering rotation around the body

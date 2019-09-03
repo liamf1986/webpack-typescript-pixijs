@@ -1,4 +1,4 @@
-export class KeyHandler{
+class Key{
 
     public value: any;
     public isDown: boolean;
@@ -44,12 +44,36 @@ export class KeyHandler{
         window.removeEventListener("keydown", this.downhandler);
         window.removeEventListener("keyup", this.uphandler);
     }
+}
 
 
-    
 
-    //uphandler
+export class Keyboard{
+
+    public keys:Key[];
+    public areEvents:boolean=false;
+    public pressedKeys:string[];
+
+    constructor(keys:String[]){
+        this.keys=[];
+        this.pressedKeys=[];
+
+        keys.forEach(key => {
+            let tempKey = new Key(key);
+            this.keys.push(tempKey)
+        });
+    }
+
+    poll(){
+        this.pressedKeys=[]
+        this.areEvents=false;
+        this.keys.forEach(key => {
+            if(key.isDown){
+                this.areEvents=true;
+                this.pressedKeys.push(key.value)
+            }
+        });
+    }
 
 
 }
-

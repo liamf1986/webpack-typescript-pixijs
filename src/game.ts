@@ -1,10 +1,10 @@
 import {Player} from './player';
 import {Enemy} from './enemy'
-import {KeyHandler} from './keyboard'
 import {Arena} from './arena'
 import {Cursor} from './cursor'
 import {Bullet} from './bullet'
 import {UI} from './ui'
+import { Keyboard } from './keyboard';
 
 export class Game {
     private app: PIXI.Application;
@@ -12,18 +12,15 @@ export class Game {
     private cursor: Cursor;
     private mouseIsClicked: boolean = false;
 
-    public gameDifficulty:number = .1;
+    public gameDifficulty:number = .01;
 
     private enemys: Enemy[];
     private timerSpawnEnemy:number;
-    private delaySpawnEnemy:number = 8/this.gameDifficulty;
+    private delaySpawnEnemy:number = 10/this.gameDifficulty;
 
     private bullets: Bullet[];
 
-    private moveLeft:KeyHandler;
-    private moveRight:KeyHandler;
-    private moveUp:KeyHandler;
-    private moveDown:KeyHandler;
+    private movementKeys:Keyboard;
 
     private arena:Arena;
     private ui:UI;
@@ -42,10 +39,7 @@ export class Game {
         this.enemys = [];
         this.timerSpawnEnemy = Math.floor(Math.random()*this.delaySpawnEnemy);
 
-        this.moveLeft = new KeyHandler("a");
-        this.moveRight = new KeyHandler('d');
-        this.moveUp = new KeyHandler('w');
-        this.moveDown = new KeyHandler('s');;
+        this.movementKeys = new Keyboard(["w","s","a","d"])
     }
 
     load(loader: PIXI.loaders.Loader) : void {
@@ -57,7 +51,10 @@ export class Game {
         this.arena= new Arena(this.app,[0,0]);
         this.app.stage.addChild(this.arena);
 
-        this.player = new Player([500,500],[this.arena.width,this.arena.height]);
+        this.player = new Player(
+            [this.arena.size[1]/2,this.arena.size[0]/2],
+            [this.arena.width,this.arena.height]
+        );
         this.app.stage.addChild(this.player);
 
         this.ui = new UI(this.app);
@@ -71,23 +68,25 @@ export class Game {
         this.arena.on("ClickUp", () => {this.mouseIsClicked=false;});
     }
 
-    movePlayer(direction:boolean, axis:boolean){
-        this.player.move(direction,axis);
-    }
+    //movePlayer(direction:boolean, axis:boolean){
+     //   this.player.move(direction,axis);
+    //}
 
     fireBullet(){
-        let newBullet = new Bullet([this.player.x,this.player.y],this.player.rotation);
-        this.arena.addChild(newBullet);
-        this.bullets.push(newBullet);
+
+        for(let i=0; i<this.player.currentWeapon.bullets;i++){
+            let newBullet = new Bullet([this.player.x,this.player.y],this.player.rotation,this.player.currentWeapon.damage,this.player.currentWeapon.inaccuracy);
+            this.arena.addChild(newBullet);
+            this.bullets.push(newBullet);
+        }
         this.ui.updateAmmo(this.player.useAmmo());
     }
 
-    damagePlayer(){
-        this.ui.updateHealth(this.player.takeDamage(1));;
+    damagePlayer(damage:number){
+        this.ui.updateHealth(this.player.takeDamage(damage));;
     }
 
     spawnEnemy(){
-        
         let randomX = Math.random() < .5 ? 1 : -1;
         let randomY = Math.random() < .5 ? 1 : -1;
 
@@ -96,19 +95,33 @@ export class Game {
             (this.arena.size[1]+10)*randomY
         ])
 
-        tempEn.on("touchedPlayer", () => {this.damagePlayer();});
+        tempEn.on("touchedPlayer", () => {this.damagePlayer(tempEn.attackDamage);});
         this.arena.addChild(tempEn);
         this.enemys.push(tempEn);
     }
 
     eventHandle(delta:number){
-        //Player handling
-        //Sends keyboard input and mouse posistion to update for next frame
-        if (this.moveLeft.isDown){this.movePlayer(false,true);}
-        if (this.moveRight.isDown){this.movePlayer(true,true);}
-        if (this.moveUp.isDown){this.movePlayer(false,false);}
-        if (this.moveDown.isDown){this.movePlayer(true,false);}
+        
+        
+        this.movementKeys.poll()
+        let moveVector:number[] = [0,0]
+
+        if(this.movementKeys.areEvents){
+            let pressed = this.movementKeys.pressedKeys;
+            if(pressed.includes("d")){moveVector[0]+=1}
+            if(pressed.includes("a")){moveVector[0]-=1}
+            if(pressed.includes("s")){moveVector[1]+=1}
+            if(pressed.includes("w")){moveVector[1]-=1}
+
+            this.player.movementMove(Math.atan2(moveVector[1],moveVector[0]))
+        }
+
+
+
+
         this.player.aim(this.arena.mousePos);
+
+
 
         //sending mouse position data to the cursor to update for next frame
         this.cursor.setPos(this.arena.mousePos);
@@ -116,7 +129,7 @@ export class Game {
         //the bullet firing timer
         //will fire if the mouse is held and the timer is 0 or less
         if(!this.mouseIsClicked){
-            this.player.fireReset();
+            this.player.attackResetTimer();
         }
         else{
             this.player.bulletTimer-=1;
@@ -130,15 +143,21 @@ export class Game {
     update(){
         this.player.update(this.arena);    
         this.enemys.forEach(enemy => {
-            enemy.update([this.player.position.x,this.player.position.y],this.bullets)
+            enemy.update([this.player.position.x,this.player.position.y])
         });
 
         this.bullets.forEach((bullet,index) => {
             bullet.update(this.arena.size);
-            if (bullet.outofbounds){
+            if (bullet.cull){
                 this.arena.removeChild(bullet);
                 this.bullets.splice(index,1);
-                
+            }
+        });
+
+        this.enemys.forEach((enemy,index) => {
+            if (enemy.cull){
+                this.arena.removeChild(enemy);
+                this.enemys.splice(index,1);
             }
         });
         //decrement the spawn enemy timer and check if it has run down
@@ -153,21 +172,21 @@ export class Game {
     detectCollisions(){
 
         //check each bullet to see if it has hit an enemy
-        this.bullets.forEach(bullet => {
-            this.enemys.forEach((enemy,index) => {
-                    
+        
+        this.bullets.forEach((bullet,bulletindex) => {
+            this.enemys.forEach((enemy,enemyindex) => {
+                
                 var dist_X = enemy.position.x - bullet.x;
                 var dist_Y = enemy.position.y - bullet.y;
 
-                if (!(dist_Y > bullet.attackRange || dist_Y < -bullet.attackRange) && !(dist_X > bullet.attackRange || dist_X < -bullet.attackRange)){
+                if (!(dist_Y > enemy.size/2|| dist_Y < -enemy.size/2) && !(dist_X > enemy.size/2 || dist_X < -enemy.size/2)){
                     enemy.takeDamage(bullet.attackDamage);
-                    bullet.remove();
+                                
                     if (enemy.health<=0){
                         this.player.giveAmmo(enemy.killReward);
-                        this.arena.removeChild(enemy);
-                        enemy=null;
-                        this.enemys.splice(index,1)   
+                        enemy.cull=true;
                     }
+                    bullet.cull=true;
                 }
             });
         });
