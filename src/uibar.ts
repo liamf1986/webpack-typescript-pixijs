@@ -23,18 +23,19 @@ export class UIBar extends PIXI.Graphics{
         let B:number = 1
 
         let FRcolor = PIXI.utils.rgb2hex([
-            R*.9,
-            G*.9,
-            B*.1
+            R*.85,
+            G*.6,
+            B*.35
         ]);
 
         let BGcolor = PIXI.utils.rgb2hex([
-            R*.45,
-            G*.45,
-            B*.05
+            R*.425,
+            G*.3,
+            B*.175
         ]);
 
         this.clear();
+        this.lineStyle(2,0xf1bf59)
         this.beginFill(BGcolor);
         this.drawRect(0, 0, this.maxWidth, 40);
         this.beginFill(FRcolor);

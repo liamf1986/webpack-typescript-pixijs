@@ -1,41 +1,43 @@
+import { Texture } from "pixi.js";
+
 export interface IWeapon{
     bullets:number;
     fireDelay:number;
     damage:number;
     ammoUse:number;
-    inaccuracy:number
+    inaccuracy:number;
 }
 
 export let weaponsList = {
-    shotgun: {
-      bullets: 6,
-      fireDelay: 20,
-      damage: 1,
-      ammoUse: 4,
-      inaccuracy: .2
-    }as IWeapon,
-
     pistol: {
         bullets: 1,
-        fireDelay: 20,
-        damage: 2,
+        fireDelay: 10,
+        damage: .5,
         ammoUse: 1,
-        inaccuracy: .1
+        inaccuracy: .1,
     }as IWeapon,
 
-    machineGun: {
-        bullets: 8,
+    shotgun: {
+        bullets: 6,
+        fireDelay: 20,
+        damage: 1,
+        ammoUse: 4,
+        inaccuracy: .1,
+      }as IWeapon,
+
+    machinegun: {
+        bullets: 1,
         fireDelay: 2,
         damage: 1,
         ammoUse: 1,
-        inaccuracy: 1
+        inaccuracy: .01,
     }as IWeapon,
 
-    testGun: {
+    sniper: {
         bullets: 1,
-        fireDelay: 1,
-        damage: 1,
-        ammoUse: 0,
-        inaccuracy: 0
+        fireDelay: 30,
+        damage: 15,
+        ammoUse: 2,
+        inaccuracy: 0.1,
     }as IWeapon
 }

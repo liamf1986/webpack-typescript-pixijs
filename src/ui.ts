@@ -1,5 +1,6 @@
 import {UIBar} from './uibar'
-import {UIButton} from './uibutton'
+import {Shop} from './shop'
+import {app} from './application'
 
 export class UI extends PIXI.Container{
     private background:PIXI.Graphics;
@@ -10,37 +11,37 @@ export class UI extends PIXI.Container{
     private ammoText:PIXI.Text;
     private ammoBar:UIBar;
 
-    private btnPistol:UIButton;
-    private btnShotgun:UIButton;
-    private btnMachineGun:UIButton;
+    public shop:Shop;
+
 
     private fontStyle:PIXI.TextStyle = new PIXI.TextStyle(
         {
             "fill": [
-                "#cecfcd",
-                "0x5ab9a8"
+                "#8e243f ",
+                "#531f37 "
             ],
             "fontFamily": "Arial, Helvetica, sans-serif",
-            "fontSize": 40,
+            "fontSize": 45,
             "fontVariant": "small-caps",
             "fontWeight": "bold",
             "letterSpacing": 4,
-            "lineJoin": "round",
-            "stroke": "#2c1b00",
-            "strokeThickness": 7
+            "stroke": "#d9995a ",
+            "strokeThickness": 4,
+            "miterLimit": 2
         }
         );
 
 
-    constructor(app:PIXI.Application){
+    constructor(){
         super()
 
         this.background = new PIXI.Graphics;
-        this.background.beginFill(0x5ab9a8);
+        this.background.beginFill(0x1d2d3a);
         this.background.drawRect(0,0, app.screen.width*.25, app.screen.height);
         this.background.endFill();
         this.x = app.screen.width - this.background.width;
 
+        
 
         this.healthBar = new UIBar(this.background.width*.9,100,100,this.background.height*.1);
         this.healthBar.x += this.background.width*.05;
@@ -58,9 +59,8 @@ export class UI extends PIXI.Container{
             this.ammoBar.y-this.ammoText.height
         );
 
-        this.btnPistol = new UIButton(this.background.width*.9,this.background.height*.18,[this.background.width*.05,this.background.height*.42])
-        this.btnShotgun = new UIButton(this.background.width*.9,this.background.height*.18,[this.background.width*.05,this.background.height*.61])
-        this.btnMachineGun = new UIButton(this.background.width*.9,this.background.height*.18,[this.background.width*.05,this.background.height*.8])
+        this.shop = new Shop(this.background.width*.9,this.background.height*.18,[this.background.width*.05,this.background.height*.8])
+
 
 
         this.addChild(this.background);
@@ -71,9 +71,7 @@ export class UI extends PIXI.Container{
         this.addChild(this.ammoBar);
         this.addChild(this.ammoText);
 
-        this.addChild(this.btnPistol);
-        this.addChild(this.btnShotgun);
-        this.addChild(this.btnMachineGun);
+        this.addChild(this.shop);
     }
 
     updateHealth(newValue:number){

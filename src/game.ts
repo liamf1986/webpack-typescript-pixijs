@@ -12,11 +12,16 @@ export class Game {
     private cursor: Cursor;
     private mouseIsClicked: boolean = false;
 
-    public gameDifficulty:number = .01;
+    public gamepoints:number = 0;
+
+    public gameDifficulty:number = 3
+    public gameLevel:number= 1;
 
     private enemys: Enemy[];
+    private maxEnemys:number = 10;
+
     private timerSpawnEnemy:number;
-    private delaySpawnEnemy:number = 10/this.gameDifficulty;
+    private delaySpawnEnemy:number = 1;
 
     private bullets: Bullet[];
 
@@ -43,7 +48,10 @@ export class Game {
     }
 
     load(loader: PIXI.loaders.Loader) : void {
-    //    loader.add('logo', 'assets/logo.png');
+        loader.add('pistol', 'assets/imgPistol.png');
+        loader.add('shotgun', 'assets/imgShotgun.png');
+        loader.add('machinegun', 'assets/imgMachineGun.png');
+        loader.add('sniper', 'assets/imgSniper.png');
     }
     
     //attaching children and listeners to the game object
@@ -57,8 +65,10 @@ export class Game {
         );
         this.app.stage.addChild(this.player);
 
-        this.ui = new UI(this.app);
+        this.ui = new UI();
         this.app.stage.addChild(this.ui);
+
+        this.ui.shop.on("boob", () => {console.log("pressedbuttonlool")});
 
         this.cursor = new Cursor([500,500]);
         this.app.stage.addChild(this.cursor);
@@ -87,22 +97,34 @@ export class Game {
     }
 
     spawnEnemy(){
-        let randomX = Math.random() < .5 ? 1 : -1;
-        let randomY = Math.random() < .5 ? 1 : -1;
 
-        var tempEn = new Enemy([
-            (this.arena.size[0]+10)*randomX,
-            (this.arena.size[1]+10)*randomY
-        ])
+        let dist_X = this.arena.size[0]*.5 - Math.floor(Math.random()*this.arena.size[0]);
+        let dist_Y = this.arena.size[1]*.5 -  Math.floor(Math.random()*this.arena.size[1]);
+        let randomPos = Math.atan2(dist_Y,dist_X);
+
+        let randomX = this.arena.size[0]*.5 + (
+            Math.sin(randomPos)*this.arena.size[0]);
+
+        let randomY = this.arena.size[1]*.5 + (
+            Math.cos(randomPos)*this.arena.size[1]);
+
+        let tempEn = new Enemy([
+            randomX,
+            randomY],
+            this.player.size*.5)
 
         tempEn.on("touchedPlayer", () => {this.damagePlayer(tempEn.attackDamage);});
         this.arena.addChild(tempEn);
         this.enemys.push(tempEn);
+
+        //console.log(
+        //    "Rad: ", randomPos,
+        //    "\nX: ", randomX,
+        //    "\nY: ", randomY,
+        //    "\nDistance:", tempEn.distanceFrom([this.player.x,this.player.y]))
     }
 
     eventHandle(delta:number){
-        
-        
         this.movementKeys.poll()
         let moveVector:number[] = [0,0]
 
@@ -164,7 +186,9 @@ export class Game {
         this.timerSpawnEnemy-=1;
         if (this.timerSpawnEnemy<=1){
             this.timerSpawnEnemy=Math.floor(Math.random()*this.delaySpawnEnemy)
-            this.spawnEnemy();
+            if(this.enemys.length<this.maxEnemys){
+                this.spawnEnemy();
+            }
 
         }
     }
@@ -175,11 +199,12 @@ export class Game {
         
         this.bullets.forEach((bullet,bulletindex) => {
             this.enemys.forEach((enemy,enemyindex) => {
-                
-                var dist_X = enemy.position.x - bullet.x;
-                var dist_Y = enemy.position.y - bullet.y;
+                if (bullet.cull){return}             
+                let a = bullet.x-enemy.x
+                let b = bullet.y-enemy.y
+                let distance = Math.sqrt( a*a + b*b)
 
-                if (!(dist_Y > enemy.size/2|| dist_Y < -enemy.size/2) && !(dist_X > enemy.size/2 || dist_X < -enemy.size/2)){
+                if (!(distance > enemy.size/2|| distance < -enemy.size/2) && !(distance > enemy.size/2 || distance < -enemy.size/2)){
                     enemy.takeDamage(bullet.attackDamage);
                                 
                     if (enemy.health<=0){
@@ -191,7 +216,6 @@ export class Game {
             });
         });
     }
-
     main(delta: number) : void {
         this.eventHandle(delta);
         this.detectCollisions();

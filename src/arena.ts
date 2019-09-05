@@ -18,7 +18,7 @@ export class Arena extends PIXI.Container{
         this.mousePos = [1,1];
 
         this.background = new PIXI.Graphics;
-        this.background.beginFill(0x1e606e);
+        this.background.beginFill(0x2a5866);
         this.background.drawRect(position[0], position[1], this.app.screen.width*.75, this.app.screen.height);
         this.background.endFill();
 

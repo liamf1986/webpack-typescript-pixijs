@@ -9,16 +9,19 @@ export class Player extends PIXI.Graphics {
     public delayBulletTimer:number;
 
     //square size
-    private size:number = 30;
+    public size:number = 30;
 
     //position and movement data
     public movementVelocity:number [] = [0,0];
     public maxPosition:number[]
 
     public ammo:number;
-    public health:number;
-
+    public ammoMax:number=200;
     public hasAmmo:boolean;
+
+    public health:number;
+    public healthmax:number = 100;
+
     public canFire:boolean = true;
 
     public currentWeapon: IWeapon;
@@ -31,18 +34,27 @@ export class Player extends PIXI.Graphics {
         this.ammo=200;
         this.hasAmmo=false;
 
-        this.currentWeapon = weaponsList.shotgun;
+        this.currentWeapon = weaponsList.pistol;
 
-        this.beginFill(0x2d1b00);
-        this.drawRect(0, 0, this.size, this.size);
-        this.beginFill(0xc4f0c2);
-        this.drawRect(this.size*.65, this.size*.1, this.size/4, (this.size*.8));
-        this.endFill();
-        
+        this.drawBody();
         //centering rotation around the body
         this.position.set(position[0],position[1]);
         this.pivot.set(this.width*.5)
     }
+
+    drawBody(){
+        this.clear();
+        //creating player body
+        this.lineStyle(1,0xf1bf59);
+        this.beginFill(0x483861);
+        this.drawRect(0, 0, this.size, this.size);
+
+        this.lineStyle(0)
+        this.beginFill(0xf1bf59);
+        this.drawRect(this.size*.65, this.size*.1, this.size/4, this.size*.8);
+        this.endFill();  
+    }
+
 
     attackResetTimer(){
         this.bulletTimer=this.currentWeapon.fireDelay;
@@ -50,17 +62,25 @@ export class Player extends PIXI.Graphics {
 
     giveAmmo(amount:number){
         this.ammo+=amount;
+        if(this.ammo > this.ammoMax){
+            this.ammo=this.ammoMax;
+        }
     }
 
     takeDamage(damage:number){
         this.health-=damage;
+        if(this.health < 0){
+            this.health=0;
+        }
+        this.drawBody();
         return this.health;
     }
 
     useAmmo():number{
         this.ammo-=this.currentWeapon.ammoUse;
-        if(this.ammo===0){
+        if(this.ammo<=0){
             this.hasAmmo=false;
+            this.ammo=0;
         }
         return this.ammo
     }
