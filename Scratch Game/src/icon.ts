@@ -41,12 +41,6 @@ export class Icons{
             this.winningSymbolCount++;
             if (this.winningSymbolCount >= 3){
                 this.spriteArray.forEach(icon => {
-                    // this.graphics.lineStyle(10, 0xFFBD01, 1);
-                    // this.graphics.beginFill(0xC34288);
-                    // this.graphics.drawRect(350, 50, 100, 100);
-                    // this.graphics.endFill();
-                    // console.log('rgsrg')
-                    // app.stage.addChild(this.graphics)
                     this.winningText.anchor.set(0.5);
                     app.stage.addChild(this.winningText);
                     this.winningText.visible = true;
@@ -57,13 +51,11 @@ export class Icons{
                     this.balance = this.balance++;
                     console.log(this.balance);
                 });
-                //this.winLogo.visible = true;
             }
         }
     }
 
     setupGame(app: PIXI.Application) : void {
-        // create your assets: Sprites, Sounds, etc...
         // Set any constiant data
 
         //Set circle Graphics points

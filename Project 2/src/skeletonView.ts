@@ -1,6 +1,7 @@
 import { Game } from "./game";
 import { knightAnimations } from './moves'
 import {TweenLite, Elastic} from "gsap";
+import strings from "./strings";
 
 export class skeletonAnimations extends PIXI.Container{
     private app: PIXI.Application;
@@ -13,11 +14,14 @@ export class skeletonAnimations extends PIXI.Container{
     //Dead Skeleton Var
     private deadSkeletonFrames: PIXI.Texture[] = [];
     public deadSkeletonAnim: PIXI.extras.AnimatedSprite;
+
+    private Game: Game
     
-        constructor(app: PIXI.Application){
+        constructor(app: PIXI.Application, game: Game){
             super()
             this.app = app;
-            
+            this.Game = game;
+                        
             for(let i=0; i<5; i++){
             this.deadSkeletonFrames.push(PIXI.Texture.fromFrame('skeletondead' + (i + 1) + '.png'));
             }
@@ -53,8 +57,15 @@ export class skeletonAnimations extends PIXI.Container{
             this.idleSkeletonAnim.play();
             
             this.attackSkeletonAnim.onComplete = () => {
-                this.attackSkeletonAnim.visible = false;
-                this.idleSkeletonAnim.visible = true;
+                if(this.Game.levels[this.Game.level].monsterHealth <= 0){
+                    this.Game.levels[this.Game.level].monster.deadAnimation();
+                    this.visableAnimationState(this.deadSkeletonAnim)
+                    this.deadSkeletonAnim.gotoAndPlay(0)
+                }
+                else{
+                    this.attackSkeletonAnim.visible = false;
+                    this.idleSkeletonAnim.visible = true;
+                }
             }
     
             this.deadSkeletonAnim.onComplete = () => {
@@ -65,11 +76,15 @@ export class skeletonAnimations extends PIXI.Container{
 
     
     attackAnimation(){
-        console.log('The skeleton attacked')
         this.attackSkeletonAnim.loop = false;
         this.attackSkeletonAnim.visible = true;
         this.idleSkeletonAnim.visible = false;
         this.attackSkeletonAnim.gotoAndPlay(0)
+        if(this.Game.levels[this.Game.level].monsterHealth <= 0){
+            this.Game.levels[this.Game.level].monster.deadAnimation();
+            this.visableAnimationState(this.deadSkeletonAnim)
+            this.deadSkeletonAnim.gotoAndPlay(0)
+        }
 
     }
 
@@ -95,6 +110,14 @@ export class skeletonAnimations extends PIXI.Container{
         this.deadSkeletonAnim.visible = false;
         this.attackSkeletonAnim.visible = false;
         this.idleSkeletonAnim.visible = true;
+    }
+
+    visableAnimationState( animation: PIXI.extras.AnimatedSprite) {
+        console.log('visible animations')
+        this.deadSkeletonAnim.visible = false;
+        this.idleSkeletonAnim.visible = false;
+        this.attackSkeletonAnim.visible = false;
+        animation.visible = true;
     }
     
 }

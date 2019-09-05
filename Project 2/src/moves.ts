@@ -1,5 +1,6 @@
 import {TweenLite, Elastic, Ease} from "gsap";
 import { KeyboardInstance } from './keyboard'
+import strings from "./strings";
 
 export class knightAnimations extends PIXI.Container{
     
@@ -11,11 +12,11 @@ export class knightAnimations extends PIXI.Container{
     private attackKnightAnim: PIXI.extras.AnimatedSprite;
     private missKnightAnim: PIXI.extras.AnimatedSprite;
     protected idleKnightFrames: PIXI.Texture[] = [];
-    public idleKnightAnim: PIXI.extras.AnimatedSprite;
+    private idleKnightAnim: PIXI.extras.AnimatedSprite;
     public testText: PIXI.Text;
 
     //Text Styling
-    private style = new PIXI.TextStyle({
+    public style = new PIXI.TextStyle({
         fontFamily: 'Arial',
         fontSize: 60,
         fontStyle: 'italic',
@@ -92,7 +93,7 @@ export class knightAnimations extends PIXI.Container{
     }
     
     attackAnimation(){
-        this.testText.text = 'You swung your sword and struck the Ice Golem';
+        this.testText.text = strings.Knight.hit;
         this.attackKnightAnim.loop = false;
         this.visableAnimationState(this.attackKnightAnim);
         this.attackKnightAnim.gotoAndPlay(0)
@@ -100,7 +101,7 @@ export class knightAnimations extends PIXI.Container{
 
     hurtAnimation(){
         this.idleKnightAnim.tint = 0xa83232;
-        const oldCords:number[] = [this.x, this.y];
+        const oldCords:number[] = [-74, 350];
         TweenLite.to(this, 1.2, {x: oldCords[0]-20, y: oldCords[1]-5, ease: Elastic.easeOut.config(1.5, 0.4), onComplete: ()=> {
             this.x = oldCords[0];
             this.y = oldCords[1];
@@ -110,35 +111,33 @@ export class knightAnimations extends PIXI.Container{
 
     missAnimation(){
         this.attackKnightAnim.loop = false;
-        this.testText.text = 'You missed the Ice golem!';
+        this.testText.text = strings.Knight.miss;
         this.visableAnimationState(this.attackKnightAnim)
         this.attackKnightAnim.gotoAndPlay(0)   
     }
 
     deadAnimation(){
         this.deadKnightAnim.loop = false;
-        this.testText.text = 'Defeat! >:D';
         this.visableAnimationState(this.deadKnightAnim);
         this.deadKnightAnim.gotoAndPlay(0) 
+        this.attackKnightAnim.stop()
     }
 
      update(delta: number): void {
         if (KeyboardInstance.isKeyDown('d')) {
-            this.x += 2;
+            this.x += 3;
         }
         else if (KeyboardInstance.isKeyDown('a')) {
-            this.x -= 2;
+            this.x -= 3;
         }   
      }
 
      public reset(): void {
-        this.deadKnightAnim.visible = false;
-        this.missKnightAnim.visible = false;
-        this.attackKnightAnim.visible = false;
-        this.idleKnightAnim.visible = true;
+        this.visableAnimationState(this.idleKnightAnim)
      }
 
     visableAnimationState( animation: PIXI.extras.AnimatedSprite) {
+        console.log('visible animations')
         this.deadKnightAnim.visible = false;
         this.idleKnightAnim.visible = false;
         this.missKnightAnim.visible = false;
