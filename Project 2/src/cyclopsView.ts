@@ -22,7 +22,7 @@ export class cyclopAnimations extends PIXI.Container{
         this.Game = game;
                     
         for(let i=0; i<5; i++){
-        this.deadCyclopsFrames.push(PIXI.Texture.fromFrame('cyclopsdead' + (i + 1) + '.png'));
+            this.deadCyclopsFrames.push(PIXI.Texture.fromFrame('cyclopsdead' + (i + 1) + '.png'));
         }
         this.deadCyclopsAnim = new PIXI.extras.AnimatedSprite(this.deadCyclopsFrames);
         this.deadCyclopsAnim.visible = false;

@@ -80,8 +80,6 @@ export class golemAnimations extends PIXI.Container{
     
     attackAnimation(){
         if(this.Game.levels[this.Game.level].monsterHealth <= 0){
-            //this.attackGolemAnim.visible = false;
-            console.log('The golem tried to attack but died')
             this.Game.levels[this.Game.level].monster.deadAnimation();
             this.visableAnimationState(this.deadGolemAnim)
             this.deadGolemAnim.gotoAndPlay(0)

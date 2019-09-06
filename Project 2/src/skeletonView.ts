@@ -77,7 +77,6 @@ export class skeletonAnimations extends PIXI.Container{
     
     attackAnimation(){
         if(this.Game.levels[this.Game.level].monsterHealth <= 0){
-            console.log('the Skeleton tried to attack but died.')
             this.Game.levels[this.Game.level].monster.deadAnimation();
             this.visableAnimationState(this.deadSkeletonAnim)
             this.deadSkeletonAnim.gotoAndPlay(0)

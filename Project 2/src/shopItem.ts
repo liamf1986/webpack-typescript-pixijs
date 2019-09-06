@@ -100,7 +100,6 @@ export class Shop extends PIXI.Container{
             this.addChild(item);
             item.x = 270 * (index + 1);
             item.y = app.screen.height * 0.25;
-            console.log(this.Game.currency)
             item.on('itemBought', () => {
                 if(playerInstance.currency >= item.price){
                     this.itemConfirmation()
