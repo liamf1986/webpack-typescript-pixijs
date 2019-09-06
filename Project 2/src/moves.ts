@@ -59,7 +59,6 @@ export class knightAnimations extends PIXI.Container{
         this.deadKnightAnim.visible = false;
         this.addChild(this.deadKnightAnim);
 
-
         //Animated Knight Idle Sprite
         for(let i=0; i<9; i++){
             this.idleKnightFrames.push(PIXI.Texture.fromFrame('Idle' + (i +1 + '.png')));
@@ -72,7 +71,7 @@ export class knightAnimations extends PIXI.Container{
         this.width = this.app.screen.width * 0.3;
         this.scale.y = this.scale.x
         this.x = 120 - this.width * 0.5;
-        this.y = 540 - this.height * 0.5;
+        this.y = 510 - this.height * 0.5;
         this.idleKnightAnim.animationSpeed = 0.16;
         this.attackKnightAnim.animationSpeed = 0.16;
 
@@ -101,7 +100,7 @@ export class knightAnimations extends PIXI.Container{
 
     hurtAnimation(){
         this.idleKnightAnim.tint = 0xa83232;
-        const oldCords:number[] = [-74, 350];
+        const oldCords:number[] = [-69, 320];
         TweenLite.to(this, 1.2, {x: oldCords[0]-20, y: oldCords[1]-5, ease: Elastic.easeOut.config(1.5, 0.4), onComplete: ()=> {
             this.x = oldCords[0];
             this.y = oldCords[1];
@@ -123,21 +122,20 @@ export class knightAnimations extends PIXI.Container{
         this.attackKnightAnim.stop()
     }
 
-     update(delta: number): void {
-        if (KeyboardInstance.isKeyDown('d')) {
+    public update(): void {
+        if (KeyboardInstance.isKeyDown('d') || KeyboardInstance.isKeyDown('D')) {
             this.x += 3;
         }
-        else if (KeyboardInstance.isKeyDown('a')) {
+        else if (KeyboardInstance.isKeyDown('a') || KeyboardInstance.isKeyDown('A')) {
             this.x -= 3;
         }   
-     }
+    }
 
-     public reset(): void {
+    public reset(): void {
         this.visableAnimationState(this.idleKnightAnim)
-     }
+    }
 
     visableAnimationState( animation: PIXI.extras.AnimatedSprite) {
-        console.log('visible animations')
         this.deadKnightAnim.visible = false;
         this.idleKnightAnim.visible = false;
         this.missKnightAnim.visible = false;
@@ -146,5 +144,3 @@ export class knightAnimations extends PIXI.Container{
     }
 
 }
-
-
