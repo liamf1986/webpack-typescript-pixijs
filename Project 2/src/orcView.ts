@@ -113,7 +113,6 @@ export class orcAnimations extends PIXI.Container{
     }
 
     visableAnimationState( animation: PIXI.extras.AnimatedSprite) {
-        console.log('visible animations')
         this.deadOrcAnim.visible = false;
         this.idleOrcAnim.visible = false;
         this.attackOrcAnim.visible = false;

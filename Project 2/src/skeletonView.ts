@@ -113,7 +113,6 @@ export class skeletonAnimations extends PIXI.Container{
     }
 
     visableAnimationState( animation: PIXI.extras.AnimatedSprite) {
-        console.log('visible animations')
         this.deadSkeletonAnim.visible = false;
         this.idleSkeletonAnim.visible = false;
         this.attackSkeletonAnim.visible = false;

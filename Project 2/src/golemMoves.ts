@@ -87,7 +87,6 @@ export class golemAnimations extends PIXI.Container{
         else{
             this.attackGolemAnim.visible = false;
             this.idleAnim.visible = true;
-            console.log('hello')
             //Attack
             this.attackGolemAnim.position.x = -670;
             this.attackGolemAnim.position.y = -600;
@@ -131,7 +130,6 @@ export class golemAnimations extends PIXI.Container{
     }
 
     visableAnimationState( animation: PIXI.extras.AnimatedSprite) {
-        console.log('visible animations')
         this.deadGolemAnim.visible = false;
         this.idleAnim.visible = false;
         this.attackGolemAnim.visible = false;
