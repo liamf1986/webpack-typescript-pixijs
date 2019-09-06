@@ -46,10 +46,10 @@ export class orcAnimations extends PIXI.Container{
             this.addChild(this.idleOrcAnim);
             this.idleOrcAnim.loop = true;
             
-            this.width = this.app.screen.width * 0.25;
+            this.width = this.app.screen.width * 0.35;
             this.scale.y = this.scale.x
-            this.x = 1130;
-            this.y = 670 - this.height;
+            this.x = 1230;
+            this.y = 657 - this.height;
             this.scale.x = -this.scale.x
             this.attackOrcAnim.animationSpeed = 0.16;
             this.idleOrcAnim.animationSpeed = 0.16;

@@ -67,6 +67,7 @@ export class Shop extends PIXI.Container{
     private Buttons: buttons;
     private exitErrorButton: PIXI.Sprite;
     private errorContainer = new PIXI.Container;
+    private confirmContainer = new PIXI.Container;
     private shopItem = ShopItem
 
     
@@ -99,9 +100,9 @@ export class Shop extends PIXI.Container{
             this.addChild(item);
             item.x = 270 * (index + 1);
             item.y = app.screen.height * 0.25;
-            console.log(this.Game.currency)
             item.on('itemBought', () => {
                 if(playerInstance.currency >= item.price){
+                    this.itemConfirmation()
                     this.emit('itemBought', item.name, item.price);
                 }
                 else{
@@ -115,6 +116,28 @@ export class Shop extends PIXI.Container{
             });
         });
     }
+        public itemConfirmation():void{
+            const graphics = new PIXI.Graphics
+            let confirmText = new PIXI.Text
+            this.confirmContainer.visible = true; 
+            this.addChild(this.confirmContainer)
+            confirmText = new PIXI.Text('', this.style);
+            confirmText.text = 'Item Upgraded!!';
+            confirmText.x = 425;
+            confirmText.y = 185;
+            graphics.lineStyle(2, 0x000000, 1);
+            graphics.beginFill(0xeaeaea);
+            graphics.drawRect(370, 150, 470, 100);
+            graphics.endFill();
+            this.exitErrorButton.x = 810;
+            this.exitErrorButton.y = 155;
+            this.exitErrorButton.width = this.exitErrorButton.height = 25;
+            this.exitErrorButton.visible = true;
+            this.confirmContainer.addChild(graphics);
+            this.confirmContainer.addChild(confirmText);
+            this.confirmContainer.addChild(this.exitErrorButton);
+            this.Buttons.exitButton.interactive = false;
+        }
 
         public notEnoughCredits():void{
             const graphics = new PIXI.Graphics;
@@ -142,6 +165,7 @@ export class Shop extends PIXI.Container{
         public closeErrorBox(): void{
             this.errorContainer.visible = false;
             this.Buttons.exitButton.interactive = true;
+            this.confirmContainer.visible = false;
         }
 
 }

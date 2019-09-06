@@ -49,7 +49,7 @@ export class skeletonAnimations extends PIXI.Container{
             this.width = this.app.screen.width * 0.25;
             this.scale.y = this.scale.x
             this.x = 1130;
-            this.y = 670 - this.height;
+            this.y = 640 - this.height;
             this.scale.x = -this.scale.x
             this.attackSkeletonAnim.animationSpeed = 0.16;
             this.idleSkeletonAnim.animationSpeed = 0.16;
@@ -76,22 +76,23 @@ export class skeletonAnimations extends PIXI.Container{
 
     
     attackAnimation(){
-        this.attackSkeletonAnim.loop = false;
-        this.attackSkeletonAnim.visible = true;
-        this.idleSkeletonAnim.visible = false;
-        this.attackSkeletonAnim.gotoAndPlay(0)
         if(this.Game.levels[this.Game.level].monsterHealth <= 0){
             this.Game.levels[this.Game.level].monster.deadAnimation();
             this.visableAnimationState(this.deadSkeletonAnim)
             this.deadSkeletonAnim.gotoAndPlay(0)
         }
-
+        else{
+            this.attackSkeletonAnim.loop = false;
+            this.attackSkeletonAnim.visible = true;
+            this.idleSkeletonAnim.visible = false;
+            this.attackSkeletonAnim.gotoAndPlay(0)
+        }
     }
 
     hurtAnimation() {
         this.idleSkeletonAnim.tint = 0xa83232;
         const oldCords:number[] = [this.x, this.y];
-        TweenLite.to(this, 1, {x: oldCords[0]+20, y: oldCords[1]+5, ease: Elastic.easeOut.config(2.5, 0.3), onComplete: ()=> {
+        TweenLite.to(this, 1, {x: oldCords[0]+20, ease: Elastic.easeOut.config(2.5, 0.3), onComplete: ()=> {
             this.idleSkeletonAnim.tint = 0xFFFFFF;
             this.x = oldCords[0];
             this.y = oldCords[1];
@@ -103,7 +104,6 @@ export class skeletonAnimations extends PIXI.Container{
         this.deadSkeletonAnim.visible = true;
         this.idleSkeletonAnim.visible = false;
         this.deadSkeletonAnim.gotoAndPlay(0)
-
     }
 
     public reset(): void {

@@ -3,6 +3,7 @@ import { knightAnimations } from './moves'
 
 export class buttons extends PIXI.Container{
     
+    public restartButton: PIXI.Sprite
     public playGameButton: PIXI.Sprite;
     public resetButton: PIXI.Sprite;
     public continueButton: PIXI.Sprite;
@@ -19,6 +20,7 @@ export class buttons extends PIXI.Container{
 
     constructor(app: PIXI.Application){
         super()
+        this.restartButton = new PIXI.Sprite(app.loader.resources.restartButton.texture);
         this.upgradeButton = new PIXI.Sprite(app.loader.resources.upgradeButton.texture);
         this.playGameButton = new PIXI.Sprite(app.loader.resources.playButton.texture);
         this.resetButton = new PIXI.Sprite(app.loader.resources.resetButton.texture);
@@ -117,7 +119,6 @@ export class buttons extends PIXI.Container{
         this.exitButton.x = this.app.screen.width * 0.78;
         this.exitButton.y = this.app.screen.height * 0.13;
         this.exitButton.anchor.set(0.5)
-        //this.addChild(this.exitButton);
     
         this.exitButton.on('pointerdown', () =>{
             this.emit('exitClicked')
@@ -136,7 +137,18 @@ export class buttons extends PIXI.Container{
             this.emit('playButtonClick')
         })
 
-
+        //Restart
+        this.restartButton.interactive = true;
+        this.restartButton.buttonMode = true;
+        this.restartButton.width = 230;
+        this.restartButton.height = 100;
+        this.restartButton.x = this.app.screen.width * 0.2;
+        this.restartButton.y = this.app.screen.height * 0.45;
+        this.restartButton.anchor.set(0.5)
+    
+        this.restartButton.on('pointerdown', () =>{
+            this.emit('restartClicked')
+        })
 
         //Reset
         this.resetButton.visible = false;
