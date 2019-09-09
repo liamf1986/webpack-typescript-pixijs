@@ -1,4 +1,5 @@
 import { Game } from './game';
+import { TweenLite, Power1 } from 'gsap';
 import { knightAnimations } from './moves'
 
 export class buttons extends PIXI.Container{
@@ -17,6 +18,7 @@ export class buttons extends PIXI.Container{
     public buyButtonSword: PIXI.Sprite;
     public oldCords: number[] = [this.x, this.y];
     private app: PIXI.Application;
+    private Game: Game
 
     constructor(app: PIXI.Application){
         super()
@@ -184,5 +186,4 @@ export class buttons extends PIXI.Container{
         this.goldenCoinUpgrade.x = this.app.screen.width * 0.155;
         this.goldenCoinUpgrade.y = this.app.screen.height * 0.52;
     }
-
 }

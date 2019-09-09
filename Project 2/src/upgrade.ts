@@ -4,7 +4,7 @@ export function getUpgrades() {
     const upgrades = {
         shield: {
             texture: 'shield',
-            price: 120
+            price: 210
         },
         sword: {
             texture: 'sword',
