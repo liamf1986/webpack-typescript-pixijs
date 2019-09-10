@@ -12,6 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "custom-event": "^1.0.1",
+    "custom-event-polyfill": "^0.3.0",
+    "eventemitter3": "^3.1.0",
     "pixi-sound": "^2.0.4",
     "pixi.js": "^4.8.2"
   },

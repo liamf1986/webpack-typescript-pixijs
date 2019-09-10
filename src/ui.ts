@@ -59,13 +59,13 @@ export class UI extends PIXI.Container{
             this.ammoBar.y-this.ammoText.height
         );
 
-        this.shop = new Shop(this.background.width*.9,this.background.height*.18,[this.background.width*.05,this.background.height*.8])
+        this.shop = new Shop(this.background.width*.9,this.background.height*.18,[this.background.width*.05,this.background.height*.75]);
 
 
 
         this.addChild(this.background);
 
-        this.addChild(this.healthBar)
+        this.addChild(this.healthBar);
         this.addChild(this.healthText);
 
         this.addChild(this.ammoBar);
@@ -80,5 +80,11 @@ export class UI extends PIXI.Container{
 
     updateAmmo(newValue:number){
         this.ammoBar.setValue(newValue);
+    }
+
+    reset(){
+        this.healthBar.reset();
+        this.ammoBar.reset();
+        this.shop.reset();
     }
 }

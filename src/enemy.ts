@@ -16,31 +16,24 @@ export class Enemy extends PIXI.Graphics {
 
     public movementVelocity:number [] = [0,0];
 
-    constructor(position:number[], playerSize:number){
+    constructor(position:number[], playerSize:number, strength:number){
         super();
 
-        this.size = Math.floor(Math.random() * (100 - 15 + 1)) + 15;
+        this.size = strength*40 + Math.random()*10
 
-        this.movementSpeed = 120/this.size;
+        this.movementSpeed = this.size*.15;
         
         this.attackRange = this.size*.5+playerSize;
         this.attackDamage = this.size*.1;
-        this.killReward = .6*this.size;
-        this.maxHealth = .5*this.size;
+        this.killReward = Math.round(.9*this.size);
+        this.maxHealth = .3*this.size;
         this.health =this.maxHealth;  
 
         this.health = this.maxHealth;
         this.damageCooldown=0;
         this.attackCoolDown=0;
 
-        let color = PIXI.utils.rgb2hex([
-            1-this.health/this.maxHealth,
-            this.health/this.maxHealth,
-            .1
-        ]);
-
         this.drawBody();
-
 
         //centering rotation around the body
         this.position.set(position[0],position[1]);

@@ -12,7 +12,7 @@ let ratio = MAX_SCREEN_WIDTH / MAX_SCREEN_HEIGHT;
 // Create the Application instance
 
 
-app.renderer.backgroundColor = 0x2d1b00;
+app.renderer.backgroundColor = 0x2a5866;
 
 PIXI.settings.RESOLUTION = window.devicePixelRatio;
 calcSize();

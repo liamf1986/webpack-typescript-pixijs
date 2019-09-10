@@ -42,4 +42,8 @@ export class UIBar extends PIXI.Graphics{
         this.drawRect(0, 0, this.segmentSize*newValue, 40);
         this.endFill();
     }
+
+    reset(){
+        this.setValue(this.maxValue);
+    }
 }

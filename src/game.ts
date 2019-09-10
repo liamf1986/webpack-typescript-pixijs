@@ -4,25 +4,26 @@ import {Arena} from './arena'
 import {Cursor} from './cursor'
 import {Bullet} from './bullet'
 import {UI} from './ui'
-import { Keyboard } from './keyboard';
+import {Keyboard} from './keyboard';
+import {Level} from './level';
+import {inventory} from './inventory'
+import {IWeapon} from './weapons';
+
+import {Popups} from './popups'
 
 export class Game {
     private app: PIXI.Application;
+
+    private gameIsPaused:boolean=true;
+
     private player: Player;
     private cursor: Cursor;
     private mouseIsClicked: boolean = false;
 
-    public gamepoints:number = 0;
-
-    public gameDifficulty:number = 3
-    public gameLevel:number= 1;
+    private difficulty:number=1;
+    private level:Level;
 
     private enemys: Enemy[];
-    private maxEnemys:number = 10;
-
-    private timerSpawnEnemy:number;
-    private delaySpawnEnemy:number = 1;
-
     private bullets: Bullet[];
 
     private movementKeys:Keyboard;
@@ -30,21 +31,15 @@ export class Game {
     private arena:Arena;
     private ui:UI;
 
-    //private enemy: Enemy []:
-
+    private popups:Popups;
     //create game Object with reference to Application
     constructor(app:PIXI.Application){
         this.app=app;
-        this.app.stage.interactive = true;
-        this.app.stage.buttonMode = true;
-
-        this.bullets = [];
+        this.level = new Level(this.difficulty);
         this.mouseIsClicked = false;
-
+        this.movementKeys = new Keyboard(["w","s","a","d"]);
         this.enemys = [];
-        this.timerSpawnEnemy = Math.floor(Math.random()*this.delaySpawnEnemy);
-
-        this.movementKeys = new Keyboard(["w","s","a","d"])
+        this.bullets = [];
     }
 
     load(loader: PIXI.loaders.Loader) : void {
@@ -52,6 +47,9 @@ export class Game {
         loader.add('shotgun', 'assets/imgShotgun.png');
         loader.add('machinegun', 'assets/imgMachineGun.png');
         loader.add('sniper', 'assets/imgSniper.png');
+
+        loader.add('ammopack', 'assets/imgAmmo.png');
+        loader.add('healthpack', 'assets/imghealth.png');
     }
     
     //attaching children and listeners to the game object
@@ -59,16 +57,16 @@ export class Game {
         this.arena= new Arena(this.app,[0,0]);
         this.app.stage.addChild(this.arena);
 
-        this.player = new Player(
-            [this.arena.size[1]/2,this.arena.size[0]/2],
-            [this.arena.width,this.arena.height]
+        this.player = new Player( [this.arena.size[0]/2,this.arena.size[1]/2],
+                                  [this.arena.width,this.arena.height]
         );
         this.app.stage.addChild(this.player);
+        this.player.on("dead", () => this.endGame())
 
         this.ui = new UI();
         this.app.stage.addChild(this.ui);
 
-        this.ui.shop.on("boob", () => {console.log("pressedbuttonlool")});
+        this.ui.shop.on("shopEvent", (event:IWeapon) => {this.shopEquip(event);});
 
         this.cursor = new Cursor([500,500]);
         this.app.stage.addChild(this.cursor);
@@ -76,20 +74,70 @@ export class Game {
         //listener for fire event from the arena
         this.arena.on("ClickDown", () => {this.mouseIsClicked=true;});
         this.arena.on("ClickUp", () => {this.mouseIsClicked=false;});
+
+        //listner for player fire events
+        this.player.on("fire", () => this.fireBullet())
+
+        //listener for kit purchases in shop interface
+        this.ui.shop.on("buykit", (kitType:"ammo"|"health") => {
+            this.buyKit(kitType);
+        })
+
+        this.popups = new Popups(this.arena.width*.5, this.arena.height*.55);
+        this.popups.on("interaction", () => {
+            this.newGame();
+        })
+        this.app.stage.addChild(this.popups);
     }
 
-    //movePlayer(direction:boolean, axis:boolean){
-     //   this.player.move(direction,axis);
-    //}
+    clearGame(){
+        this.enemys.forEach(enemy => {
+            this.arena.removeChild(enemy);
+        });
+
+        this.bullets.forEach((bullet) => {
+            this.arena.removeChild(bullet);
+        });
+
+        this.enemys=[];
+        this.bullets=[];
+
+        inventory.reset()
+        this.player.reset();
+        this.ui.reset();
+    }
+
+    newGame(){
+        this.clearGame()
+        this.gameIsPaused=false;
+    }
+
+    endGame(){
+        this.popups.showGameOver()
+        this.gameIsPaused=true;
+    }
+
+    buyKit(kitType:"ammo"|"health"){
+        if(inventory.buyKit(50)){
+            this.player.giveKit(kitType);
+            this.ui.updateAmmo(this.player.ammo);
+            this.ui.updateHealth(this.player.health);
+            this.ui.shop.updateMoney();
+        }
+    }
+
+    shopEquip(event:IWeapon){
+        inventory.selectWeapon(event);
+        this.player.updateGun();
+    }
 
     fireBullet(){
-
-        for(let i=0; i<this.player.currentWeapon.bullets;i++){
-            let newBullet = new Bullet([this.player.x,this.player.y],this.player.rotation,this.player.currentWeapon.damage,this.player.currentWeapon.inaccuracy);
+        for(let i=0; i<inventory.selectedWeapon.bullets;i++){
+            let newBullet = new Bullet([this.player.x,this.player.y],this.player.rotation,inventory.selectedWeapon.damage,inventory.selectedWeapon.inaccuracy);
             this.arena.addChild(newBullet);
             this.bullets.push(newBullet);
         }
-        this.ui.updateAmmo(this.player.useAmmo());
+        this.ui.updateAmmo(this.player.ammo);
     }
 
     damagePlayer(damage:number){
@@ -97,7 +145,6 @@ export class Game {
     }
 
     spawnEnemy(){
-
         let dist_X = this.arena.size[0]*.5 - Math.floor(Math.random()*this.arena.size[0]);
         let dist_Y = this.arena.size[1]*.5 -  Math.floor(Math.random()*this.arena.size[1]);
         let randomPos = Math.atan2(dist_Y,dist_X);
@@ -111,17 +158,12 @@ export class Game {
         let tempEn = new Enemy([
             randomX,
             randomY],
-            this.player.size*.5)
+            this.player.size*.5,
+            this.level.enemyStrength)
 
         tempEn.on("touchedPlayer", () => {this.damagePlayer(tempEn.attackDamage);});
         this.arena.addChild(tempEn);
         this.enemys.push(tempEn);
-
-        //console.log(
-        //    "Rad: ", randomPos,
-        //    "\nX: ", randomX,
-        //    "\nY: ", randomY,
-        //    "\nDistance:", tempEn.distanceFrom([this.player.x,this.player.y]))
     }
 
     eventHandle(delta:number){
@@ -134,92 +176,74 @@ export class Game {
             if(pressed.includes("a")){moveVector[0]-=1}
             if(pressed.includes("s")){moveVector[1]+=1}
             if(pressed.includes("w")){moveVector[1]-=1}
-
-            this.player.movementMove(Math.atan2(moveVector[1],moveVector[0]))
+            this.player.movementMove(Math.atan2(moveVector[1],moveVector[0]));
         }
-
-
-
 
         this.player.aim(this.arena.mousePos);
 
-
-
         //sending mouse position data to the cursor to update for next frame
         this.cursor.setPos(this.arena.mousePos);
-
-        //the bullet firing timer
-        //will fire if the mouse is held and the timer is 0 or less
-        if(!this.mouseIsClicked){
-            this.player.attackResetTimer();
-        }
-        else{
-            this.player.bulletTimer-=1;
-        }
-        if(this.player.canFire && this.mouseIsClicked){
-            this.fireBullet();
-            this.player.attackResetTimer();
-        }
     }
 
     update(){
-        this.player.update(this.arena);    
+        this.player.update(this.mouseIsClicked);    
+        
         this.enemys.forEach(enemy => {
             enemy.update([this.player.position.x,this.player.position.y])
         });
 
-        this.bullets.forEach((bullet,index) => {
+        this.bullets.forEach((bullet) => {
             bullet.update(this.arena.size);
-            if (bullet.cull){
-                this.arena.removeChild(bullet);
-                this.bullets.splice(index,1);
-            }
         });
 
-        this.enemys.forEach((enemy,index) => {
-            if (enemy.cull){
-                this.arena.removeChild(enemy);
-                this.enemys.splice(index,1);
-            }
-        });
         //decrement the spawn enemy timer and check if it has run down
-        this.timerSpawnEnemy-=1;
-        if (this.timerSpawnEnemy<=1){
-            this.timerSpawnEnemy=Math.floor(Math.random()*this.delaySpawnEnemy)
-            if(this.enemys.length<this.maxEnemys){
-                this.spawnEnemy();
-            }
 
+        this.level.spawnDelayTimer--;
+        if (this.level.spawnDelayTimer<=1){
+
+            this.level.resetTimer();
+            if(this.level.canSpawnEnemy()){
+                this.spawnEnemy();
+                this.level.enemySpawned++;
+            }
         }
     }
 
     detectCollisions(){
 
-        //check each bullet to see if it has hit an enemy
-        
-        this.bullets.forEach((bullet,bulletindex) => {
-            this.enemys.forEach((enemy,enemyindex) => {
-                if (bullet.cull){return}             
-                let a = bullet.x-enemy.x
-                let b = bullet.y-enemy.y
-                let distance = Math.sqrt( a*a + b*b)
+        for (let bulletIndex = this.bullets.length-1; bulletIndex>=0; bulletIndex--){
+            let indexedBullet = this.bullets[bulletIndex];
 
-                if (!(distance > enemy.size/2|| distance < -enemy.size/2) && !(distance > enemy.size/2 || distance < -enemy.size/2)){
-                    enemy.takeDamage(bullet.attackDamage);
-                                
-                    if (enemy.health<=0){
-                        this.player.giveAmmo(enemy.killReward);
-                        enemy.cull=true;
+            for (let enemyIndex = this.enemys.length-1; enemyIndex>=0; enemyIndex--){
+                let indexedEnemy = this.enemys[enemyIndex];
+
+                 let a = indexedBullet.x-indexedEnemy.x;
+                 let b = indexedBullet.y-indexedEnemy.y;
+                 let distance = Math.sqrt(a*a + b*b);
+
+                if (distance < indexedEnemy.size*.5){
+                    indexedEnemy.takeDamage(indexedBullet.attackDamage);
+
+                    if (indexedEnemy.health<=0){
+                        inventory.giveMoney(indexedEnemy.killReward);
+                        this.ui.shop.updateMoney();
+                        this.level.enemyKilled();
+                        this.enemys.splice(enemyIndex,1);
+                        this.arena.removeChild(indexedEnemy)
                     }
-                    bullet.cull=true;
+                    this.bullets.splice(bulletIndex,1);
+                    this.arena.removeChild(indexedBullet);
                 }
-            });
-        });
+            }
+        }
     }
+
     main(delta: number) : void {
-        this.eventHandle(delta);
-        this.detectCollisions();
-        this.update();
+        if(!this.gameIsPaused){
+            this.eventHandle(delta);
+            this.detectCollisions();
+            this.update();
+        }
     }
 
 }
