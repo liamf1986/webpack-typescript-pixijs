@@ -69,10 +69,8 @@ export class Upgrades extends Popup{
     // }
 
     public upgradeSomething(name: string, price: number): void {
-        console.log(name, price)
         switch(name) {
             case 'sword':
-                console.log(name, ' has been bought')
                 playerInstance.swordDamage++;
                 playerInstance.currency -= price;
                 break;

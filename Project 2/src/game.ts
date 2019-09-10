@@ -33,7 +33,7 @@ export class Game extends PIXI.Container{
     private winGame: winGame;
     private background: PIXI.Sprite;
     private knightDamageCount: number = 0;
-    //private playerInstance.attackPCT: number = 80;
+    private resetGameClicked: number = 0;
     public level: number = 0; 
     public currencyText: PIXI.Text;
     private scoreText: PIXI.Text;
@@ -196,19 +196,19 @@ export class Game extends PIXI.Container{
 
         this.playAudio();
     }
-
+    
     public playAudio(): void{
         let backgroundMusic = new Audio();
         backgroundMusic.src = 'assets/gameAudio.mp3';
         backgroundMusic.load();
-        backgroundMusic.play();
+        //backgroundMusic.play();
+        
     }
     
     public pickMove(): void {
         let rand = Math.random() * 100;
         if (rand < playerInstance.attackPCT) {
             // Attack
-            console.log(playerInstance.playerHealth)
             this.knightAnimations.attackAnimation();
             this.levels[this.level].monsterHealth = this.levels[this.level].monsterHealth - playerInstance.swordDamage;
             this.levels[this.level].monster.hurtAnimation();
@@ -259,8 +259,8 @@ export class Game extends PIXI.Container{
         this.levels.forEach((level) => {
             level.monsterHealth = level.maxHealth;
         });
+        this.resetGameClicked++
         playerInstance.score -= 70;
-        this.levels[this.level].scoreOnKill * 0.5;
         this.scoreText.text = playerInstance.score.toString();
         playerInstance.attackPCT = 70;
         this.Buttons.playGameButton.interactive = true;
@@ -336,11 +336,15 @@ export class Game extends PIXI.Container{
         this.Buttons.goldenCoin.y = this.Buttons.oldCords[1];
         this.Buttons.goldenCoin.interactive = true;
         this.knightDamageCount = 0;
-        playerInstance.score = playerInstance.score + this.levels[this.level].scoreOnKill;
+        if(this.resetGameClicked >= 1){
+            playerInstance.score += this.levels[this.level].scoreOnKill * 0.5;
+        }
+        else{
+            playerInstance.score = playerInstance.score + this.levels[this.level].scoreOnKill;
+        }
         this.scoreText.text = playerInstance.score.toString()
         this.levels[this.level].monster.visible = false;
         this.level++;
-
         this.uiBar.newMax(this.levels[this.level].monsterHealth);
         this.levels[this.level].monster.visible = true;
         this.uiBar.setValue(this.levels[this.level].monsterHealth);

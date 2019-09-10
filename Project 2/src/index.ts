@@ -1,6 +1,6 @@
 
 import * as PIXI from 'pixi.js';
-import sound from 'pixi-sound';
+//import sound from 'pixi.js';
 import { Game } from './game';
 import { app, MAX_SCREEN_WIDTH, MAX_SCREEN_HEIGHT } from './application';
 

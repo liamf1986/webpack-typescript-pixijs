@@ -76,16 +76,19 @@ export class orcAnimations extends PIXI.Container{
 
     
     attackAnimation(){
-        this.attackOrcAnim.loop = false;
-        this.attackOrcAnim.visible = true;
-        this.idleOrcAnim.visible = false;
-        this.attackOrcAnim.gotoAndPlay(0)
         if(this.Game.levels[this.Game.level].monsterHealth <= 0){
             this.Game.levels[this.Game.level].monster.deadAnimation();
             this.visableAnimationState(this.deadOrcAnim)
             this.deadOrcAnim.gotoAndPlay(0)
         }
-
+        else{
+            this.attackOrcAnim.visible = false;
+            this.idleOrcAnim.visible = true;
+            this.attackOrcAnim.loop = false;
+            this.attackOrcAnim.visible = true;
+            this.idleOrcAnim.visible = false;
+            this.attackOrcAnim.gotoAndPlay(0);
+        }
     }
 
     hurtAnimation() {

@@ -1,9 +1,9 @@
 class playerData{
     public playerHealth: number = 4;
     public swordDamage: number = 1;
-    public currency: number = 0;
+    public currency: number = 900;
     public score: number = 0;
-    public attackPCT: number = 70;
+    public attackPCT: number = 65;
 
     constructor(){
 
