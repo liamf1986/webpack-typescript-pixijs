@@ -16,6 +16,7 @@ interface ILevel {
     monsterHealth: number;
     maxHealth: number;
     scoreOnKill: number;
+    damage: number;
 }
 
 export class Game extends PIXI.Container{
@@ -24,6 +25,7 @@ export class Game extends PIXI.Container{
     public chanceArray: string[] = [];
     public app: PIXI.Application;
     private Buttons: buttons;
+    private Upgrades: Upgrades
     private knightAnimations: knightAnimations;
     private golemAnimations: golemAnimations;
     private skeletonAnimations: skeletonAnimations;
@@ -154,6 +156,7 @@ export class Game extends PIXI.Container{
         this.orcAnimations.visible = false;
         this.cyclopAnimations.visible = false;
 
+        this.Upgrades = new Upgrades
         this.helpPopup = new HowToPlay();
         this.upgradePopup = new Upgrades();
         
@@ -162,25 +165,29 @@ export class Game extends PIXI.Container{
             monster: this.golemAnimations,
             monsterHealth: 4,
             maxHealth: 4,
-            scoreOnKill: 50
+            scoreOnKill: 50,
+            damage: 1
         });
         this.levels.push({
             monster: this.skeletonAnimations,
             monsterHealth: 5,
             maxHealth: 5,
-            scoreOnKill: 100
+            scoreOnKill: 100,
+            damage: 2
         }); 
         this.levels.push({
             monster: this.orcAnimations,
             monsterHealth: 6,
             maxHealth: 6,
-            scoreOnKill: 200
+            scoreOnKill: 200,
+            damage: 3
         });      
         this.levels.push({
             monster: this.cyclopAnimations,
             monsterHealth: 8,
             maxHealth: 8,
-            scoreOnKill: 500
+            scoreOnKill: 500,
+            damage: 4
         });
 
         this.uiBar = new uiBar(200, this.levels[this.level].maxHealth, this.levels[this.level].maxHealth, this.levels[this.level].monster.x * 0.9, (this.levels[this.level].monster.y  * 0.5 ) + 50 );
@@ -201,8 +208,7 @@ export class Game extends PIXI.Container{
         let backgroundMusic = new Audio();
         backgroundMusic.src = 'assets/gameAudio.mp3';
         backgroundMusic.load();
-        //backgroundMusic.play();
-        
+        backgroundMusic.play();
     }
     
     public pickMove(): void {
@@ -239,9 +245,11 @@ export class Game extends PIXI.Container{
         let golemRandomNumber = Math.floor(Math.random() * 2);
         if(golemRandomNumber === 0){
             this.knightDamageCount++;
+            playerInstance.playerHealth - this.levels[this.level].damage;
             this.knightAnimations.hurtAnimation();
             this.levels[this.level].monster.attackAnimation();
-            if(this.knightDamageCount >= playerInstance.playerHealth){
+            console.log(playerInstance.playerHealth = playerInstance.playerHealth - this.levels[this.level].damage)
+            if(playerInstance.playerHealth <= 0){
                 this.isPlayerDead = true;
                 this.repositionButton();
                 this.knightAnimations.deadAnimation();
@@ -259,6 +267,7 @@ export class Game extends PIXI.Container{
         this.levels.forEach((level) => {
             level.monsterHealth = level.maxHealth;
         });
+        playerInstance.playerHealth =  4
         this.resetGameClicked++
         playerInstance.score -= 70;
         this.scoreText.text = playerInstance.score.toString();
@@ -330,13 +339,15 @@ export class Game extends PIXI.Container{
     }
 
     public continueGame(): void{
+    
+
         this.isMonsterDead = false;
         this.Buttons.playGameButton.visible = true;
         this.Buttons.goldenCoin.x = this.Buttons.oldCords[0];
         this.Buttons.goldenCoin.y = this.Buttons.oldCords[1];
         this.Buttons.goldenCoin.interactive = true;
         this.knightDamageCount = 0;
-        if(this.resetGameClicked >= 1){
+        if(this.knightDamageCount >= 4){
             playerInstance.score += this.levels[this.level].scoreOnKill * 0.5;
         }
         else{

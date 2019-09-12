@@ -12,14 +12,9 @@ export class Upgrades extends Popup{
     
     private shop: Shop;
     protected infoPopup: InfoPopup;
-    private app: PIXI.Application;
-    private exitErrorButton: PIXI.Sprite;
     public errorContainer = new PIXI.Container;
-    public confirmContainer = new PIXI.Container;
-    private shopItem = ShopItem;
-    private confirmText: PIXI.Text;
-    private ErrorText: PIXI.Text;
-    private itemGraphics: PIXI.Graphics;
+    public confirmContainer = new PIXI.Container;;
+    public healthCounter: number = 0;
 
     private style = new PIXI.TextStyle({
         fill: "#000000",
@@ -76,13 +71,18 @@ export class Upgrades extends Popup{
                 break;
             case 'health':
                 playerInstance.playerHealth += 2;
+                this.healthCounter++;
+                console.log('Health Counter: ', this.healthCounter)
+                console.log('health', playerInstance.playerHealth)
                 playerInstance.currency -= price;
                 break;
             case 'shield':
                 playerInstance.attackPCT += 5;
                 if(playerInstance.attackPCT >= 85){
                     playerInstance.attackPCT === 85;
+                    playerInstance.currency = playerInstance.currency;
                 }
+                playerInstance.currency -= price;
             default:
                 break;
         }
