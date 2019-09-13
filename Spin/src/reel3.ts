@@ -4,7 +4,14 @@ import { app } from './application'
 
 export class reelThree extends baseReel{
     
-    constructor(){
-        super(2, app.screen.width * 0.6, app.stage.height * -0.2)
+    constructor(reelData: number[]){
+        super(2, app.screen.width * 0.6, app.stage.height * -0.2, reelData)
     }
+
+    protected endSpin(): void {
+        super.endSpin();
+        this.emit('gameEnded')
+        console.log('reel 3 spin ended')
+    }
+
 }

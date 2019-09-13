@@ -46,7 +46,7 @@ export class bottomMenu{
         this.buyButton.buttonMode = true;
         this.buyButton.interactive = true;
         this.buyButton.on('pointerdown', () => {
-            this.spin()
+            this.buyButton.emit('spinReels');
         })
 
         this.buyInText.anchor.set(0.5);
@@ -91,8 +91,5 @@ export class bottomMenu{
     }
 
     spin(){
-        debugger;
-        this.baseReel.spinning = true;
-        console.log(this.baseReel.spinning)
     }
 }
