@@ -1,11 +1,8 @@
-import {Game} from './game'
-import {app} from './application'
-import {baseReel} from './baseReel'
-import { SpriteRenderer } from 'pixi.js';
+import {app} from './application';
+import {baseReel} from './baseReel';
 
 export class bottomMenu{
 
-    private baseReel: baseReel
     public buyButton: PIXI.Sprite;
     public plusIcon: PIXI.Sprite;    
     public minusIcon: PIXI.Sprite;
@@ -32,8 +29,8 @@ export class bottomMenu{
         this.buyInStake = new PIXI.Text('Stake: ', this.style);
 
 
-        for(let i = 0; i < 5; i++){
-            this.buyInArray.push( i * 25 )
+        for(let i = 0; i < 10; i++){
+            this.buyInArray.push( i * 5 )
         }
         
         this.buyButton.width = 125
@@ -67,7 +64,7 @@ export class bottomMenu{
         this.plusIcon.buttonMode = true;
         this.plusIcon.interactive = true;
         this.plusIcon.on('pointerdown', () => {
-            this.buyInText.text = '£0.' + this.buyInArray[this.index += 1].toString(), this.style;
+            this.buyInText.text = '£' + this.buyInArray[this.index += 1].toString(), this.style;
         })
         
         this.minusIcon.width = 80;
@@ -80,7 +77,7 @@ export class bottomMenu{
         this.minusIcon.buttonMode = true;
         this.minusIcon.interactive = true;
         this.minusIcon.on('pointerdown', () => {
-            this.buyInText.text = '£0.' + this.buyInArray[this.index -=1].toString(), this.style
+            this.buyInText.text = '£' + this.buyInArray[this.index -=1].toString(), this.style
         })
         
         app.stage.addChild(this.buyInText);

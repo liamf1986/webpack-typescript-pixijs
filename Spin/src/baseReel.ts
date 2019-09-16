@@ -55,9 +55,23 @@ export class baseReel extends PIXI.Container {
         this._readyToStop = false;
         this._spinSeconds = 0;
         this._result = Math.floor(Math.random() * 8) + 1;
+        
+        // switch (this._reelId) {
+        //     case 0:
+        //         this._result = 1;
+        //         break;
+        //     case 1:
+        //         this._result = 0;
+        //         break;
+        //     case 2:
+        //         this._result = 4;
+        //         break;
+        // }
+        // console.log(this._result)
     }
 
     private reelPosHelper(pos: number, reelLength: number): number {
+        //loop this._reelMap
         if ((this._reelPosition + pos - this._topOffset) >= (reelLength)) {
             return (this._reelPosition + pos - this._topOffset) - reelLength;
         }

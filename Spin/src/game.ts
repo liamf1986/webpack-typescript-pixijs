@@ -17,9 +17,8 @@ export class Game extends PIXI.Container{
     private _reels: number[][] = [[1,2,3,4,5,6,7,8],[2,4,6,8,1,3,5,7],[7,1,4,3,2,6,5,8]]
 
     private _winLine = [ 
-        [-1,-1,1],[1,1,1],[2,2,2],[1,2,3],[3,2,1]
+        [0,0,0],[1,1,1],[2,2,2]
     ]
-
 
     constructor(){
         super();
@@ -82,20 +81,9 @@ export class Game extends PIXI.Container{
     }
 
     public checkWin(){
-        if(this._reels[0][this.reel1.result] === this._winLine[0][0] &&
-            this._reels[1][this.reel2.result] === this._winLine[0][1] &&
-            this._reels[2][this.reel3.result] === this._winLine[0][2] ||
-
-            this._reels[0][this.reel1.result] === this._winLine[1][0] &&
-            this._reels[1][this.reel2.result] === this._winLine[1][1] &&
-            this._reels[2][this.reel3.result] === this._winLine[1][2] ||
-
-            this._reels[0][this.reel1.result] === this._winLine[2][0] &&
-            this._reels[1][this.reel2.result] === this._winLine[2][1] &&
-            this._reels[2][this.reel3.result] === this._winLine[2][2]){
-            
-            
-            console.log(':)')
+        if(this._reels[0][this.reel1.result] === this._reels[1][this.reel2.result] &&
+            this._reels[1][this.reel2.result] === this._reels[2][this.reel3.result]){
+            console.log('You win!!')
         }
     }
 
